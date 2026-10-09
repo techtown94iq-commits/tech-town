@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tech Town - مركز تيك تاون</title>
-    <!-- تأكد إن ملف التصميم اسمه style.css وموجود بنفس المجلد -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -59,7 +58,7 @@
         </div>
     </section>
 
-    <!-- قسم عرض المنتجات (مع روابط الصور الحقيقية) -->
+    <!-- قسم عرض المنتجات -->
     <section id="products" class="products-section">
         <h2 class="section-title">أحدث المنتجات والعروض</h2>
         <div class="products-grid">
@@ -111,10 +110,42 @@
                 </div>
             </div>
 
+            <!-- منتج 4 -->
+            <div class="product-card">
+                <div class="product-img-box">
+                    <span class="badge">جديد</span>
+                    <img src="https://images.unsplash.com/photo-1619725002198-6a689b72f41d?w=600" alt="بطارية ليثيوم" class="product-img">
+                </div>
+                <div class="product-info">
+                    <h3>بطارية ليثيوم قابلة للشحن</h3>
+                    <p class="specs">بطارية أصلية عالية الكفاءة وطويلة العمر</p>
+                    <div class="product-bottom">
+                        <span class="price">10,000 د.ع</span>
+                        <button class="add-btn" onclick="addToCart('بطارية ليثيوم قابلة للشحن', 10000)">إضافة للسلة</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- منتج 5: سماعة Cat Ear RGB -->
+            <div class="product-card">
+                <div class="product-img-box">
+                    <span class="badge">جديد</span>
+                    <img src="cat-headset.jpg.jpg" alt="Cat Ear RGB LED Stereo Headset" class="product-img">
+                </div>
+                <div class="product-info">
+                    <h3>Cat Ear RGB LED Stereo Headset (AKZ-022)</h3>
+                    <p class="specs">سماعة رأس ألعاب بإضاءة RGB ملونة وصوت ستيريو نقي</p>
+                    <div class="product-bottom">
+                        <span class="price">15,000 د.ع</span>
+                        <button class="add-btn" onclick="addToCart('Cat Ear RGB LED Stereo Headset (AKZ-022)', 15000)">إضافة للسلة</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
-    <!-- نافذة سلة التسوق (Modal) -->
+    <!-- نافذة سلة التسوق -->
     <div id="cart-modal" class="cart-modal" style="display: none;">
         <div class="cart-content">
             <div class="cart-header">
@@ -134,7 +165,7 @@
         </div>
     </div>
 
-    <!-- تذييل الصفحة (Footer) -->
+    <!-- تذييل الصفحة -->
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-brand">
@@ -152,7 +183,7 @@
         </div>
     </footer>
 
-    <!-- كود الجافاسكربت -->
+    <!-- البرمجة السلوكية (JavaScript) -->
     <script>
         let cart = [];
 
@@ -164,8 +195,6 @@
                 cart.push({ title, price, quantity: 1 });
             }
             updateCart();
-            
-            // فتح نافذة السلة تلقائياً
             document.getElementById('cart-modal').style.display = 'flex';
         }
 
