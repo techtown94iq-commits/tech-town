@@ -16,7 +16,6 @@
         .btn-submit:hover { background: #0369a1; }
         #loading { display: none; text-align: center; color: #38bdf8; margin-top: 10px; font-weight: bold; }
         
-        /* تصميم قائمة المنتجات وزر الحذف */
         .products-list { margin-top: 40px; border-top: 1px solid #334155; padding-top: 20px; }
         .admin-card { display: flex; align-items: center; justify-content: space-between; background: #0f172a; padding: 12px 15px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #334155; }
         .admin-card img { width: 50px; height: 50px; object-fit: cover; border-radius: 6px; margin-left: 15px; }
@@ -29,9 +28,8 @@
 
 <div class="admin-container">
     <h1>لوحة تحكم Tech Town</h1>
-    <p style="text-align: center; color: #94a3b8;">إضافة وحذف المنتجات مباشرة في المتجر</p>
+    <p style="text-align: center; color: #94a3b8;">إضافة منتج مع صور متعددة وحذفه</p>
 
-    <!-- نموذج إضافة منتج -->
     <form id="productForm">
         <div class="form-group">
             <label>اسم المنتج:</label>
@@ -46,14 +44,14 @@
             <textarea id="description" rows="3" required></textarea>
         </div>
         <div class="form-group">
-            <label>صورة المنتج:</label>
-            <input type="file" id="imageFile" accept="image/*" required>
+            <label>الصور (اختر صورة رئيسية أو عدة صور معاً):</label>
+            <input type="file" id="imageFiles" accept="image/*" multiple required>
+            <small style="color: #94a3b8; display: block; margin-top: 5px;">يمكنك اختيار أكثر من صورة بضغطة زر (أول صورة ستكون الرئيسية)</small>
         </div>
         <button type="submit" id="submitBtn" class="btn-submit">حفظ ونشر المنتج</button>
-        <div id="loading">جاري معالجة الصورة وحفظ المنتج... يرجى الانتظار</div>
+        <div id="loading">جاري معالجة الصور ورفع المنتج... يرجى الانتظار</div>
     </form>
 
-    <!-- قائمة المنتجات الحالية للحذف -->
     <div class="products-list">
         <h2>إدارة المنتجات الحالية</h2>
         <div id="admin-products-container">
@@ -62,7 +60,6 @@
     </div>
 </div>
 
-<!-- Firebase SDKs -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -85,7 +82,6 @@
     const submitBtn = document.getElementById('submitBtn');
     const adminContainer = document.getElementById('admin-products-container');
 
-    // إضافة منتج جديد
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         submitBtn.style.display = 'none';
@@ -94,40 +90,54 @@
         const name = document.getElementById('name').value;
         const price = document.getElementById('price').value;
         const description = document.getElementById('description').value;
-        const fileInput = document.getElementById('imageFile');
-        const file = fileInput.files[0];
+        const fileInput = document.getElementById('imageFiles');
+        const files = fileInput.files;
 
         try {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = async function () {
-                const base64Image = reader.result;
-
-                const productRef = doc(collection(db, "products"));
-                await setDoc(productRef, {
-                    title: name,
-                    name: name,
-                    price: parseFloat(price),
-                    specs: description,
-                    description: description,
-                    imageUrl: base64Image,
-                    createdAt: new Date()
+            const imagePromises = Array.from(files).fileConvert = (file) => {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = error => reject(error);
                 });
-
-                alert('تم إضافة ونشر المنتج بنجاح!');
-                form.reset();
-                submitBtn.style.display = 'block';
-                loadingDiv.style.display = 'none';
             };
+
+            // تحويل كل الصور المحددة إلى Base64
+            const base64Images = [];
+            for (let i = 0; i < files.length; i++) {
+                const base64 = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(files[i]);
+                    reader.onload = () => resolve(reader.result);
+                });
+                base64Images.push(base64);
+            }
+
+            const productRef = doc(collection(db, "products"));
+            await setDoc(productRef, {
+                title: name,
+                name: name,
+                price: parseFloat(price),
+                specs: description,
+                description: description,
+                imageUrl: base64Images[0], // الصورة الرئيسية للبطاقة
+                images: base64Images,      // مصفوفة تحتوي على كل الصور لعرضها بالمعرض
+                createdAt: new Date()
+            });
+
+            alert('تم إضافة المنتج مع صوره المتعددة بنجاح!');
+            form.reset();
+            submitBtn.style.display = 'block';
+            loadingDiv.style.display = 'none';
         } catch (error) {
-            console.error("خطأ أثناء الحفظ: ", error);
-            alert('حدث خطأ أثناء رفع المنتج: ' + error.message);
+            console.error("خطأ: ", error);
+            alert('حدث خطأ: ' + error.message);
             submitBtn.style.display = 'block';
             loadingDiv.style.display = 'none';
         }
     });
 
-    // جلب وعرض المنتجات في لوحة التحكم مع زر الحذف
     const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
     onSnapshot(q, (snapshot) => {
         adminContainer.innerHTML = '';
@@ -141,7 +151,7 @@
             const productId = docSnap.id;
             const title = p.title || p.name || "بدون اسم";
             const price = p.price || 0;
-            const image = p.imageUrl || p.image || "";
+            const image = p.imageUrl || (p.images && p.images[0]) || "";
 
             const card = document.createElement('div');
             card.className = 'admin-card';
@@ -150,7 +160,7 @@
                     <img src="${image}" alt="${title}">
                     <div>
                         <strong>${title}</strong>
-                        <div style="font-size: 13px; color: #38bdf8;">د.ع ${price.toLocaleString()}</div>
+                        <div style="font-size: 13px; color: #38bdf8;">د.ع ${price.toLocaleString()} (${p.images ? p.images.length : 1} صور)</div>
                     </div>
                 </div>
                 <button class="btn-delete" onclick="deleteProduct('${productId}')">حذف</button>
@@ -159,15 +169,13 @@
         });
     });
 
-    // دالة حذف المنتج
     window.deleteProduct = async function(id) {
-        if (confirm('هل أنت متأكد من حذف هذا المنتج نهائياً من المتجر؟')) {
+        if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
             try {
                 await deleteDoc(doc(db, "products", id));
-                alert('تم حذف المنتج بنجاح!');
+                alert('تم الحذف بنجاح!');
             } catch (error) {
-                console.error("خطأ أثناء الحذف:", error);
-                alert('حدث خطأ أثناء الحذف: ' + error.message);
+                alert('خطأ أثناء الحذف: ' + error.message);
             }
         }
     };
