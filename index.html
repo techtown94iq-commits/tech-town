@@ -3,237 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech Town - مركز تيك تاون</title>
-    <link rel="stylesheet" href="style.css">
+    <title>لوحة تحكم Tech Town</title>
+    <style>
+        body { font-family: Tahoma, sans-serif; background: #0f172a; color: #f8fafc; margin: 0; padding: 20px; direction: rtl; }
+        .admin-container { max-width: 900px; margin: 0 auto; background: #1e293b; padding: 25px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        h1, h2 { color: #38bdf8; text-align: center; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="number"], textarea { width: 100%; padding: 10px; border: 1px solid #334155; border-radius: 6px; background: #0f172a; color: #fff; box-sizing: border-box; }
+        input[type="file"] { width: 100%; padding: 5px; background: #0f172a; border: 1px solid #334155; border-radius: 6px; color: #fff; }
+        .btn-submit { background: #0284c7; color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; width: 100%; font-size: 16px; font-weight: bold; }
+        .btn-submit:hover { background: #0369a1; }
+        #loading { display: none; text-align: center; color: #38bdf8; margin-top: 10px; font-weight: bold; }
+        
+        .products-list { margin-top: 40px; border-top: 1px solid #334155; padding-top: 20px; }
+        .admin-card { display: flex; align-items: center; justify-content: space-between; background: #0f172a; padding: 12px 15px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #334155; }
+        .admin-card img { width: 50px; height: 50px; object-fit: cover; border-radius: 6px; margin-left: 15px; }
+        .admin-card-info { flex-grow: 1; display: flex; align-items: center; gap: 15px; }
+        .btn-delete { background: #ef4444; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .btn-delete:hover { background: #dc2626; }
+    </style>
 </head>
 <body>
 
-    <!-- الشريط العلوي -->
-    <header class="navbar">
-        <div class="nav-container">
-            <div class="brand">
-                <div class="brand-logo-container">
-                    <svg class="brand-logo-svg" viewBox="0 0 100 100">
-                        <rect x="6" y="6" width="88" height="88" rx="18" fill="none" stroke="#ffffff" stroke-width="6"/>
-                        <line x1="28" y1="36" x2="72" y2="36" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
-                        <circle cx="28" cy="24" r="5" fill="#ffffff"/>
-                        <circle cx="28" cy="48" r="5" fill="#ffffff"/>
-                        <line x1="28" y1="24" x2="28" y2="48" stroke="#ffffff" stroke-width="4"/>
-                        <circle cx="72" cy="24" r="5" fill="#ffffff"/>
-                        <circle cx="72" cy="48" r="5" fill="#ffffff"/>
-                        <line x1="72" y1="24" x2="72" y2="48" stroke="#ffffff" stroke-width="4"/>
-                        <line x1="50" y1="36" x2="50" y2="72" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
-                        <circle cx="40" cy="72" r="5" fill="#ffffff"/>
-                        <circle cx="60" cy="72" r="5" fill="#ffffff"/>
-                        <line x1="40" y1="72" x2="60" y2="72" stroke="#ffffff" stroke-width="4"/>
-                    </svg>
-                </div>
-                <div class="brand-name">
-                    <span>TECH TOWN</span>
-                    <small>مركز تيك تاون</small>
-                </div>
-            </div>
-            
-            <div class="nav-actions">
-                <button class="cart-btn" id="open-cart-btn">🛒 السلة (<span id="cart-count">0</span>)</button>
-            </div>
-        </div>
-    </header>
+<div class="admin-container">
+    <h1>لوحة تحكم Tech Town</h1>
+    <p style="text-align: center; color: #94a3b8;">إضافة منتج مع صور متعددة وحذفه</p>
 
-    <!-- الواجهة الرئيسية -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>أفضل التقنية، ملحقات الجيمنج، وأحدث الموبايلات بأسعار وخدمة ضمان متميزة</h1>
-            <p>تفضل بزيارة منتجاتنا واستكشف أحدث عروض الأجهزة الإلكترونية</p>
-            <a href="#products" class="btn-main">تصفح العروض والمنتجات</a>
+    <form id="productForm">
+        <div class="form-group">
+            <label>اسم المنتج:</label>
+            <input type="text" id="name" required>
         </div>
-    </section>
-
-    <!-- قسم عرض المنتجات -->
-    <section id="products" class="products-section">
-        <h2 class="section-title">أحدث المنتجات والعروض</h2>
-        <div class="products-grid" id="main-products-grid">
-            <p style="text-align: center; width: 100%; color: #aaa;">جاري تحميل المنتجات من المتجر...</p>
+        <div class="form-group">
+            <label>السعر (د.ع):</label>
+            <input type="number" id="price" required>
         </div>
-    </section>
+        <div class="form-group">
+            <label>وصف المنتج / المواصفات:</label>
+            <textarea id="description" rows="3" required></textarea>
+        </div>
+        <div class="form-group">
+            <label>الصور (اختر صورة رئيسية أو عدة صور معاً):</label>
+            <input type="file" id="imageFiles" accept="image/*" multiple required>
+            <small style="color: #94a3b8; display: block; margin-top: 5px;">يمكنك اختيار أكثر من صورة بضغطة زر (أول صورة ستكون الرئيسية)</small>
+        </div>
+        <button type="submit" id="submitBtn" class="btn-submit">حفظ ونشر المنتج</button>
+        <div id="loading">جاري معالجة الصور ورفع المنتج... يرجى الانتظار</div>
+    </form>
 
-    <!-- نافذة سلة التسوق -->
-    <div id="cart-modal" class="cart-modal" style="display: none;">
-        <div class="cart-content">
-            <div class="cart-header">
-                <h2>سلة التسوق</h2>
-                <button id="close-cart-btn" class="close-btn">&times;</button>
-            </div>
-            <div id="cart-items" class="cart-items">
-                <p class="empty-msg">السلة فارغة حالياً</p>
-            </div>
-            <div class="cart-footer">
-                <div class="total-box">
-                    <span>المجموع الكلي:</span>
-                    <span id="cart-total">0 د.ع</span>
-                </div>
-                <button class="whatsapp-checkout-btn" onclick="sendOrderWhatsApp()">إرسال الطلب عبر واتساب 📱</button>
-            </div>
+    <div class="products-list">
+        <h2>إدارة المنتجات الحالية</h2>
+        <div id="admin-products-container">
+            <p style="text-align: center; color: #94a3b8;">جاري تحميل المنتجات...</p>
         </div>
     </div>
+</div>
 
-    <!-- تذييل الصفحة -->
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-brand">
-                <h3>TECH TOWN</h3>
-                <p>وجهتك الأولى لأحدث الأجهزة الإلكترونية والملحقات وملحقات الجيمنج في العراق</p>
-            </div>
-            <div class="footer-info">
-                <h4>تواصل معنا</h4>
-                <p>📍 العراق - مركز تيك تاون</p>
-                <p>📞 هاتف / واتساب: 07766888622</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2026 Tech Town. جميع الحقوق محفوظة.</p>
-        </div>
-    </footer>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyCNMXzRCNyXTfr4suYWx6e6Ds2nS_SX408",
+        authDomain: "tech-town-7e489.firebaseapp.com",
+        projectId: "tech-town-7e489",
+        storageBucket: "tech-town-7e489.appspot.com",
+        messagingSenderId: "1888450260",
+        appId: "1:1888450260:web:6555291b5bb9cd9f92d41",
+        measurementId: "G-VMKX1CQXW9"
+    };
 
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyCNMXzRCNyXTfr4suYWx6e6Ds2nS_SX408",
-            authDomain: "tech-town-7e489.firebaseapp.com",
-            projectId: "tech-town-7e489",
-            storageBucket: "tech-town-7e489.appspot.com",
-            messagingSenderId: "1888450260",
-            appId: "1:1888450260:web:6555291b5bb9cd9f92d41",
-            measurementId: "G-VMKX1CQXW9"
-        };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+    const form = document.getElementById('productForm');
+    const loadingDiv = document.getElementById('loading');
+    const submitBtn = document.getElementById('submitBtn');
+    const adminContainer = document.getElementById('admin-products-container');
 
-        // جلب المنتجات ديناميكياً من Firestore
-        const productsGrid = document.getElementById('main-products-grid');
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        submitBtn.style.display = 'none';
+        loadingDiv.style.display = 'block';
 
-        db.collection('products').orderBy('createdAt', 'desc').onSnapshot((snapshot) => {
-            productsGrid.innerHTML = '';
-            
-            if (snapshot.empty) {
-                productsGrid.innerHTML = '<p style="text-align: center; width: 100%; color: #aaa;">لا توجد منتجات مضافة حالياً.</p>';
-                return;
-            }
+        const name = document.getElementById('name').value;
+        const price = document.getElementById('price').value;
+        const description = document.getElementById('description').value;
+        const fileInput = document.getElementById('imageFiles');
+        const files = fileInput.files;
 
-            snapshot.forEach((doc) => {
-                const p = doc.data();
-                const productTitle = p.title || p.name || "منتج بدون اسم";
-                const productSpecs = p.specs || p.description || "";
-                const productPrice = p.price || 0;
-                const productImage = p.imageUrl || p.image || "";
-
-                const badgeHtml = p.badge ? `<span class="badge">${p.badge}</span>` : '';
-
-                const card = document.createElement('div');
-                card.className = 'product-card';
-                card.innerHTML = `
-                    <div class="product-img-box">
-                        ${badgeHtml}
-                        <img src="${productImage}" alt="${productTitle}" class="product-img">
-                    </div>
-                    <div class="product-info">
-                        <h3>${productTitle}</h3>
-                        <p class="specs">${productSpecs}</p>
-                        <div class="product-bottom">
-                            <span class="price">${productPrice.toLocaleString()} د.ع</span>
-                            <button class="add-btn" onclick="addToCart('${productTitle.replace(/'/g, "\\'")}', ${productPrice})">أضف للسلة</button>
-                        </div>
-                    </div>
-                `;
-                productsGrid.appendChild(card);
-            });
-        });
-
-        // إدارة السلة والواتساب
-        let cart = [];
-
-        function addToCart(title, price) {
-            const existingIndex = cart.findIndex(item => item.title === title);
-            if (existingIndex > -1) {
-                cart[existingIndex].quantity += 1;
-            } else {
-                cart.push({ title, price, quantity: 1 });
-            }
-            updateCart();
-            document.getElementById('cart-modal').style.display = 'flex';
-        }
-
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCart();
-        }
-
-        function updateCart() {
-            const cartCountEl = document.getElementById('cart-count');
-            const cartItemsEl = document.getElementById('cart-items');
-            const cartTotalEl = document.getElementById('cart-total');
-
-            let totalQuantity = 0;
-            let totalPrice = 0;
-
-            if (cart.length === 0) {
-                cartItemsEl.innerHTML = '<p class="empty-msg">السلة فارغة حالياً</p>';
-            } else {
-                cartItemsEl.innerHTML = '';
-                cart.forEach((item, index) => {
-                    totalQuantity += item.quantity;
-                    totalPrice += item.price * item.quantity;
-
-                    const row = document.createElement('div');
-                    row.className = 'cart-item-row';
-                    row.innerHTML = `
-                        <div>
-                            <strong>${item.title}</strong>
-                            <div style="font-size: 12px; color: #aaa;">د.ع ${item.price.toLocaleString()} × ${item.quantity}</div>
-                        </div>
-                        <div>
-                            <span style="font-weight: bold; margin-left: 10px;">د.ع ${(item.price * item.quantity).toLocaleString()}</span>
-                            <button class="item-remove" onclick="removeFromCart(${index})">✕</button>
-                        </div>
-                    `;
-                    cartItemsEl.appendChild(row);
+        try {
+            const imagePromises = Array.from(files).fileConvert = (file) => {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = error => reject(error);
                 });
+            };
+
+            // تحويل كل الصور المحددة إلى Base64
+            const base64Images = [];
+            for (let i = 0; i < files.length; i++) {
+                const base64 = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(files[i]);
+                    reader.onload = () => resolve(reader.result);
+                });
+                base64Images.push(base64);
             }
 
-            cartCountEl.innerText = totalQuantity;
-            cartTotalEl.innerText = `${totalPrice.toLocaleString()} د.ع`;
-        }
-
-        const cartModal = document.getElementById('cart-modal');
-        const openCartBtn = document.getElementById('open-cart-btn');
-        const closeCartBtn = document.getElementById('close-cart-btn');
-
-        openCartBtn.addEventListener('click', () => { cartModal.style.display = 'flex'; });
-        closeCartBtn.addEventListener('click', () => { cartModal.style.display = 'none'; });
-        window.addEventListener('click', (e) => { if (e.target === cartModal) cartModal.style.display = 'none'; });
-
-        function sendOrderWhatsApp() {
-            if (cart.length === 0) return alert('السلة فارغة!');
-            
-            let message = "أولاً: أود إرسال طلب شراء للمنتجات التالية 🛍️ (Tech Town) مرحباً مركز تيك تاون:\n\n";
-            let total = 0;
-
-            cart.forEach((item, index) => {
-                const itemTotal = item.price * item.quantity;
-                total += itemTotal;
-                message += `${index + 1}. ${item.title}\n   العدد: ${item.quantity} | السعر: د.ع ${itemTotal.toLocaleString()}\n`;
+            const productRef = doc(collection(db, "products"));
+            await setDoc(productRef, {
+                title: name,
+                name: name,
+                price: parseFloat(price),
+                specs: description,
+                description: description,
+                imageUrl: base64Images[0], // الصورة الرئيسية للبطاقة
+                images: base64Images,      // مصفوفة تحتوي على كل الصور لعرضها بالمعرض
+                createdAt: new Date()
             });
 
-            message += `\nالمجموع الكلي: د.ع ${total.toLocaleString()}\n\nيرجى تأكيد الطلب وتحديد تفاصيل التوصيل.`;
-            
-            const phone = "9647766888622";
-            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+            alert('تم إضافة المنتج مع صوره المتعددة بنجاح!');
+            form.reset();
+            submitBtn.style.display = 'block';
+            loadingDiv.style.display = 'none';
+        } catch (error) {
+            console.error("خطأ: ", error);
+            alert('حدث خطأ: ' + error.message);
+            submitBtn.style.display = 'block';
+            loadingDiv.style.display = 'none';
         }
-    </script>
+    });
+
+    const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
+    onSnapshot(q, (snapshot) => {
+        adminContainer.innerHTML = '';
+        if (snapshot.empty) {
+            adminContainer.innerHTML = '<p style="text-align: center; color: #94a3b8;">لا توجد منتجات مضافة حالياً.</p>';
+            return;
+        }
+
+        snapshot.forEach((docSnap) => {
+            const p = docSnap.data();
+            const productId = docSnap.id;
+            const title = p.title || p.name || "بدون اسم";
+            const price = p.price || 0;
+            const image = p.imageUrl || (p.images && p.images[0]) || "";
+
+            const card = document.createElement('div');
+            card.className = 'admin-card';
+            card.innerHTML = `
+                <div class="admin-card-info">
+                    <img src="${image}" alt="${title}">
+                    <div>
+                        <strong>${title}</strong>
+                        <div style="font-size: 13px; color: #38bdf8;">د.ع ${price.toLocaleString()} (${p.images ? p.images.length : 1} صور)</div>
+                    </div>
+                </div>
+                <button class="btn-delete" onclick="deleteProduct('${productId}')">حذف</button>
+            `;
+            adminContainer.appendChild(card);
+        });
+    });
+
+    window.deleteProduct = async function(id) {
+        if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
+            try {
+                await deleteDoc(doc(db, "products", id));
+                alert('تم الحذف بنجاح!');
+            } catch (error) {
+                alert('خطأ أثناء الحذف: ' + error.message);
+            }
+        }
+    };
+</script>
 
 </body>
 </html>
