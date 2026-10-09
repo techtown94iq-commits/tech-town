@@ -15,25 +15,34 @@
         .btn-submit { background: #0284c7; color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; width: 100%; font-size: 16px; font-weight: bold; }
         .btn-submit:hover { background: #0369a1; }
         #loading { display: none; text-align: center; color: #38bdf8; margin-top: 10px; font-weight: bold; }
+        
+        /* تصميم قائمة المنتجات وزر الحذف */
+        .products-list { margin-top: 40px; border-top: 1px solid #334155; padding-top: 20px; }
+        .admin-card { display: flex; align-items: center; justify-content: space-between; background: #0f172a; padding: 12px 15px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #334155; }
+        .admin-card img { width: 50px; height: 50px; object-fit: cover; border-radius: 6px; margin-left: 15px; }
+        .admin-card-info { flex-grow: 1; display: flex; align-items: center; gap: 15px; }
+        .btn-delete { background: #ef4444; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .btn-delete:hover { background: #dc2626; }
     </style>
 </head>
 <body>
 
 <div class="admin-container">
     <h1>لوحة تحكم Tech Town</h1>
-    <p style="text-align: center; color: #94a3b8;">إضافة وتعديل المنتجات مباشرة في المتجر بدون تعقيد</p>
+    <p style="text-align: center; color: #94a3b8;">إضافة وحذف المنتجات مباشرة في المتجر</p>
 
+    <!-- نموذج إضافة منتج -->
     <form id="productForm">
         <div class="form-group">
             <label>اسم المنتج:</label>
             <input type="text" id="name" required>
         </div>
         <div class="form-group">
-            <label>السعر ($):</label>
-            <input type="number" id="price" step="0.01" required>
+            <label>السعر (د.ع):</label>
+            <input type="number" id="price" required>
         </div>
         <div class="form-group">
-            <label>وصف المنتج:</label>
+            <label>وصف المنتج / المواصفات:</label>
             <textarea id="description" rows="3" required></textarea>
         </div>
         <div class="form-group">
@@ -41,23 +50,31 @@
             <input type="file" id="imageFile" accept="image/*" required>
         </div>
         <button type="submit" id="submitBtn" class="btn-submit">حفظ ونشر المنتج</button>
-        <div id="loading">جاري معالجة الصورة وحفظ المنتج في قاعدة البيانات... يرجى الانتظار</div>
+        <div id="loading">جاري معالجة الصورة وحفظ المنتج... يرجى الانتظار</div>
     </form>
+
+    <!-- قائمة المنتجات الحالية للحذف -->
+    <div class="products-list">
+        <h2>إدارة المنتجات الحالية</h2>
+        <div id="admin-products-container">
+            <p style="text-align: center; color: #94a3b8;">جاري تحميل المنتجات...</p>
+        </div>
+    </div>
 </div>
 
 <!-- Firebase SDKs -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // إعدادات مشروعك المربوط مسبقاً
     const firebaseConfig = {
-        apiKey: "AIzaSy...",
+        apiKey: "AIzaSyCNMXzRCNyXTfr4suYWx6e6Ds2nS_SX408",
         authDomain: "tech-town-7e489.firebaseapp.com",
         projectId: "tech-town-7e489",
         storageBucket: "tech-town-7e489.appspot.com",
-        messagingSenderId: "123456789",
-        appId: "1:123456"
+        messagingSenderId: "1888450260",
+        appId: "1:1888450260:web:6555291b5bb9cd9f92d41",
+        measurementId: "G-VMKX1CQXW9"
     };
 
     const app = initializeApp(firebaseConfig);
@@ -66,7 +83,9 @@
     const form = document.getElementById('productForm');
     const loadingDiv = document.getElementById('loading');
     const submitBtn = document.getElementById('submitBtn');
+    const adminContainer = document.getElementById('admin-products-container');
 
+    // إضافة منتج جديد
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         submitBtn.style.display = 'none';
@@ -79,7 +98,6 @@
         const file = fileInput.files[0];
 
         try {
-            // تحويل الصورة مباشرة إلى Base64 لتخزينها داخل Firestore بدون الحاجة لخدمة Storage المدفوعة
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = async function () {
@@ -87,14 +105,16 @@
 
                 const productRef = doc(collection(db, "products"));
                 await setDoc(productRef, {
+                    title: name,
                     name: name,
                     price: parseFloat(price),
+                    specs: description,
                     description: description,
                     imageUrl: base64Image,
                     createdAt: new Date()
                 });
 
-                alert('تم إضافة ونشر المنتج بنجاح إلى متجر Tech Town!');
+                alert('تم إضافة ونشر المنتج بنجاح!');
                 form.reset();
                 submitBtn.style.display = 'block';
                 loadingDiv.style.display = 'none';
@@ -106,6 +126,51 @@
             loadingDiv.style.display = 'none';
         }
     });
+
+    // جلب وعرض المنتجات في لوحة التحكم مع زر الحذف
+    const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
+    onSnapshot(q, (snapshot) => {
+        adminContainer.innerHTML = '';
+        if (snapshot.empty) {
+            adminContainer.innerHTML = '<p style="text-align: center; color: #94a3b8;">لا توجد منتجات مضافة حالياً.</p>';
+            return;
+        }
+
+        snapshot.forEach((docSnap) => {
+            const p = docSnap.data();
+            const productId = docSnap.id;
+            const title = p.title || p.name || "بدون اسم";
+            const price = p.price || 0;
+            const image = p.imageUrl || p.image || "";
+
+            const card = document.createElement('div');
+            card.className = 'admin-card';
+            card.innerHTML = `
+                <div class="admin-card-info">
+                    <img src="${image}" alt="${title}">
+                    <div>
+                        <strong>${title}</strong>
+                        <div style="font-size: 13px; color: #38bdf8;">د.ع ${price.toLocaleString()}</div>
+                    </div>
+                </div>
+                <button class="btn-delete" onclick="deleteProduct('${productId}')">حذف</button>
+            `;
+            adminContainer.appendChild(card);
+        });
+    });
+
+    // دالة حذف المنتج
+    window.deleteProduct = async function(id) {
+        if (confirm('هل أنت متأكد من حذف هذا المنتج نهائياً من المتجر؟')) {
+            try {
+                await deleteDoc(doc(db, "products", id));
+                alert('تم حذف المنتج بنجاح!');
+            } catch (error) {
+                console.error("خطأ أثناء الحذف:", error);
+                alert('حدث خطأ أثناء الحذف: ' + error.message);
+            }
+        }
+    };
 </script>
 
 </body>
