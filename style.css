@@ -1,0 +1,352 @@
+/* --- إعدادات عامة للألوان والخطوط --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #0f0f11;
+    color: #ffffff;
+    direction: rtl;
+    line-height: 1.6;
+}
+
+/* --- الشريط العلوي (Navbar) --- */
+.navbar {
+    background-color: #16161a;
+    border-bottom: 1px solid #282830;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-logo-container {
+    width: 40px;
+    height: 40px;
+}
+
+.brand-logo-svg {
+    width: 100%;
+    height: 100%;
+}
+
+.brand-name span {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #d83a24;
+    display: block;
+    line-height: 1;
+}
+
+.brand-name small {
+    font-size: 0.75rem;
+    color: #aaa;
+}
+
+.nav-links a {
+    color: #ccc;
+    text-decoration: none;
+    margin: 0 10px;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover, .nav-links a.active {
+    color: #d83a24;
+}
+
+.cart-btn {
+    background-color: #d83a24;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.cart-btn:hover {
+    background-color: #b82e1b;
+}
+
+/* --- الواجهة الرئيسية (Hero Section) --- */
+.hero {
+    background: linear-gradient(180deg, #16161a 0%, #0f0f11 100%);
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.hero-content h1 {
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+    color: #ffffff;
+}
+
+.hero-content p {
+    color: #aaa;
+    margin-bottom: 25px;
+}
+
+.btn-main {
+    display: inline-block;
+    background-color: #d83a24;
+    color: white;
+    padding: 12px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* --- قسم المنتجات وترتيب الصور --- */
+.products-section {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.section-title {
+    margin-bottom: 25px;
+    font-size: 1.6rem;
+    border-right: 4px solid #d83a24;
+    padding-right: 12px;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+/* كارت المنتج */
+.product-card {
+    background-color: #18181c;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #2a2a30;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+/* مربع الصورة وحجمها الصريح لتفادي التداخل */
+.product-img-box {
+    position: relative;
+    width: 100%;
+    height: 200px; /* تحديد ارتفاع ثابت للمربع */
+    background-color: #101014;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* لتتناسب الصورة تماماً داخل المربع دون قص أو تغطية النصوص */
+    padding: 10px;
+}
+
+.badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #d83a24;
+    color: white;
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    z-index: 2;
+}
+
+.badge.sale {
+    background-color: #e67e22;
+}
+
+/* معلومات المنتج */
+.product-info {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between;
+}
+
+.product-info h3 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: #fff;
+}
+
+.specs {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 15px;
+}
+
+.product-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
+.price {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #d83a24;
+}
+
+.add-btn {
+    background-color: #26262e;
+    color: white;
+    border: 1px solid #3a3a45;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+.add-btn:hover {
+    background-color: #d83a24;
+    border-color: #d83a24;
+}
+
+/* --- نافذة السلة (Modal) --- */
+.cart-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.cart-content {
+    background-color: #18181c;
+    width: 90%;
+    max-width: 480px;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #333;
+}
+
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #2a2a30;
+    padding-bottom: 12px;
+    margin-bottom: 15px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #aaa;
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+.cart-items {
+    max-height: 250px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+}
+
+.empty-msg {
+    text-align: center;
+    color: #777;
+    padding: 20px 0;
+}
+
+.cart-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #222;
+}
+
+.item-remove {
+    background: none;
+    border: none;
+    color: #ff4d4d;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.total-box {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #2a2a30;
+}
+
+.whatsapp-btn {
+    width: 100%;
+    background-color: #25d366;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+/* --- الفوتر (Footer) --- */
+.footer {
+    background-color: #121215;
+    border-top: 1px solid #222;
+    padding: 30px 20px 15px;
+    margin-top: 60px;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-bottom {
+    text-align: center;
+    color: #666;
+    font-size: 0.85rem;
+    margin-top: 25px;
+    border-top: 1px solid #1c1c22;
+    padding-top: 15px;
+}

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Town - مركز تيك تاون</title>
+    <!-- تأكد إن ملف التصميم اسمه style.css وموجود بنفس المجلد -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- الشريط العلوي -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="brand">
+                <div class="brand-logo-container">
+                    <svg class="brand-logo-svg" viewBox="0 0 100 100">
+                        <rect x="6" y="6" width="88" height="88" rx="18" fill="none" stroke="#ffffff" stroke-width="6"/>
+                        <line x1="28" y1="36" x2="72" y2="36" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+                        <circle cx="28" cy="24" r="5" fill="#ffffff"/>
+                        <circle cx="28" cy="48" r="5" fill="#ffffff"/>
+                        <line x1="28" y1="24" x2="28" y2="48" stroke="#ffffff" stroke-width="4"/>
+                        <circle cx="72" cy="24" r="5" fill="#ffffff"/>
+                        <circle cx="72" cy="48" r="5" fill="#ffffff"/>
+                        <line x1="72" y1="24" x2="72" y2="48" stroke="#ffffff" stroke-width="4"/>
+                        <line x1="50" y1="36" x2="50" y2="72" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+                        <circle cx="40" cy="72" r="5" fill="#ffffff"/>
+                        <circle cx="60" cy="72" r="5" fill="#ffffff"/>
+                        <line x1="40" y1="72" x2="60" y2="72" stroke="#ffffff" stroke-width="4"/>
+                    </svg>
+                </div>
+
+                <div class="brand-name">
+                    <span>TECH TOWN</span>
+                    <small>مركز تيك تاون</small>
+                </div>
+            </div>
+            
+            <nav class="nav-links">
+                <a href="#" class="active">الرئيسية</a>
+                <a href="#products">حاسبات</a>
+                <a href="#products">جيمنك</a>
+                <a href="#products">موبايلات</a>
+                <a href="#products">تقنيات</a>
+            </nav>
+
+            <div class="nav-actions">
+                <button class="cart-btn" id="open-cart-btn">🛒 السلة (<span id="cart-count">0</span>)</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- الواجهة الرئيسية -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>عالم التقنية والألعاب بين يديك</h1>
+            <p>أفضل الحاسبات، ملحقات الجيمنك، وأحدث الموبايلات بأسعار وخدمة ضمان متميزة.</p>
+            <a href="#products" class="btn-main">تصفح العروض والمنتجات</a>
+        </div>
+    </section>
+
+    <!-- قسم عرض المنتجات (مع روابط الصور الحقيقية) -->
+    <section id="products" class="products-section">
+        <h2 class="section-title">أحدث المنتجات والعروض</h2>
+        <div class="products-grid">
+            
+            <!-- منتج 1 -->
+            <div class="product-card">
+                <div class="product-img-box">
+                    <span class="badge">جديد</span>
+                    <img src="https://images.unsplash.com/photo-1603302576837-37561b2e2302?w=600" alt="حاسبة ألعاب جيمنج" class="product-img">
+                </div>
+                <div class="product-info">
+                    <h3>حاسبة ألعاب جيمنج احترافية</h3>
+                    <p class="specs">معالج i7 - رام 16GB - كارت RTX 4060</p>
+                    <div class="product-bottom">
+                        <span class="price">1,250,000 د.ع</span>
+                        <button class="add-btn" onclick="addToCart('حاسبة ألعاب جيمنج احترافية', 1250000)">إضافة للسلة</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- منتج 2 -->
+            <div class="product-card">
+                <div class="product-img-box">
+                    <span class="badge sale">عرض خاص</span>
+                    <img src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=600" alt="يد تحكم PS5" class="product-img">
+                </div>
+                <div class="product-info">
+                    <h3>يد تحكم DualSense PS5</h3>
+                    <p class="specs">يد تحكم أصلية استجابة سريعة وبدون أوفست</p>
+                    <div class="product-bottom">
+                        <span class="price">95,000 د.ع</span>
+                        <button class="add-btn" onclick="addToCart('يد تحكم DualSense PS5', 95000)">إضافة للسلة</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- منتج 3 -->
+            <div class="product-card">
+                <div class="product-img-box">
+                    <img src="https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=600" alt="شاحن GaN" class="product-img">
+                </div>
+                <div class="product-info">
+                    <h3>شاحن سريع GaN بقدرة 67W</h3>
+                    <p class="specs">شاحن مغناطيسي سريع متوافق مع الموبايلات واللابتوبات</p>
+                    <div class="product-bottom">
+                        <span class="price">35,000 د.ع</span>
+                        <button class="add-btn" onclick="addToCart('شاحن سريع GaN بقدرة 67W', 35000)">إضافة للسلة</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- نافذة سلة التسوق (Modal) -->
+    <div id="cart-modal" class="cart-modal" style="display: none;">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>سلة التسوق</h2>
+                <button id="close-cart-btn" class="close-btn">&times;</button>
+            </div>
+            <div id="cart-items" class="cart-items">
+                <p class="empty-msg">السلة فارغة حالياً</p>
+            </div>
+            <div class="cart-footer">
+                <div class="total-box">
+                    <span>المجموع الكلي:</span>
+                    <span id="cart-total">0 د.ع</span>
+                </div>
+                <button onclick="sendOrderWhatsApp()" class="whatsapp-btn">💬 إرسال الطلب عبر الواتساب</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- تذييل الصفحة (Footer) -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h3>TECH TOWN - مركز تيك تاون</h3>
+                <p>وجهتك الأولى لأحدث الأجهزة الإلكترونية والحاسبات وملحقات الجيمنك في العراق.</p>
+            </div>
+            <div class="footer-info">
+                <h4>تواصل معنا</h4>
+                <p>📍 العراق - مركز تيك تاون</p>
+                <p>📞 هاتف / واتساب: 07766888622</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Tech Town. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <!-- كود الجافاسكربت -->
+    <script>
+        let cart = [];
+
+        function addToCart(title, price) {
+            const existingIndex = cart.findIndex(item => item.title === title);
+            if (existingIndex > -1) {
+                cart[existingIndex].quantity += 1;
+            } else {
+                cart.push({ title, price, quantity: 1 });
+            }
+            updateCart();
+            
+            // فتح نافذة السلة تلقائياً
+            document.getElementById('cart-modal').style.display = 'flex';
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartCountEl = document.getElementById('cart-count');
+            const cartItemsEl = document.getElementById('cart-items');
+            const cartTotalEl = document.getElementById('cart-total');
+
+            let totalQuantity = 0;
+            let totalPrice = 0;
+
+            if (cart.length === 0) {
+                cartItemsEl.innerHTML = '<p class="empty-msg">السلة فارغة حالياً</p>';
+            } else {
+                cartItemsEl.innerHTML = '';
+                cart.forEach((item, index) => {
+                    totalQuantity += item.quantity;
+                    totalPrice += item.price * item.quantity;
+
+                    const row = document.createElement('div');
+                    row.className = 'cart-item-row';
+                    row.innerHTML = `
+                        <div>
+                            <strong>${item.title}</strong>
+                            <div style="font-size: 12px; color: #aaa;">العدد: ${item.quantity} × ${item.price.toLocaleString()} د.ع</div>
+                        </div>
+                        <div>
+                            <span style="font-weight: bold; margin-left: 10px;">${(item.price * item.quantity).toLocaleString()} د.ع</span>
+                            <button class="item-remove" onclick="removeFromCart(${index})">✕</button>
+                        </div>
+                    `;
+                    cartItemsEl.appendChild(row);
+                });
+            }
+
+            cartCountEl.innerText = totalQuantity;
+            cartTotalEl.innerText = `${totalPrice.toLocaleString()} د.ع`;
+        }
+
+        const cartModal = document.getElementById('cart-modal');
+        const openCartBtn = document.getElementById('open-cart-btn');
+        const closeCartBtn = document.getElementById('close-cart-btn');
+
+        openCartBtn.addEventListener('click', () => {
+            cartModal.style.display = 'flex';
+        });
+
+        closeCartBtn.addEventListener('click', () => {
+            cartModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === cartModal) {
+                cartModal.style.display = 'none';
+            }
+        });
+
+        function sendOrderWhatsApp() {
+            if (cart.length === 0) {
+                alert('السلة فارغة! يرجى إضافة منتجات أولاً.');
+                return;
+            }
+
+            let message = "مرحباً مركز تيك تاون (Tech Town) 👋\nأود إرسال طلب شراء للمنتجات التالية:\n\n";
+            let total = 0;
+
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                message += `${index + 1}. ${item.title}\n   العدد: ${item.quantity} | السعر: ${itemTotal.toLocaleString()} د.ع\n`;
+            });
+
+            message += `\nالمجموع الكلي: ${total.toLocaleString()} د.ع\n\nيرجى تأكيد الطلب وتحديد تفاصيل التوصيل.`;
+
+            const phone = "9647766888622";
+            const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+    </script>
+</body>
+</html>
