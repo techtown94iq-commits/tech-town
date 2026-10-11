@@ -9,7 +9,7 @@
         .admin-container { max-width: 600px; margin: 40px auto; background: #1e293b; padding: 25px; border-radius: 12px; border: 1px solid #334155; }
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 6px; font-weight: bold; color: #f8fafc; }
-        .form-group input, .form-group textarea { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: #fff; font-size: 14px; box-sizing: border-box; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: #fff; font-size: 14px; box-sizing: border-box; }
         .btn-submit { background: #ef4444; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 10px; }
         .btn-submit:hover { background: #dc2626; }
         .admin-products-list { max-width: 800px; margin: 40px auto; padding: 0 15px; }
@@ -19,7 +19,7 @@
 </head>
 <body>
 
-    <!-- الشريط العلوي للوحة التحكم -->
+    <!-- الشريط العلوي -->
     <header class="navbar">
         <div class="nav-container" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px;">
             <div class="brand" style="display: flex; align-items: center; gap: 12px;">
@@ -39,12 +39,27 @@
 
     <div class="admin-container">
         <h2 style="text-align: center; color: #ef4444; margin-bottom: 10px;">إضافة منتج جديد</h2>
-        <p style="text-align: center; color: #cbd5e1; font-size: 13px; margin-bottom: 20px;">إضافة منتج مع صور متعددة وتحديد المخزون المتوفر</p>
+        <p style="text-align: center; color: #cbd5e1; font-size: 13px; margin-bottom: 20px;">إضافة منتج وتحديد القسم والمخزون</p>
         
         <form id="add-product-form">
             <div class="form-group">
                 <label>اسم المنتج:</label>
-                <input type="text" id="p-title" required placeholder="مثال: سماعة جيمنج احترافية">
+                <input type="text" id="p-title" required placeholder="مثال: لابتوب MSI Cyborg 15 أو جوستك PS5">
+            </div>
+
+            <div class="form-group">
+                <label>قسم المنتج (التصنيف):</label>
+                <select id="p-category" required>
+                    <option value="laptops">💻 حواسب وملحقاتها (لابتوبات، حقائب، شواحن)</option>
+                    <option value="gaming">🎮 عالم الكيمنج (جوستكات، بليات، ستاندات، شواحن)</option>
+                    <option value="mobile-acc">📱 اكسسوارات الهاتف (كيبلات، شواحن، OTG، سماعات)</option>
+
+                    <option value="mouses-keyboards">🖱️ ماوسات وكيبوردات</option>
+                    <option value="printers">🖨️ طابعات ومستلزماتها (طابعات، أحبار، كيبلات)</option>
+                    <option value="networks">🌐 شبكات وتوصيلات (LAN، محولات)</option>
+                    <option value="disks">💿 أقراص ووسائط تخزين</option>
+                    <option value="general">📦 عام / أخرى</option>
+                </select>
             </div>
             
             <div class="form-group" style="display: flex; gap: 10px;">
@@ -117,6 +132,7 @@
 
             try {
                 const title = document.getElementById('p-title').value;
+                const category = document.getElementById('p-category').value;
                 const price = Number(document.getElementById('p-price').value);
                 const stock = Number(document.getElementById('p-stock').value) || 1;
                 const specs = document.getElementById('p-specs').value;
@@ -130,6 +146,7 @@
 
                 await db.collection('products').add({
                     title: title,
+                    category: category,
                     price: price,
                     stock: stock,
                     specs: specs,
@@ -138,7 +155,7 @@
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
 
-                alert('تم إضافة المنتج وتحديد الكمية بنجاح!');
+                alert('تم إضافة المنتج في القسم المختار بنجاح!');
                 form.reset();
             } catch (err) {
                 alert('حدث خطأ: ' + err.message);
@@ -162,13 +179,27 @@
                 div.innerHTML = `
                     <div>
                         <strong style="color: #fff;">${p.title || p.name}</strong>
-                        <div style="font-size: 13px; color: #aaa;">السعر: ${p.price?.toLocaleString()} د.ع | المخزون المتوفر: <span style="color: #ef4444; font-weight: bold;">${p.stock ?? 'غير محدد'}</span></div>
+                        <div style="font-size: 13px; color: #aaa;">السعر: ${p.price?.toLocaleString()} د.ع | القسم: <span style="color: #38bdf8;">${getCategoryName(p.category)}</span> | المخزون: <span style="color: #ef4444;">${p.stock ?? 10}</span></div>
                     </div>
                     <button class="btn-delete" onclick="deleteProduct('${doc.id}')">حذف</button>
                 `;
                 listContainer.appendChild(div);
             });
         });
+
+        function getCategoryName(catKey) {
+            const map = {
+                'laptops': '💻 حواسب وملحقاتها',
+                'gaming': '🎮 عالم الكيمنج',
+                'mobile-acc': '📱 اكسسوارات الهاتف',
+                'mouses-keyboards': '🖱️ ماوسات وكيبوردات',
+                'printers': '🖨️ طابعات ومستلزماتها',
+                'networks': '🌐 شبكات وتوصيلات',
+                'disks': '💿 أقراص وتخزين',
+                'general': '📦 عام / أخرى'
+            };
+            return map[catKey] || 'عام';
+        }
 
         async function deleteProduct(id) {
             if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
