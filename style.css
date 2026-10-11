@@ -1,5 +1,5 @@
 /* =========================================================
-   Tech Town - Light Body with High-Contrast Dark Product Card
+   Tech Town - Light Body with Balanced Orange Product Cards
    ========================================================= */
 
 * {
@@ -175,7 +175,7 @@ body {
     box-shadow: 0 4px 12px rgba(255, 119, 0, 0.25);
 }
 
-/* تصميم كروت المنتجات الجسورة بالأسود والبرتقالي القوي */
+/* كروت المنتجات */
 .products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -185,7 +185,7 @@ body {
 .product-card {
     background: #0f172a; /* منطقة الكارت السفلية باللون الأسود الكامل */
     border-radius: 16px;
-    border: 2px solid #ff7700; /* إطار برتقالي بارز ومحدد */
+    border: 2px solid #ff8833; /* إطار برتقالي محدد ومتناسق */
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -196,14 +196,14 @@ body {
 
 .product-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(255, 119, 0, 0.3);
+    box-shadow: 0 12px 30px rgba(255, 119, 0, 0.25);
 }
 
-/* خلفية الصورة بالبرتقالي الأقوى */
+/* خلفية الصورة - برتقالي أهدأ ومخفف بقليل من السابق دون أن يفقد هويته */
 .product-img-box {
     width: 100%;
     height: 210px;
-    background: #ff7700; /* برتقالي أقوى خلف الصورة */
+    background: #ff944d; /* درجة برتقالية أهدأ ومتوازنة */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -216,10 +216,10 @@ body {
     object-fit: contain;
 }
 
-/* منطقة الاسم والتفاصيل السوداء بالكامل */
+/* منطقة الاسم والتفاصيل باللون الأسود الكامل */
 .product-info {
     padding: 18px;
-    background: #0f172a; /* خلفية سوداء بالكامل */
+    background: #0f172a;
 }
 
 /* اسم المنتج باللون الأبيض الناصع */
@@ -242,7 +242,7 @@ body {
     line-height: 1.5;
 }
 
-/* تفاصيل الأسفل بنفس اللون البرتقالي */
+/* تفاصيل الأسفل بنفس اللون البرتقالي المميز */
 .product-bottom {
     display: flex;
     justify-content: space-between;
@@ -257,7 +257,7 @@ body {
     font-size: 18px;
 }
 
-/* زر عرض والتفاصيل بنفس اللون البرتقالي */
+/* زر عرض والتفاصيل */
 .add-btn {
     background: #ff7700;
     color: white;
@@ -333,7 +333,7 @@ body {
     width: 100%;
     height: 280px;
     object-fit: contain;
-    background: #ff7700;
+    background: #ff944d;
     border-radius: 12px;
     margin-bottom: 12px;
 }
@@ -443,7 +443,7 @@ body {
     background: #e66b00;
 }
 
-/* سلة التسوق (Cart Drawer) */
+/* سلة التسوق */
 .cart-modal {
     position: fixed;
     top: 0;
