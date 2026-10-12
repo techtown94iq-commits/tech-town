@@ -70,7 +70,7 @@
             <div class="products-header-bar">
                 <h2 class="section-title">أحدث المنتجات والعروض</h2>
                 <select id="sort-select" class="sort-select" onchange="handleSort()">
-                    <option value="newest">الترتيب: الاحدث</option>
+                    <option value="newest">الترتيب: الأحدث</option>
                     <option value="price-low">السعر: من الأرخص للأغلى</option>
                     <option value="price-high">السعر: من الأغلى للأرخص</option>
                 </select>
@@ -82,34 +82,6 @@
         </main>
 
     </div>
-
-    <!-- قسم آراء وتقييمات الزبائن -->
-    <section class="reviews-section">
-        <h2 class="section-title">آراء زبائننا الكرام ⭐</h2>
-        <div class="reviews-grid">
-            <div class="review-card">
-                <div class="review-header">
-                    <span class="review-name">أحمد المفرجي</span>
-                    <span class="review-stars">⭐⭐⭐⭐⭐</span>
-                </div>
-                <p class="review-text">"خدمة ممتازة وتوصيل سريع جداً، طلبت لابتوب ووصلني بنفس المواصفات وبأفضل سعر شكراً تيك تاون."</p>
-            </div>
-            <div class="review-card">
-                <div class="review-header">
-                    <span class="review-name">سيف الدين</span>
-                    <span class="review-stars">⭐⭐⭐⭐⭐</span>
-                </div>
-                <p class="review-text">"أسعارهم منافسة وجوستكات الكيمنج أصلية وبضاعة نظيفة، التعامل راقي جداً أنصح بالتعامل وياهم."</p>
-            </div>
-            <div class="review-card">
-                <div class="review-header">
-                    <span class="review-name">محمد البصري</span>
-                    <span class="review-stars">⭐⭐⭐⭐⭐</span>
-                </div>
-                <p class="review-text">"المتجر مرتب وسهل التصفح، طلبت اكسسوارات موبايل ووصلتني خلال يوم واحد مغلفة بشكل ممتاز."</p>
-            </div>
-        </div>
-    </section>
 
     <!-- نافذة تفاصيل المنتج -->
     <div id="product-modal" class="modal-overlay">
@@ -238,7 +210,6 @@
             productsGrid.innerHTML = '';
             let productIds = Object.keys(allProductsData);
 
-            // تصفية حسب القسم والبحث
             productIds = productIds.filter(id => {
                 const p = allProductsData[id];
                 const pCat = p.category || 'general';
@@ -251,7 +222,6 @@
                 return matchesCategory && matchesSearch;
             });
 
-            // ترتيب المنتجات حسب الاختيار
             productIds.sort((a, b) => {
                 const prodA = allProductsData[a];
                 const prodB = allProductsData[b];
@@ -261,7 +231,6 @@
                 } else if (currentSort === 'price-high') {
                     return (prodB.price || 0) - (prodA.price || 0);
                 } else {
-                    // الأحدث (افتراضي حسب تاريخ الإنشاء)
                     const timeA = prodA.createdAt?.seconds || 0;
                     const timeB = prodB.createdAt?.seconds || 0;
                     return timeB - timeA;
@@ -453,7 +422,6 @@
             const cPhone = document.getElementById('cust-phone').value.trim();
             const cAddr = document.getElementById('cust-address').value.trim();
 
-            // توليد رقم طلب فريد تلقائياً (مثلاً: TT-8492)
             const orderId = 'TT-' + Math.floor(1000 + Math.random() * 9000);
 
             let message = `مرحباً مركز تيك تاون 🛍️ (Tech Town):\nأود إرسال طلب شراء جديد:\n\n📌 رقم الطلب: *${orderId}*\n\n`;
