@@ -1,5 +1,5 @@
 /* =========================================================
-   Tech Town - Right Categories Sidebar & 4-Column Grid Theme
+   Tech Town - Far Right Categories Sidebar & Ultra Wide 4-Column Grid
    ========================================================= */
 
 :root {
@@ -48,7 +48,7 @@ body {
 .navbar {
     background: var(--navbar-bg);
     border-bottom: 3px solid var(--brand-orange);
-    padding: 12px 20px;
+    padding: 12px 25px;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -56,7 +56,8 @@ body {
 }
 
 .nav-container {
-    max-width: 1400px;
+    max-width: 100%;
+    padding: 0 10px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -181,18 +182,19 @@ body {
     color: var(--brand-orange);
 }
 
-/* توزيع الصفحة: الأقسام أقصى اليمين + المنتجات بقربها */
+/* توزيع الحاوية الرئيسية: أقصى اليمين للأقسام والعرض كاملاً للمنتجات */
 .store-container {
-    max-width: 1400px;
-    margin: 35px auto;
+    width: 100%;
+    max-width: 100%;
+    margin: 25px 0;
     padding: 0 20px;
     display: grid;
-    grid-template-columns: 240px 1fr; /* 240px للأقسام جهة اليمين، والباقي للمنتجات */
-    gap: 25px;
+    grid-template-columns: 250px 1fr; /* 250px أقصى اليمين للأقسام، والباقي للمنتجات */
+    gap: 20px;
     align-items: start;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 992px) {
     .store-container {
         grid-template-columns: 1fr;
     }
@@ -207,12 +209,12 @@ body {
     font-weight: 800;
 }
 
-/* القائمة الجانبية للأقسام أقصى اليمين */
+/* القائمة الجانبية للأقسام أقصى اليمين تماماً */
 .categories-sidebar {
     background: var(--navbar-bg);
     border: 2px solid var(--border-color);
     border-radius: 16px;
-    padding: 18px;
+    padding: 16px;
     position: sticky;
     top: 85px;
 }
@@ -230,9 +232,9 @@ body {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    max-height: 450px;
+    max-height: 480px;
     overflow-y: auto;
-    padding-left: 5px;
+    padding-left: 4px;
     scrollbar-width: thin;
     scrollbar-color: var(--brand-orange) var(--border-color);
 }
@@ -272,28 +274,28 @@ body {
     box-shadow: 0 4px 12px rgba(255, 119, 0, 0.25);
 }
 
-/* شبكة المنتجات يستوعب 4 خانات في السطر الواحد */
+/* شبكة المنتجات تستوعب 4 خانات براحة كاملة */
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 خانات بالسطر الواحد للشاشات الكبيرة */
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
 }
 
-@media (max-width: 1280px) {
+@media (max-width: 1400px) {
     .products-grid {
-        grid-template-columns: repeat(3, 1fr); /* 3 خانات للشاشات المتوسطة */
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
 @media (max-width: 768px) {
     .products-grid {
-        grid-template-columns: repeat(2, 1fr); /* خانتان للموبايل والشاشات الصغيرة */
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (max-width: 480px) {
     .products-grid {
-        grid-template-columns: 1fr; /* خانة واحدة للموبايل الصغير جداً */
+        grid-template-columns: 1fr;
     }
 }
 
@@ -515,7 +517,7 @@ body {
 
 /* تذييل الصفحة */
 .footer { background: var(--navbar-bg); border-top: 2px solid var(--border-color); padding: 40px 20px 20px; margin-top: 60px; }
-.footer-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; }
+.footer-container { max-width: 100%; padding: 0 10px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; }
 .footer h3, .footer h4 { color: var(--text-primary); margin-bottom: 10px; font-weight: 800; }
 .footer p { color: var(--text-secondary); font-size: 14px; line-height: 1.6; }
 .social-links { display: flex; gap: 12px; margin-top: 12px; }
