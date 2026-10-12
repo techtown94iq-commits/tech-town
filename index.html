@@ -6,7 +6,6 @@
     <title>Tech Town Store</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* تنسيق الأزرار العلوية بجانب بعضها بشكل متناسق */
         .nav-actions {
             display: flex;
             align-items: center;
@@ -47,9 +46,9 @@
                 </div>
             </div>
             
-            <!-- زر الوضع الداكن بجانب زر السلة تماماً -->
+            <!-- زر التبديل المسمى (الوضع الداكن / الوضع الفاتح) بجانب زر السلة -->
             <div class="nav-actions">
-                <button class="theme-toggle-btn" id="theme-toggle-btn" onclick="toggleTheme()">🌙 ليلي</button>
+                <button class="theme-toggle-btn" id="theme-toggle-btn" onclick="toggleTheme()">🌙 الوضع الداكن</button>
                 <button class="cart-btn" id="open-cart-btn">🛒 السلة (<span id="cart-count">0</span>)</button>
             </div>
         </div>
@@ -137,7 +136,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <script>
-        // دالة تبديل الوضع الداكن/الفاتح
+        // دالة تبديل الوضع بين الفاتح والداكن
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -149,13 +148,13 @@
         function updateThemeButtonText(theme) {
             const btn = document.getElementById('theme-toggle-btn');
             if (theme === 'dark') {
-                btn.innerHTML = '☀️ نهاري';
+                btn.innerHTML = '☀️ الوضع الفاتح';
             } else {
-                btn.innerHTML = '🌙 ليلي';
+                btn.innerHTML = '🌙 الوضع الداكن';
             }
         }
 
-        // استرجاع تفضيل الزبون المخزن
+        // استرجاع المظهر المختار سابقاً
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
         updateThemeButtonText(savedTheme);
