@@ -8,6 +8,11 @@
 </head>
 <body>
 
+    <!-- شريط الإعلانات المتحرك العلوي -->
+    <div class="announcement-bar">
+        ⚡ توصيل سريع لجميع المحافظات 🚚 | ضمان حقيقي على كافة الأجهزة والأكسسوارات الإلكترونية 🎮
+    </div>
+
     <!-- الشريط العلوي -->
     <header class="navbar">
         <div class="nav-container">
@@ -34,18 +39,17 @@
             <h1>حاسبات - كيمنك - موبايلات - تقنيات</h1>
             <p>تفضل بزيارة منتجاتنا واستكشف أحدث العروض بأسعار وخدمة ضمان متميزة</p>
             
-            <!-- شريط البحث المطور -->
             <div class="search-container">
-                <input type="text" id="store-search-input" class="search-input" placeholder="ابحث عن اسم المنتج، ماوس، لابتوب، جوستك..." oninput="handleSearch()">
+                <input type="text" id="store-search-input" class="search-input" placeholder="ابحث عن اسم المنتج، لابتوب، ماوس، جوستك..." oninput="handleSearch()">
                 <span class="search-icon">🔍</span>
             </div>
         </div>
     </section>
 
-    <!-- الحاويات الرئيسية: الأقسام العمودية + المنتجات -->
+    <!-- الحاويات الرئيسية: الأقسام العمودية أقصى اليمين + المنتجات -->
     <div id="products" class="store-container">
         
-        <!-- القائمة الجانبية العمودية للأقسام مع سكرول -->
+        <!-- القائمة الجانبية العمودية للأقسام -->
         <aside class="categories-sidebar">
             <h3>أقسام المتجر</h3>
             <div class="categories-scroll-box">
@@ -61,9 +65,17 @@
             </div>
         </aside>
 
-        <!-- قسم عرض المنتجات -->
+        <!-- قسم عرض المنتجات وترتيبها -->
         <main>
-            <h2 class="section-title" id="grid-title">أحدث المنتجات والعروض</h2>
+            <div class="products-header-bar">
+                <h2 class="section-title">أحدث المنتجات والعروض</h2>
+                <select id="sort-select" class="sort-select" onchange="handleSort()">
+                    <option value="newest">الترتيب: الاحدث</option>
+                    <option value="price-low">السعر: من الأرخص للأغلى</option>
+                    <option value="price-high">السعر: من الأغلى للأرخص</option>
+                </select>
+            </div>
+            
             <div class="products-grid" id="main-products-grid">
                 <p style="text-align: center; width: 100%; color: #aaa;">جاري تحميل المنتجات من المتجر...</p>
             </div>
@@ -71,7 +83,35 @@
 
     </div>
 
-    <!-- نافذة تفاصيل المنتج ومعرض الصور والكمية -->
+    <!-- قسم آراء وتقييمات الزبائن -->
+    <section class="reviews-section">
+        <h2 class="section-title">آراء زبائننا الكرام ⭐</h2>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="review-header">
+                    <span class="review-name">أحمد المفرجي</span>
+                    <span class="review-stars">⭐⭐⭐⭐⭐</span>
+                </div>
+                <p class="review-text">"خدمة ممتازة وتوصيل سريع جداً، طلبت لابتوب ووصلني بنفس المواصفات وبأفضل سعر شكراً تيك تاون."</p>
+            </div>
+            <div class="review-card">
+                <div class="review-header">
+                    <span class="review-name">سيف الدين</span>
+                    <span class="review-stars">⭐⭐⭐⭐⭐</span>
+                </div>
+                <p class="review-text">"أسعارهم منافسة وجوستكات الكيمنج أصلية وبضاعة نظيفة، التعامل راقي جداً أنصح بالتعامل وياهم."</p>
+            </div>
+            <div class="review-card">
+                <div class="review-header">
+                    <span class="review-name">محمد البصري</span>
+                    <span class="review-stars">⭐⭐⭐⭐⭐</span>
+                </div>
+                <p class="review-text">"المتجر مرتب وسهل التصفح، طلبت اكسسوارات موبايل ووصلتني خلال يوم واحد مغلفة بشكل ممتاز."</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- نافذة تفاصيل المنتج -->
     <div id="product-modal" class="modal-overlay">
         <div class="modal-box">
             <button class="modal-close" id="close-product-modal">&times;</button>
@@ -79,7 +119,7 @@
         </div>
     </div>
 
-    <!-- نافذة سلة التسوق المتطورة مع معلومات التوصيل -->
+    <!-- نافذة سلة التسوق مع معلومات التوصيل ورقم الطلب -->
     <div id="cart-modal" class="cart-modal" style="display: none;">
         <div class="cart-content">
             <div class="cart-header">
@@ -91,9 +131,8 @@
                 <p class="empty-msg">السلة فارغة حالياً</p>
             </div>
 
-            <!-- نموذج إدخال معلومات التوصيل للزبون -->
             <div class="checkout-form">
-                <h4>معلومات التوصيل (اختياري)</h4>
+                <h4>معلومات التوصيل</h4>
                 <input type="text" id="cust-name" class="checkout-input" placeholder="الاسم الكامل">
                 <input type="tel" id="cust-phone" class="checkout-input" placeholder="رقم الهاتف">
                 <input type="text" id="cust-address" class="checkout-input" placeholder="المحافظة / العنوان بالتفصيل">
@@ -109,7 +148,7 @@
         </div>
     </div>
 
-    <!-- تذييل الصفحة مع أزرار التواصل المباشرة -->
+    <!-- تذييل الصفحة -->
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-brand">
@@ -175,6 +214,7 @@
         let allProductsData = {};
         let currentFilter = 'all';
         let searchQuery = '';
+        let currentSort = 'newest';
 
         db.collection('products').orderBy('createdAt', 'desc').onSnapshot((snapshot) => {
             allProductsData = {};
@@ -189,11 +229,17 @@
             renderProducts();
         }
 
+        function handleSort() {
+            currentSort = document.getElementById('sort-select').value;
+            renderProducts();
+        }
+
         function renderProducts() {
             productsGrid.innerHTML = '';
-            const productIds = Object.keys(allProductsData);
+            let productIds = Object.keys(allProductsData);
 
-            let filteredIds = productIds.filter(id => {
+            // تصفية حسب القسم والبحث
+            productIds = productIds.filter(id => {
                 const p = allProductsData[id];
                 const pCat = p.category || 'general';
                 const pTitle = (p.title || p.name || "").toLowerCase();
@@ -205,12 +251,29 @@
                 return matchesCategory && matchesSearch;
             });
 
-            if (filteredIds.length === 0) {
+            // ترتيب المنتجات حسب الاختيار
+            productIds.sort((a, b) => {
+                const prodA = allProductsData[a];
+                const prodB = allProductsData[b];
+                
+                if (currentSort === 'price-low') {
+                    return (prodA.price || 0) - (prodB.price || 0);
+                } else if (currentSort === 'price-high') {
+                    return (prodB.price || 0) - (prodA.price || 0);
+                } else {
+                    // الأحدث (افتراضي حسب تاريخ الإنشاء)
+                    const timeA = prodA.createdAt?.seconds || 0;
+                    const timeB = prodB.createdAt?.seconds || 0;
+                    return timeB - timeA;
+                }
+            });
+
+            if (productIds.length === 0) {
                 productsGrid.innerHTML = '<p style="text-align: center; width: 100%; color: #aaa;">لا توجد منتجات مطابقة للبحث أو القسم المختار.</p>';
                 return;
             }
 
-            filteredIds.forEach(productId => {
+            productIds.forEach(productId => {
                 const p = allProductsData[productId];
                 const productTitle = p.title || p.name || "منتج بدون اسم";
                 const productSpecs = p.specs || p.description || "";
@@ -390,19 +453,22 @@
             const cPhone = document.getElementById('cust-phone').value.trim();
             const cAddr = document.getElementById('cust-address').value.trim();
 
-            let message = "مرحباً مركز تيك تاون 🛍️ (Tech Town):\nأود إرسال طلب شراء للمنتجات التالية:\n\n";
+            // توليد رقم طلب فريد تلقائياً (مثلاً: TT-8492)
+            const orderId = 'TT-' + Math.floor(1000 + Math.random() * 9000);
+
+            let message = `مرحباً مركز تيك تاون 🛍️ (Tech Town):\nأود إرسال طلب شراء جديد:\n\n📌 رقم الطلب: *${orderId}*\n\n`;
             let total = 0;
 
             cart.forEach((item, index) => {
                 const itemTotal = item.price * item.quantity;
                 total += itemTotal;
-                message += `${index + 1}. ${item.title}\n   الكمية المطلوبة: ${item.quantity} قطعة | السعر الإجمالي: د.ع ${itemTotal.toLocaleString()}\n`;
+                message += `${index + 1}. ${item.title}\n   الكمية: ${item.quantity} قطعة | السعر: د.ع ${itemTotal.toLocaleString()}\n`;
             });
 
             message += `\nالمجموع الكلي: د.ع ${total.toLocaleString()}\n`;
 
             if (cName || cPhone || cAddr) {
-                message += `\n📋 **معلومات التوصيل:**`;
+                message += `\n📋 *معلومات التوصيل:*`;
                 if (cName) message += `\n👤 الاسم: ${cName}`;
                 if (cPhone) message += `\n📞 الهاتف: ${cPhone}`;
                 if (cAddr) message += `\n📍 العنوان: ${cAddr}`;
