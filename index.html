@@ -3,47 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech Town - مركز تيك تاون</title>
+    <title>Tech Town Store</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        .product-card { cursor: pointer; transition: transform 0.2s; }
-        .product-card:hover { transform: translateY(-3px); }
-        
-        /* أزرار الأقسام والفلترة */
-        .categories-filter-bar { display: flex; gap: 10px; overflow-x: auto; padding: 15px 0; margin-bottom: 25px; scrollbar-width: none; }
-        .categories-filter-bar::-webkit-scrollbar { display: none; }
-        .cat-btn { background: #1e293b; color: #cbd5e1; border: 1px solid #334155; padding: 10px 18px; border-radius: 20px; cursor: pointer; white-space: nowrap; font-size: 14px; font-weight: bold; transition: 0.2s; }
-        .cat-btn:hover, .cat-btn.active { background: #ef4444; color: #fff; border-color: #ef4444; }
-
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 15px; box-sizing: border-box; }
-        .modal-box { background: #1e293b; color: #f8fafc; width: 100%; max-width: 600px; border-radius: 12px; padding: 20px; position: relative; max-height: 90vh; overflow-y: auto; direction: rtl; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-        .modal-close { position: absolute; top: 15px; left: 15px; background: #ef4444; color: white; border: none; width: 35px; height: 35px; border-radius: 50%; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        
-        .gallery-main-img { width: 100%; height: 280px; object-fit: contain; background: #0f172a; border-radius: 8px; margin-bottom: 10px; border: 1px solid #334155; }
-        .gallery-thumbs { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 15px; padding-bottom: 5px; }
-        .gallery-thumb { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 2px solid #334155; opacity: 0.6; transition: 0.2s; }
-        .gallery-thumb.active { border-color: #ef4444; opacity: 1; }
-        
-        .modal-title { font-size: 22px; color: #ef4444; margin-bottom: 8px; }
-        .modal-price { font-size: 20px; font-weight: bold; color: #22c55e; margin-bottom: 8px; }
-        .modal-stock-badge { font-size: 13px; background: #334155; color: #38bdf8; display: inline-block; padding: 4px 10px; border-radius: 6px; margin-bottom: 15px; }
-        
-        .qty-selector-box { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; background: #0f172a; padding: 10px 15px; border-radius: 8px; border: 1px solid #334155; }
-        .qty-selector-box label { font-size: 14px; font-weight: bold; color: #cbd5e1; }
-        .qty-input { width: 80px; padding: 8px; border-radius: 6px; border: 1px solid #334155; background: #1e293b; color: #fff; font-size: 16px; text-align: center; font-weight: bold; }
-        
-        .modal-desc { font-size: 14px; color: #cbd5e1; line-height: 1.6; margin-bottom: 20px; white-space: pre-line; }
-        .modal-buy-btn { background: #ef4444; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 16px; font-weight: bold; }
-        .modal-buy-btn:hover { background: #dc2626; }
+        /* تنسيق الأزرار العلوية بجانب بعضها بشكل متناسق */
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .theme-toggle-btn {
+            background: var(--navbar-bg);
+            color: var(--text-primary);
+            border: 1.5px solid var(--brand-orange);
+            padding: 9px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+        .theme-toggle-btn:hover {
+            background: var(--brand-orange);
+            color: #ffffff;
+        }
     </style>
 </head>
 <body>
 
-    <!-- الشريط العلوي مع الشعار الرسمي -->
+    <!-- الشريط العلوي -->
     <header class="navbar">
         <div class="nav-container">
             <div class="brand">
-                <div class="brand-logo-container" style="width: 48px; height: 48px; border-radius: 10px; overflow: hidden; background: #000;">
+                <div class="brand-logo-container">
                     <img src="logo.jpg" alt="Tech Town Logo" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
                 <div class="brand-name">
@@ -52,7 +47,9 @@
                 </div>
             </div>
             
+            <!-- زر الوضع الداكن بجانب زر السلة تماماً -->
             <div class="nav-actions">
+                <button class="theme-toggle-btn" id="theme-toggle-btn" onclick="toggleTheme()">🌙 ليلي</button>
                 <button class="cart-btn" id="open-cart-btn">🛒 السلة (<span id="cart-count">0</span>)</button>
             </div>
         </div>
@@ -93,9 +90,7 @@
     <div id="product-modal" class="modal-overlay">
         <div class="modal-box">
             <button class="modal-close" id="close-product-modal">&times;</button>
-            <div id="modal-product-content">
-                <!-- سيتم تعبئتها ديناميكياً -->
-            </div>
+            <div id="modal-product-content"></div>
         </div>
     </div>
 
@@ -142,6 +137,30 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <script>
+        // دالة تبديل الوضع الداكن/الفاتح
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButtonText(newTheme);
+        }
+
+        function updateThemeButtonText(theme) {
+            const btn = document.getElementById('theme-toggle-btn');
+            if (theme === 'dark') {
+                btn.innerHTML = '☀️ نهاري';
+            } else {
+                btn.innerHTML = '🌙 ليلي';
+            }
+        }
+
+        // استرجاع تفضيل الزبون المخزن
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeButtonText(savedTheme);
+
+        // Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyCNMXzRCNyXTfr4suYWx6e6Ds2nS_SX408",
             authDomain: "tech-town-7e489.firebaseapp.com",
@@ -200,7 +219,7 @@
                     <div class="product-info">
                         <h3>${productTitle}</h3>
                         <p class="specs">${productSpecs}</p>
-                        <div style="font-size: 12px; color: #38bdf8; margin-bottom: 8px;">الكمية المتوفرة: ${productStock} قطع</div>
+                        <div style="font-size: 12px; color: #ff851a; margin-bottom: 8px;">الكمية المتوفرة: ${productStock} قطع</div>
                         <div class="product-bottom">
                             <span class="price">${productPrice.toLocaleString()} د.ع</span>
                             <button class="add-btn" onclick="event.stopPropagation(); openProductModal('${productId}')">عرض والتفاصيل</button>
@@ -371,6 +390,5 @@
             window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
         }
     </script>
-
 </body>
 </html>
