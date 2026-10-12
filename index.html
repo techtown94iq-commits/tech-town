@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech Town Store</title>
+    <title>Tech Town - مركز تيك تاون</title>
     <link rel="stylesheet" href="style.css">
     <style>
         .nav-actions {
@@ -46,7 +46,6 @@
                 </div>
             </div>
             
-            <!-- زر التبديل المسمى (الوضع الداكن / الوضع الفاتح) بجانب زر السلة -->
             <div class="nav-actions">
                 <button class="theme-toggle-btn" id="theme-toggle-btn" onclick="toggleTheme()">🌙 الوضع الداكن</button>
                 <button class="cart-btn" id="open-cart-btn">🛒 السلة (<span id="cart-count">0</span>)</button>
@@ -63,27 +62,34 @@
         </div>
     </section>
 
-    <!-- قسم عرض المنتجات والأقسام -->
-    <section id="products" class="products-section">
-        <h2 class="section-title">أحدث المنتجات والعروض</h2>
+    <!-- الحاويات الرئيسية: الأقسام العمودية + المنتجات -->
+    <div id="products" class="store-container">
+        
+        <!-- القائمة الجانبية العمودية للأقسام مع سكرول -->
+        <aside class="categories-sidebar">
+            <h3>أقسام المتجر</h3>
+            <div class="categories-scroll-box">
+                <button class="cat-btn active" onclick="filterCategory('all', this)">🔥 الكل</button>
+                <button class="cat-btn" onclick="filterCategory('laptops', this)">💻 حواسب وملحقاتها</button>
+                <button class="cat-btn" onclick="filterCategory('gaming', this)">🎮 عالم الكيمنج</button>
+                <button class="cat-btn" onclick="filterCategory('mobile-acc', this)">📱 اكسسوارات الهاتف</button>
+                <button class="cat-btn" onclick="filterCategory('mouses-keyboards', this)">🖱️ ماوسات وكيبوردات</button>
+                <button class="cat-btn" onclick="filterCategory('printers', this)">🖨️ طابعات ومستلزماتها</button>
+                <button class="cat-btn" onclick="filterCategory('networks', this)">🌐 شبكات وتوصيلات</button>
+                <button class="cat-btn" onclick="filterCategory('disks', this)">💿 أقراص وتخزين</button>
+                <button class="cat-btn" onclick="filterCategory('general', this)">📦 عام / أخرى</button>
+            </div>
+        </aside>
 
-        <!-- شريط الفلترة حسب الأقسام -->
-        <div class="categories-filter-bar">
-            <button class="cat-btn active" onclick="filterCategory('all', this)">🔥 الكل</button>
-            <button class="cat-btn" onclick="filterCategory('laptops', this)">💻 حواسب وملحقاتها</button>
-            <button class="cat-btn" onclick="filterCategory('gaming', this)">🎮 عالم الكيمنج</button>
-            <button class="cat-btn" onclick="filterCategory('mobile-acc', this)">📱 اكسسوارات الهاتف</button>
-            <button class="cat-btn" onclick="filterCategory('mouses-keyboards', this)">🖱️ ماوسات وكيبوردات</button>
-            <button class="cat-btn" onclick="filterCategory('printers', this)">🖨️ طابعات ومستلزماتها</button>
-            <button class="cat-btn" onclick="filterCategory('networks', this)">🌐 شبكات وتوصيلات</button>
-            <button class="cat-btn" onclick="filterCategory('disks', this)">💿 أقراص وتخزين</button>
-            <button class="cat-btn" onclick="filterCategory('general', this)">📦 عام / أخرى</button>
-        </div>
+        <!-- قسم عرض المنتجات -->
+        <main>
+            <h2 class="section-title">أحدث المنتجات والعروض</h2>
+            <div class="products-grid" id="main-products-grid">
+                <p style="text-align: center; width: 100%; color: #aaa;">جاري تحميل المنتجات من المتجر...</p>
+            </div>
+        </main>
 
-        <div class="products-grid" id="main-products-grid">
-            <p style="text-align: center; width: 100%; color: #aaa;">جاري تحميل المنتجات من المتجر...</p>
-        </div>
-    </section>
+    </div>
 
     <!-- نافذة تفاصيل المنتج ومعرض الصور والكمية -->
     <div id="product-modal" class="modal-overlay">
@@ -136,7 +142,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <script>
-        // دالة تبديل الوضع بين الفاتح والداكن
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -154,12 +159,10 @@
             }
         }
 
-        // استرجاع المظهر المختار سابقاً
         const savedTheme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
         updateThemeButtonText(savedTheme);
 
-        // Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyCNMXzRCNyXTfr4suYWx6e6Ds2nS_SX408",
             authDomain: "tech-town-7e489.firebaseapp.com",
@@ -218,7 +221,7 @@
                     <div class="product-info">
                         <h3>${productTitle}</h3>
                         <p class="specs">${productSpecs}</p>
-                        <div style="font-size: 12px; color: #ff851a; margin-bottom: 8px;">الكمية المتوفرة: ${productStock} قطع</div>
+                        <div style="font-size: 12px; color: var(--brand-orange); margin-bottom: 8px;">الكمية المتوفرة: ${productStock} قطع</div>
                         <div class="product-bottom">
                             <span class="price">${productPrice.toLocaleString()} د.ع</span>
                             <button class="add-btn" onclick="event.stopPropagation(); openProductModal('${productId}')">عرض والتفاصيل</button>
