@@ -5,31 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tech Town - مركز تيك تاون</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .theme-toggle-btn {
-            background: var(--navbar-bg);
-            color: var(--text-primary);
-            border: 1.5px solid var(--brand-orange);
-            padding: 9px 16px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: 0.2s;
-        }
-        .theme-toggle-btn:hover {
-            background: var(--brand-orange);
-            color: #ffffff;
-        }
-    </style>
 </head>
 <body>
 
@@ -53,12 +28,17 @@
         </div>
     </header>
 
-    <!-- الواجهة الرئيسية -->
+    <!-- الواجهة الرئيسية مع شريط البحث الفوري -->
     <section class="hero">
         <div class="hero-content">
             <h1>حاسبات - كيمنك - موبايلات - تقنيات</h1>
             <p>تفضل بزيارة منتجاتنا واستكشف أحدث العروض بأسعار وخدمة ضمان متميزة</p>
-            <a href="#products" class="btn-main">تصفح العروض والمنتجات</a>
+            
+            <!-- شريط البحث المطور -->
+            <div class="search-container">
+                <input type="text" id="store-search-input" class="search-input" placeholder="ابحث عن اسم المنتج، ماوس، لابتوب، جوستك..." oninput="handleSearch()">
+                <span class="search-icon">🔍</span>
+            </div>
         </div>
     </section>
 
@@ -83,7 +63,7 @@
 
         <!-- قسم عرض المنتجات -->
         <main>
-            <h2 class="section-title">أحدث المنتجات والعروض</h2>
+            <h2 class="section-title" id="grid-title">أحدث المنتجات والعروض</h2>
             <div class="products-grid" id="main-products-grid">
                 <p style="text-align: center; width: 100%; color: #aaa;">جاري تحميل المنتجات من المتجر...</p>
             </div>
@@ -99,16 +79,26 @@
         </div>
     </div>
 
-    <!-- نافذة سلة التسوق -->
+    <!-- نافذة سلة التسوق المتطورة مع معلومات التوصيل -->
     <div id="cart-modal" class="cart-modal" style="display: none;">
         <div class="cart-content">
             <div class="cart-header">
                 <h2>سلة التسوق</h2>
                 <button id="close-cart-btn" class="close-btn">&times;</button>
             </div>
+
             <div id="cart-items" class="cart-items">
                 <p class="empty-msg">السلة فارغة حالياً</p>
             </div>
+
+            <!-- نموذج إدخال معلومات التوصيل للزبون -->
+            <div class="checkout-form">
+                <h4>معلومات التوصيل (اختياري)</h4>
+                <input type="text" id="cust-name" class="checkout-input" placeholder="الاسم الكامل">
+                <input type="tel" id="cust-phone" class="checkout-input" placeholder="رقم الهاتف">
+                <input type="text" id="cust-address" class="checkout-input" placeholder="المحافظة / العنوان بالتفصيل">
+            </div>
+
             <div class="cart-footer">
                 <div class="total-box">
                     <span>المجموع الكلي:</span>
@@ -119,12 +109,17 @@
         </div>
     </div>
 
-    <!-- تذييل الصفحة -->
+    <!-- تذييل الصفحة مع أزرار التواصل المباشرة -->
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-brand">
                 <h3>TECH TOWN</h3>
                 <p>مركز تيك تاون - حاسبات، كيمنك، موبايلات، تقنيات</p>
+                <div class="social-links">
+                    <a href="https://linktr.ee/TOWNSHOT" target="_blank" class="social-btn">🌐 TOWNSHOT</a>
+                    <a href="https://instagram.com/TECHTOWNC" target="_blank" class="social-btn">📸 انستغرام</a>
+                    <a href="https://wa.me/9647766888622" target="_blank" class="social-btn">💬 واتساب</a>
+                </div>
             </div>
             <div class="footer-info">
                 <h4>تواصل معنا</h4>
@@ -179,6 +174,7 @@
         const productsGrid = document.getElementById('main-products-grid');
         let allProductsData = {};
         let currentFilter = 'all';
+        let searchQuery = '';
 
         db.collection('products').orderBy('createdAt', 'desc').onSnapshot((snapshot) => {
             allProductsData = {};
@@ -188,18 +184,29 @@
             renderProducts();
         });
 
+        function handleSearch() {
+            searchQuery = document.getElementById('store-search-input').value.toLowerCase().trim();
+            renderProducts();
+        }
+
         function renderProducts() {
             productsGrid.innerHTML = '';
             const productIds = Object.keys(allProductsData);
 
             let filteredIds = productIds.filter(id => {
-                if (currentFilter === 'all') return true;
-                const pCat = allProductsData[id].category || 'general';
-                return pCat === currentFilter;
+                const p = allProductsData[id];
+                const pCat = p.category || 'general';
+                const pTitle = (p.title || p.name || "").toLowerCase();
+                const pSpecs = (p.specs || p.description || "").toLowerCase();
+
+                const matchesCategory = (currentFilter === 'all') || (pCat === currentFilter);
+                const matchesSearch = !searchQuery || pTitle.includes(searchQuery) || pSpecs.includes(searchQuery);
+
+                return matchesCategory && matchesSearch;
             });
 
             if (filteredIds.length === 0) {
-                productsGrid.innerHTML = '<p style="text-align: center; width: 100%; color: #aaa;">لا توجد منتجات متوفرة في هذا القسم حالياً.</p>';
+                productsGrid.innerHTML = '<p style="text-align: center; width: 100%; color: #aaa;">لا توجد منتجات مطابقة للبحث أو القسم المختار.</p>';
                 return;
             }
 
@@ -209,12 +216,14 @@
                 const productSpecs = p.specs || p.description || "";
                 const productPrice = p.price || 0;
                 const productStock = p.stock ?? 10;
+                const productBadge = p.badge || "";
                 const productImage = p.imageUrl || (p.images && p.images[0]) || "";
 
                 const card = document.createElement('div');
                 card.className = 'product-card';
                 card.onclick = () => openProductModal(productId);
                 card.innerHTML = `
+                    ${productBadge ? `<div class="product-badge">\${productBadge}</div>` : ''}
                     <div class="product-img-box">
                         <img src="${productImage}" alt="${productTitle}" class="product-img">
                     </div>
@@ -376,7 +385,11 @@
 
         function sendOrderWhatsApp() {
             if (cart.length === 0) return alert('السلة فارغة!');
-            
+
+            const cName = document.getElementById('cust-name').value.trim();
+            const cPhone = document.getElementById('cust-phone').value.trim();
+            const cAddr = document.getElementById('cust-address').value.trim();
+
             let message = "مرحباً مركز تيك تاون 🛍️ (Tech Town):\nأود إرسال طلب شراء للمنتجات التالية:\n\n";
             let total = 0;
 
@@ -386,8 +399,17 @@
                 message += `${index + 1}. ${item.title}\n   الكمية المطلوبة: ${item.quantity} قطعة | السعر الإجمالي: د.ع ${itemTotal.toLocaleString()}\n`;
             });
 
-            message += `\nالمجموع الكلي: د.ع ${total.toLocaleString()}\n\nيرجى تأكيد الطلب وتحديد تفاصيل التوصيل.`;
-            
+            message += `\nالمجموع الكلي: د.ع ${total.toLocaleString()}\n`;
+
+            if (cName || cPhone || cAddr) {
+                message += `\n📋 **معلومات التوصيل:**`;
+                if (cName) message += `\n👤 الاسم: ${cName}`;
+                if (cPhone) message += `\n📞 الهاتف: ${cPhone}`;
+                if (cAddr) message += `\n📍 العنوان: ${cAddr}`;
+            }
+
+            message += `\n\nيرجى تأكيد الطلب وتحديد موعد التوصيل.`;
+
             const phone = "9647766888622";
             window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
         }
