@@ -10,8 +10,8 @@
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 6px; font-weight: bold; color: #f8fafc; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: #fff; font-size: 14px; box-sizing: border-box; }
-        .btn-submit { background: #ef4444; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 10px; }
-        .btn-submit:hover { background: #dc2626; }
+        .btn-submit { background: #ff7700; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 10px; }
+        .btn-submit:hover { background: #e66b00; }
         .admin-products-list { max-width: 800px; margin: 40px auto; padding: 0 15px; }
         .product-item { display: flex; justify-content: space-between; align-items: center; background: #1e293b; padding: 15px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #334155; }
         .btn-delete { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
@@ -23,23 +23,23 @@
     <header class="navbar">
         <div class="nav-container" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px;">
             <div class="brand" style="display: flex; align-items: center; gap: 12px;">
-                <div class="brand-logo-container" style="width: 48px; height: 48px; border-radius: 10px; overflow: hidden; background: #000;">
+                <div class="brand-logo-container" style="width: 48px; height: 48px; border-radius: 10px; overflow: hidden; background: #ff7700;">
                     <img src="logo.jpg" alt="Tech Town Logo" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
                 <div class="brand-name" style="display: flex; flex-direction: column;">
-                    <span style="font-weight: bold; color: #fff; font-size: 18px;">TECH TOWN</span>
-                    <small style="color: #ef4444; font-size: 12px;">لوحة التحكم الإدارية</small>
+                    <span style="font-weight: bold; color: #ff7700; font-size: 18px;">TECH TOWN</span>
+                    <small style="color: #cbd5e1; font-size: 12px;">لوحة التحكم الإدارية</small>
                 </div>
             </div>
             <div>
-                <a href="index.html" style="color: #38bdf8; text-decoration: none; font-size: 14px; font-weight: bold;">← عرض المتجر الرئيسي</a>
+                <a href="index.html" style="color: #ff7700; text-decoration: none; font-size: 14px; font-weight: bold;">← عرض المتجر الرئيسي</a>
             </div>
         </div>
     </header>
 
     <div class="admin-container">
-        <h2 style="text-align: center; color: #ef4444; margin-bottom: 10px;">إضافة منتج جديد</h2>
-        <p style="text-align: center; color: #cbd5e1; font-size: 13px; margin-bottom: 20px;">إضافة منتج وتحديد القسم والمخزون</p>
+        <h2 style="text-align: center; color: #ff7700; margin-bottom: 10px;">إضافة منتج جديد</h2>
+        <p style="text-align: center; color: #cbd5e1; font-size: 13px; margin-bottom: 20px;">إضافة منتج وتحديد القسم والشارات والمخزون</p>
         
         <form id="add-product-form">
             <div class="form-group">
@@ -53,12 +53,21 @@
                     <option value="laptops">💻 حواسب وملحقاتها (لابتوبات، حقائب، شواحن)</option>
                     <option value="gaming">🎮 عالم الكيمنج (جوستكات، بليات، ستاندات، شواحن)</option>
                     <option value="mobile-acc">📱 اكسسوارات الهاتف (كيبلات، شواحن، OTG، سماعات)</option>
-
                     <option value="mouses-keyboards">🖱️ ماوسات وكيبوردات</option>
                     <option value="printers">🖨️ طابعات ومستلزماتها (طابعات، أحبار، كيبلات)</option>
                     <option value="networks">🌐 شبكات وتوصيلات (LAN، محولات)</option>
                     <option value="disks">💿 أقراص ووسائط تخزين</option>
                     <option value="general">📦 عام / أخرى</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>شارة شريط المنتج (اختياري):</label>
+                <select id="p-badge">
+                    <option value="">بدون شارة</option>
+                    <option value="🔥 الأكثر مبيعاً">🔥 الأكثر مبيعاً</option>
+                    <option value="✨ وصل حديثاً">✨ وصل حديثاً</option>
+                    <option value="💥 خصم خاص">💥 خصم خاص</option>
                 </select>
             </div>
             
@@ -133,6 +142,7 @@
             try {
                 const title = document.getElementById('p-title').value;
                 const category = document.getElementById('p-category').value;
+                const badge = document.getElementById('p-badge').value;
                 const price = Number(document.getElementById('p-price').value);
                 const stock = Number(document.getElementById('p-stock').value) || 1;
                 const specs = document.getElementById('p-specs').value;
@@ -147,6 +157,7 @@
                 await db.collection('products').add({
                     title: title,
                     category: category,
+                    badge: badge,
                     price: price,
                     stock: stock,
                     specs: specs,
@@ -155,7 +166,7 @@
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
 
-                alert('تم إضافة المنتج في القسم المختار بنجاح!');
+                alert('تم إضافة المنتج بنجاح!');
                 form.reset();
             } catch (err) {
                 alert('حدث خطأ: ' + err.message);
@@ -179,27 +190,13 @@
                 div.innerHTML = `
                     <div>
                         <strong style="color: #fff;">${p.title || p.name}</strong>
-                        <div style="font-size: 13px; color: #aaa;">السعر: ${p.price?.toLocaleString()} د.ع | القسم: <span style="color: #38bdf8;">${getCategoryName(p.category)}</span> | المخزون: <span style="color: #ef4444;">${p.stock ?? 10}</span></div>
+                        <div style="font-size: 13px; color: #aaa;">السعر: ${p.price?.toLocaleString()} د.ع | المخزون: ${p.stock ?? 10}</div>
                     </div>
                     <button class="btn-delete" onclick="deleteProduct('${doc.id}')">حذف</button>
                 `;
                 listContainer.appendChild(div);
             });
         });
-
-        function getCategoryName(catKey) {
-            const map = {
-                'laptops': '💻 حواسب وملحقاتها',
-                'gaming': '🎮 عالم الكيمنج',
-                'mobile-acc': '📱 اكسسوارات الهاتف',
-                'mouses-keyboards': '🖱️ ماوسات وكيبوردات',
-                'printers': '🖨️ طابعات ومستلزماتها',
-                'networks': '🌐 شبكات وتوصيلات',
-                'disks': '💿 أقراص وتخزين',
-                'general': '📦 عام / أخرى'
-            };
-            return map[catKey] || 'عام';
-        }
 
         async function deleteProduct(id) {
             if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
