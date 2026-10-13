@@ -76,18 +76,10 @@
 
         <!-- قسم عرض البنرات الإعلانية والمنتجات -->
         <main>
-            <!-- سلايدر العروض والماركات (ثابت وغير مزعج) -->
-            <div class="promo-slider-container">
-                <div class="promo-slide active">
-                    <img src="logo.jpg" alt="العروض المميزة">
-                </div>
-                <div class="promo-slide">
-                    <img src="logo.jpg" alt="ماركات الكيمنج">
-                </div>
-                <div class="slider-dots">
-                    <span class="dot active" onclick="setSlide(0)"></span>
-                    <span class="dot" onclick="setSlide(1)"></span>
-                </div>
+            <!-- سلايدر العروض والماركات (ديناميكي كلياً بناءً على ما ترفعه من admin.html) -->
+            <div class="promo-slider-container" id="promo-slider-box" style="display: none;">
+                <div id="slides-wrapper"></div>
+                <div class="slider-dots" id="dots-wrapper"></div>
             </div>
 
             <div class="products-header-bar">
@@ -173,24 +165,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <script>
-        // التحكم بالسلايدر الإعلاني
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.promo-slide');
-        const dots = document.querySelectorAll('.dot');
-
-        function setSlide(index) {
-            slides.forEach(s => s.classList.remove('active'));
-            dots.forEach(d => d.classList.remove('active'));
-            currentSlide = index;
-            slides[currentSlide].classList.add('active');
-            dots[currentSlide].classList.add('active');
-        }
-
-        setInterval(() => {
-            currentSlide = (currentSlide + 1) % slides.length;
-            setSlide(currentSlide);
-        }, 4000); // يتغير البنر تلقائياً كل 4 ثواني
-
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -224,6 +198,67 @@
 
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
+
+        // تحميل البنرات الإعلانية المرفوعة ديناميكياً فقط
+        let currentSlide = 0;
+        let slideTimer = null;
+
+        db.collection('banners').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
+            const sliderBox = document.getElementById('promo-slider-box');
+            const slidesWrapper = document.getElementById('slides-wrapper');
+            const dotsWrapper = document.getElementById('dots-wrapper');
+
+            slidesWrapper.innerHTML = '';
+            dotsWrapper.innerHTML = '';
+
+            if (snapshot.empty) {
+                sliderBox.style.display = 'none';
+                return;
+            }
+
+            sliderBox.style.display = 'block';
+            let index = 0;
+
+            snapshot.forEach(doc => {
+                const b = doc.data();
+                const slideDiv = document.createElement('div');
+                slideDiv.className = `promo-slide ${index === 0 ? 'active' : ''}`;
+                slideDiv.innerHTML = `<img src="${b.imageUrl}" alt="إعلان Tech Town">`;
+                slidesWrapper.appendChild(slideDiv);
+
+                const dotSpan = document.createElement('span');
+                dotSpan.className = `dot ${index === 0 ? 'active' : ''}`;
+                const currentIndex = index;
+                dotSpan.onclick = () => setSlide(currentIndex);
+                dotsWrapper.appendChild(dotSpan);
+
+                index++;
+            });
+
+            if (slideTimer) clearInterval(slideTimer);
+            if (index > 1) {
+                slideTimer = setInterval(() => {
+                    const allSlides = document.querySelectorAll('.promo-slide');
+                    if (allSlides.length > 0) {
+                        currentSlide = (currentSlide + 1) % allSlides.length;
+                        setSlide(currentSlide);
+                    }
+                }, 4000);
+            }
+        });
+
+        function setSlide(index) {
+            const slides = document.querySelectorAll('.promo-slide');
+            const dots = document.querySelectorAll('.dot');
+            if (slides.length === 0) return;
+
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+
+            currentSlide = index;
+            if (slides[currentSlide]) slides[currentSlide].classList.add('active');
+            if (dots[currentSlide]) dots[currentSlide].classList.add('active');
+        }
 
         const productsGrid = document.getElementById('main-products-grid');
         let allProductsData = {};
