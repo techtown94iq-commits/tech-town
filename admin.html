@@ -6,15 +6,16 @@
     <title>لوحة تحكم Tech Town</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        .admin-container { max-width: 600px; margin: 40px auto; background: #1e293b; padding: 25px; border-radius: 12px; border: 1px solid #334155; }
+        .admin-container { max-width: 650px; margin: 30px auto; background: #1e293b; padding: 25px; border-radius: 12px; border: 1px solid #334155; }
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 6px; font-weight: bold; color: #f8fafc; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: #fff; font-size: 14px; box-sizing: border-box; }
         .btn-submit { background: #ff7700; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 10px; }
         .btn-submit:hover { background: #e66b00; }
-        .admin-products-list { max-width: 800px; margin: 40px auto; padding: 0 15px; }
-        .product-item { display: flex; justify-content: space-between; align-items: center; background: #1e293b; padding: 15px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #334155; }
+        .admin-section { max-width: 850px; margin: 30px auto; padding: 0 15px; }
+        .item-card { display: flex; justify-content: space-between; align-items: center; background: #1e293b; padding: 15px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #334155; }
         .btn-delete { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+        .banner-preview { width: 120px; height: 60px; object-fit: cover; border-radius: 6px; border: 1px solid #ff7700; }
     </style>
 </head>
 <body>
@@ -37,8 +38,23 @@
         </div>
     </header>
 
+    <!-- قسم رفع البنرات الإعلانية -->
+    <div class="admin-container" style="border-top: 4px solid #ff7700;">
+        <h2 style="text-align: center; color: #ff7700; margin-bottom: 10px;">🖼️ إضافة بنر إعلاني / ماركة</h2>
+        <p style="text-align: center; color: #cbd5e1; font-size: 13px; margin-bottom: 20px;">رفع صور العروض والماركات لظهر في السلايدر العلوي</p>
+
+        <form id="add-banner-form">
+            <div class="form-group">
+                <label>صورة البنر الإعلاني:</label>
+                <input type="file" id="b-image" accept="image/*" required>
+            </div>
+            <button type="submit" class="btn-submit" id="banner-submit-btn">نشر البنر الإعلاني</button>
+        </form>
+    </div>
+
+    <!-- قسم إدراج المنتجات -->
     <div class="admin-container">
-        <h2 style="text-align: center; color: #ff7700; margin-bottom: 10px;">إضافة منتج جديد</h2>
+        <h2 style="text-align: center; color: #ff7700; margin-bottom: 10px;">📦 إضافة منتج جديد</h2>
         <p style="text-align: center; color: #cbd5e1; font-size: 13px; margin-bottom: 20px;">إضافة منتج وتحديد القسم والشارات والمخزون</p>
         
         <form id="add-product-form">
@@ -50,12 +66,12 @@
             <div class="form-group">
                 <label>قسم المنتج (التصنيف):</label>
                 <select id="p-category" required>
-                    <option value="laptops">💻 حواسب وملحقاتها (لابتوبات، حقائب، شواحن)</option>
-                    <option value="gaming">🎮 عالم الكيمنج (جوستكات، بليات، ستاندات، شواحن)</option>
-                    <option value="mobile-acc">📱 اكسسوارات الهاتف (كيبلات، شواحن، OTG، سماعات)</option>
+                    <option value="laptops">💻 حواسب وملحقاتها</option>
+                    <option value="gaming">🎮 عالم الكيمنج</option>
+                    <option value="mobile-acc">📱 اكسسوارات الهاتف</option>
                     <option value="mouses-keyboards">🖱️ ماوسات وكيبوردات</option>
-                    <option value="printers">🖨️ طابعات ومستلزماتها (طابعات، أحبار، كيبلات)</option>
-                    <option value="networks">🌐 شبكات وتوصيلات (LAN، محولات)</option>
+                    <option value="printers">🖨️ طابعات ومستلزماتها</option>
+                    <option value="networks">🌐 شبكات وتوصيلات</option>
                     <option value="disks">💿 أقراص ووسائط تخزين</option>
                     <option value="general">📦 عام / أخرى</option>
                 </select>
@@ -96,8 +112,17 @@
         </form>
     </div>
 
-    <div class="admin-products-list">
-        <h3 style="color: #fff; margin-bottom: 15px;">إدارة المنتجات الحالية</h3>
+    <!-- قائمة البنرات الحالية -->
+    <div class="admin-section">
+        <h3 style="color: #fff; margin-bottom: 15px;">🖼️ البنرات الإعلانية الحالية</h3>
+        <div id="banners-list-container">
+            <p style="color: #aaa;">جاري تحميل البنرات...</p>
+        </div>
+    </div>
+
+    <!-- قائمة المنتجات الحالية -->
+    <div class="admin-section">
+        <h3 style="color: #fff; margin-bottom: 15px;">📦 إدارة المنتجات الحالية</h3>
         <div id="products-list-container">
             <p style="color: #aaa;">جاري تحميل المنتجات...</p>
         </div>
@@ -121,10 +146,6 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        const form = document.getElementById('add-product-form');
-        const submitBtn = document.getElementById('submit-btn');
-        const listContainer = document.getElementById('products-list-container');
-
         function fileToBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -133,6 +154,40 @@
                 reader.onerror = error => reject(error);
             });
         }
+
+        // إضافة بنر إعلاني جديد
+        const bannerForm = document.getElementById('add-banner-form');
+        const bannerSubmitBtn = document.getElementById('banner-submit-btn');
+
+        bannerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            bannerSubmitBtn.disabled = true;
+            bannerSubmitBtn.innerText = 'جاري رفع البنر...';
+
+            try {
+                const file = document.getElementById('b-image').files[0];
+                if (!file) return alert('يرجى اختيار صورة البنر');
+
+                const base64Image = await fileToBase64(file);
+
+                await db.collection('banners').add({
+                    imageUrl: base64Image,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                alert('تم نشر البنر الإعلاني بنجاح!');
+                bannerForm.reset();
+            } catch (err) {
+                alert('حدث خطأ: ' + err.message);
+            } finally {
+                bannerSubmitBtn.disabled = false;
+                bannerSubmitBtn.innerText = 'نشر البنر الإعلاني';
+            }
+        });
+
+        // إدراج منتج جديد
+        const form = document.getElementById('add-product-form');
+        const submitBtn = document.getElementById('submit-btn');
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -176,17 +231,49 @@
             }
         });
 
-        db.collection('products').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
-            listContainer.innerHTML = '';
+        // عرض وإدارة البنرات الحالية
+        const bannersListContainer = document.getElementById('banners-list-container');
+        db.collection('banners').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
+            bannersListContainer.innerHTML = '';
             if (snapshot.empty) {
-                listContainer.innerHTML = '<p style="color: #aaa;">لا توجد منتجات مضافة.</p>';
+                bannersListContainer.innerHTML = '<p style="color: #aaa;">لا توجد بنرات إعلانية مرفوعة حالياً.</p>';
+                return;
+            }
+
+            snapshot.forEach(doc => {
+                const b = doc.data();
+                const div = document.createElement('div');
+                div.className = 'item-card';
+                div.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <img src="${b.imageUrl}" class="banner-preview">
+                        <span style="color: #fff; font-weight: bold;">بنر إعلاني</span>
+                    </div>
+                    <button class="btn-delete" onclick="deleteBanner('${doc.id}')">حذف البنر</button>
+                `;
+                bannersListContainer.appendChild(div);
+            });
+        });
+
+        async function deleteBanner(id) {
+            if (confirm('هل أنت متأكد من حذف هذا البنر؟')) {
+                await db.collection('banners').doc(id).delete();
+            }
+        }
+
+        // عرض وإدارة المنتجات الحالية
+        const productsListContainer = document.getElementById('products-list-container');
+        db.collection('products').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
+            productsListContainer.innerHTML = '';
+            if (snapshot.empty) {
+                productsListContainer.innerHTML = '<p style="color: #aaa;">لا توجد منتجات مضافة.</p>';
                 return;
             }
 
             snapshot.forEach(doc => {
                 const p = doc.data();
                 const div = document.createElement('div');
-                div.className = 'product-item';
+                div.className = 'item-card';
                 div.innerHTML = `
                     <div>
                         <strong style="color: #fff;">${p.title || p.name}</strong>
@@ -194,7 +281,7 @@
                     </div>
                     <button class="btn-delete" onclick="deleteProduct('${doc.id}')">حذف</button>
                 `;
-                listContainer.appendChild(div);
+                productsListContainer.appendChild(div);
             });
         });
 
