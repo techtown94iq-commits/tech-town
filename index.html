@@ -9,7 +9,6 @@
     <link rel="icon" type="image/jpeg" href="logo.jpg">
     <link rel="apple-touch-icon" href="logo.jpg">
     
-    <!-- معلومات المشاركة عبر التواصل الاجتماعي (Open Graph) -->
     <meta property="og:title" content="Tech Town - مركز تيك تاون">
     <meta property="og:description" content="حاسبات - كيمنك - موبايلات - تقنيات | تصفح أحدث العروض والمنتجات">
     <meta property="og:image" content="logo.jpg">
@@ -56,7 +55,7 @@
         </div>
     </section>
 
-    <!-- الحاويات الرئيسية: الأقسام العمودية أقصى اليمين + المنتجات -->
+    <!-- الحاويات الرئيسية: الأقسام العمودية أقصى اليمين + البنرات والمنتجات -->
     <div id="products" class="store-container">
         
         <!-- القائمة الجانبية العمودية للأقسام -->
@@ -75,8 +74,22 @@
             </div>
         </aside>
 
-        <!-- قسم عرض المنتجات وترتيبها -->
+        <!-- قسم عرض البنرات الإعلانية والمنتجات -->
         <main>
+            <!-- سلايدر العروض والماركات (ثابت وغير مزعج) -->
+            <div class="promo-slider-container">
+                <div class="promo-slide active">
+                    <img src="logo.jpg" alt="العروض المميزة">
+                </div>
+                <div class="promo-slide">
+                    <img src="logo.jpg" alt="ماركات الكيمنج">
+                </div>
+                <div class="slider-dots">
+                    <span class="dot active" onclick="setSlide(0)"></span>
+                    <span class="dot" onclick="setSlide(1)"></span>
+                </div>
+            </div>
+
             <div class="products-header-bar">
                 <h2 class="section-title">أحدث المنتجات والعروض</h2>
                 <select id="sort-select" class="sort-select" onchange="handleSort()">
@@ -130,14 +143,13 @@
         </div>
     </div>
 
-    <!-- تذييل الصفحة المطور مع رابط Lnk.Bio المباشر وسوشيال ميديا -->
+    <!-- تذييل الصفحة -->
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-brand">
                 <h3>TECH TOWN</h3>
                 <p>مركز تيك تاون - حاسبات، كيمنك، موبايلات، تقنيات</p>
                 <div class="social-links">
-                    <!-- رابط الحسابات الشامل Lnk.Bio -->
                     <a href="https://lnk.bio/techtownc" target="_blank" class="social-btn">🌐 روابطنا الرسمية</a>
                     <a href="https://instagram.com/TECHTOWNC" target="_blank" class="social-btn">📸 انستغرام</a>
                     <a href="https://wa.me/9647766888622" target="_blank" class="social-btn">💬 واتساب</a>
@@ -161,6 +173,24 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <script>
+        // التحكم بالسلايدر الإعلاني
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.promo-slide');
+        const dots = document.querySelectorAll('.dot');
+
+        function setSlide(index) {
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+            currentSlide = index;
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            setSlide(currentSlide);
+        }, 4000); // يتغير البنر تلقائياً كل 4 ثواني
+
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
