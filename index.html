@@ -98,7 +98,10 @@
 
     </div>
 
-    <!-- نافذة تفاصيل المنتج -->
+    <!-- زر الواتساب العائم للتواصل المباشر -->
+    <a href="https://wa.me/9647766888622" target="_blank" class="floating-whatsapp" title="تواصل معنا عبر واتساب">💬</a>
+
+    <!-- نافذة تفاصيل المعاينة السريعة للمنتج -->
     <div id="product-modal" class="modal-overlay">
         <div class="modal-box">
             <button class="modal-close" id="close-product-modal">&times;</button>
@@ -135,24 +138,43 @@
         </div>
     </div>
 
-    <!-- تذييل الصفحة -->
+    <!-- تذييل الصفحة مع خيارات وطرق الدفع والتوصيل -->
     <footer class="footer">
         <div class="footer-container">
-            <div class="footer-brand">
+            <div class="footer-brand" style="width: 100%;">
                 <h3>TECH TOWN</h3>
                 <p>مركز تيك تاون - حاسبات، كيمنك، موبايلات، تقنيات</p>
-                <div class="social-links">
+                
+                <!-- وسوم وطرق الدفع والخدمات الموثوقة -->
+                <div class="features-grid">
+                    <div class="feature-box">
+                        <span>💵</span>
+                        <h5>الدفع عند الاستلام</h5>
+                        <p>افحص طلبك وسلم المبلغ للمندوب</p>
+                    </div>
+                    <div class="feature-box">
+                        <span>📲</span>
+                        <h5>زين كاش (Zain Cash)</h5>
+                        <p>خيارات دفع إلكتروني متوفرة</p>
+                    </div>
+                    <div class="feature-box">
+                        <span>🚚</span>
+                        <h5>توصيل سريع</h5>
+                        <p>شحن لكافة المحافظات خلال 24-48 ساعة</p>
+                    </div>
+                    <div class="feature-box">
+                        <span>🛡️</span>
+                        <h5>ضمان حقيقي</h5>
+                        <p>ضمان استبدال وفحص لكافة الأجهزة</p>
+                    </div>
+                </div>
+
+                <div class="social-links" style="margin-top: 25px;">
                     <a href="https://lnk.bio/techtownc" target="_blank" class="social-btn">🌐 روابطنا الرسمية</a>
                     <a href="https://instagram.com/TECHTOWNC" target="_blank" class="social-btn">📸 انستغرام</a>
                     <a href="https://wa.me/9647766888622" target="_blank" class="social-btn">💬 واتساب</a>
                     <a href="https://maps.google.com/?q=5VRV%2B84+%D8%B3%D8%A7%D9%85%D8%B1%D8%A7%D8%A1" target="_blank" class="social-btn">📍 موقع المحل في سامراء</a>
                 </div>
-            </div>
-            <div class="footer-info">
-                <h4>تواصل معنا</h4>
-                <p>📞 07766888622 / 07885888622</p>
-                <p>📲 @TECHTOWNC</p>
-                <p>📍 سامراء - صلاح الدين</p>
             </div>
         </div>
         <div class="footer-bottom">
@@ -199,7 +221,7 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // تحميل البنرات الإعلانية المرفوعة ديناميكياً فقط
+        // تحميل البنرات الإعلانية المرفوعة ديناميكياً
         let currentSlide = 0;
         let slideTimer = null;
 
@@ -329,21 +351,32 @@
                 const productBadge = p.badge || "";
                 const productImage = p.imageUrl || (p.images && p.images[0]) || "";
 
+                // تحديد شارة المخزون
+                let stockStatusBadgeHtml = '';
+                if (productStock <= 0) {
+                    stockStatusBadgeHtml = `<div class="out-of-stock-badge">نفدت الكمية ❌</div>`;
+                } else if (productStock <= 3) {
+                    stockStatusBadgeHtml = `<div class="stock-warning-badge">باقي ${productStock} قطع ⚡</div>`;
+                }
+
                 const card = document.createElement('div');
                 card.className = 'product-card';
                 card.onclick = () => openProductModal(productId);
                 card.innerHTML = `
                     ${productBadge ? `<div class="product-badge">\${productBadge}</div>` : ''}
+                    ${stockStatusBadgeHtml}
                     <div class="product-img-box">
                         <img src="${productImage}" alt="${productTitle}" class="product-img">
                     </div>
                     <div class="product-info">
                         <h3>${productTitle}</h3>
                         <p class="specs">${productSpecs}</p>
-                        <div style="font-size: 12px; color: var(--brand-orange); margin-bottom: 8px;">الكمية المتوفرة: ${productStock} قطع</div>
+                        <div style="font-size: 12px; color: var(--brand-orange); margin-bottom: 8px;">الكمية المتوفرة: ${productStock > 0 ? productStock + ' قطع' : 'غير متوفر'}</div>
                         <div class="product-bottom">
                             <span class="price">${productPrice.toLocaleString()} د.ع</span>
-                            <button class="add-btn" onclick="event.stopPropagation(); openProductModal('${productId}')">عرض والتفاصيل</button>
+                            <button class="add-btn" ${productStock <= 0 ? 'disabled' : ''} onclick="event.stopPropagation(); openProductModal('${productId}')">
+                                ${productStock > 0 ? 'معاينة وشراء 🔍' : 'غير متوفر'}
+                            </button>
                         </div>
                     </div>
                 `;
@@ -383,16 +416,20 @@
                 <div class="gallery-thumbs">${thumbsHtml}</div>
                 <div class="modal-title">${title}</div>
                 <div class="modal-price">${price.toLocaleString()} د.ع</div>
-                <div class="modal-stock-badge">📦 المتوفر بالمخزون: ${stock} قطعة</div>
+                <div class="modal-stock-badge">📦 المتوفر بالمخزون: ${stock > 0 ? stock + ' قطعة' : 'غير متوفر حالياً'}</div>
                 
+                ${stock > 0 ? `
                 <div class="qty-selector-box">
                     <label>تحديد الكمية المطلوبة:</label>
                     <input type="number" id="selected-qty-input" class="qty-input" min="1" max="${stock}" value="1" onchange="validateQty(${stock})">
-                    <span style="font-size: 12px; color: #aaa;">(يمكنك إدخال حتى ${stock})</span>
+                    <span style="font-size: 12px; color: #aaa;">(يمكنك إدخال حتى \${stock})</span>
                 </div>
+                ` : ''}
 
                 <div class="modal-desc"><strong>المواصفات والتفاصيل:</strong><br>${desc}</div>
-                <button class="modal-buy-btn" onclick="confirmAddToCart('${title.replace(/'/g, "\\'")}', ${price}, ${stock})">إضافة إلى السلة بالكمية المختارة 🛒</button>
+                <button class="modal-buy-btn" ${stock <= 0 ? 'disabled' : ''} onclick="confirmAddToCart('${title.replace(/'/g, "\\'")}', ${price}, ${stock})">
+                    ${stock > 0 ? 'إضافة إلى السلة بالكمية المختارة 🛒' : 'المنتج غير متوفر حالياً'}
+                </button>
             `;
 
             productModal.style.display = 'flex';
@@ -410,6 +447,7 @@
         }
 
         window.confirmAddToCart = function(title, price, maxStock) {
+            if (maxStock <= 0) return;
             const qtyInput = document.getElementById('selected-qty-input');
             let chosenQty = parseInt(qtyInput.value) || 1;
             if (chosenQty > maxStock) chosenQty = maxStock;
