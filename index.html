@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tech Town - مركز تيك تاون</title>
     
-    <!-- أيقونة المتصفح (Favicon) -->
     <link rel="icon" type="image/jpeg" href="logo.jpg">
     <link rel="apple-touch-icon" href="logo.jpg">
     
@@ -21,22 +20,12 @@
 </head>
 <body>
 
-    <!-- شريط الإعلانات الثابت العلوي -->
+    <!-- شريط الإعلانات العلوي -->
     <div class="announcement-bar">
         ⚡ توصيل سريع لجميع المحافظات &nbsp;|&nbsp; ضمان حقيقي على كافة الأجهزة والأكسسوارات الإلكترونية 🎮
     </div>
 
-    <!-- شريط المتحرك الإضافي لملء الفراغ بحركات فخمة -->
-    <div class="top-ticker-bar">
-        <div class="ticker-content">
-            <span>🔥 <b>عروض الكيمنج:</b> أحدث كارتات الشاشة واللابتوبات متوفرة الآن</span>
-            <span>💎 <b>ضمان أصلي 100%:</b> منتجات وكالات عالمية معتمدة</span>
-            <span>🚀 <b>خدمة التوصيل:</b> توصيل آمن وسريع لكافة أقضية ومحافظات العراق</span>
-            <span>⚡ <b>مركز تيك تاون:</b> وجهتك الأولى للاحتراف التقني في سامراء</span>
-        </div>
-    </div>
-
-    <!-- الشريط العلوي -->
+    <!-- الشريط العلوي الفخم -->
     <header class="navbar">
         <div class="nav-container">
             <div class="brand">
@@ -56,7 +45,7 @@
         </div>
     </header>
 
-    <!-- الواجهة الرئيسية مع شريط البحث الفوري والأوسمة المتحركة -->
+    <!-- الواجهة الرئيسية مع شريط البحث -->
     <section class="hero">
         <div class="hero-content">
             <h1>حاسبات - كيمنك - موبايلات - تقنيات</h1>
@@ -66,21 +55,13 @@
                 <input type="text" id="store-search-input" class="search-input" placeholder="ابحث عن اسم المنتج، لابتوب، ماوس، جوستك..." oninput="handleSearch()">
                 <span class="search-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
             </div>
-
-            <!-- أوسمة سريعة تفاعلية تملأ المساحة وتسهل التنقل -->
-            <div class="quick-action-tags">
-                <span class="tag-badge" onclick="quickFilter('gaming')">🎮 عالم الكيمنج</span>
-                <span class="tag-badge" onclick="quickFilter('laptops')">💻 حواسب وملحقاتها</span>
-                <span class="tag-badge" onclick="quickFilter('mouses-keyboards')">🖱️ ماوسات وكيبوردات</span>
-                <span class="tag-badge" onclick="quickFilter('mobile-acc')">📱 اكسسوارات الهاتف</span>
-            </div>
         </div>
     </section>
 
-    <!-- الحاويات الرئيسية: الأقسام العمودية أقصى اليمين + البنرات والمنتجات -->
+    <!-- الحاويات الرئيسية: الأقسام العمودية + المنتجات -->
     <div id="products" class="store-container">
         
-        <!-- القائمة الجانبية العمودية للأقسام -->
+        <!-- القائمة الجانبية للأقسام -->
         <aside class="categories-sidebar">
             <h3>أقسام المتجر</h3>
             <div class="categories-scroll-box">
@@ -96,19 +77,8 @@
             </div>
         </aside>
 
-        <!-- قسم عرض البنرات الإعلانية والمنتجات -->
+        <!-- قسم عرض المنتجات -->
         <main>
-            <!-- شريط العداد التنازلي الحماسي -->
-            <div class="countdown-banner">
-                <div class="countdown-title">🔥 عروض الخصومات اليومية تنتهي خلال:</div>
-                <div class="timer-box">
-                    <span class="timer-unit" id="timer-hours">08</span> :
-                    <span class="timer-unit" id="timer-minutes">42</span> :
-                    <span class="timer-unit" id="timer-seconds">15</span>
-                </div>
-            </div>
-
-            <!-- سلايدر العروض والماركات (ديناميكي كلياً) -->
             <div class="promo-slider-container" id="promo-slider-box" style="display: none;">
                 <div id="slides-wrapper"></div>
                 <div class="slider-dots" id="dots-wrapper"></div>
@@ -135,10 +105,10 @@
 
     </div>
 
-    <!-- زر الواتساب العائم للتواصل المباشر -->
+    <!-- زر الواتساب العائم -->
     <a href="https://wa.me/9647766888622" target="_blank" class="floating-whatsapp" title="تواصل معنا عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-4.2A8 8 0 1 1 8.4 18.8z"/><path d="M9.2 9c.3 2.6 2.4 4.7 5 5l1-1.2-1.8-1-.8.6c-.8-.3-1.5-1-1.8-1.8l.6-.8-1-1.8z"/></svg></a>
 
-    <!-- نافذة تفاصيل المعاينة الفخمة المتكاملة للمنتج -->
+    <!-- نافذة تفاصيل المنتج (صفحة كاملة وفخمة) -->
     <div id="product-modal" class="modal-overlay">
         <div class="modal-box">
             <button class="modal-close" id="close-product-modal">&times;</button>
@@ -146,7 +116,7 @@
         </div>
     </div>
 
-    <!-- نافذة سلة التسوق مع معلومات التوصيل ورقم الطلب -->
+    <!-- نافذة سلة التسوق -->
     <div id="cart-modal" class="cart-modal" style="display: none;">
         <div class="cart-content">
             <div class="cart-header">
@@ -175,7 +145,7 @@
         </div>
     </div>
 
-    <!-- تذييل الصفحة مع خيارات وطرق الدفع والتوصيل -->
+    <!-- التذييل -->
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-brand" style="width: 100%;">
@@ -223,18 +193,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <script>
-        let hours = 8, minutes = 42, seconds = 15;
-        setInterval(() => {
-            seconds--;
-            if (seconds < 0) { seconds = 59; minutes--; }
-            if (minutes < 0) { minutes = 59; hours--; }
-            if (hours < 0) { hours = 23; minutes = 59; seconds = 59; }
-
-            document.getElementById('timer-hours').innerText = hours.toString().padStart(2, '0');
-            document.getElementById('timer-minutes').innerText = minutes.toString().padStart(2, '0');
-            document.getElementById('timer-seconds').innerText = seconds.toString().padStart(2, '0');
-        }, 1000);
-
         function setViewMode(mode) {
             const gridEl = document.getElementById('main-products-grid');
             const gridBtn = document.getElementById('grid-view-btn');
@@ -249,12 +207,6 @@
                 gridBtn.classList.add('active');
                 listBtn.classList.remove('active');
             }
-        }
-
-        function quickFilter(catKey) {
-            const targetBtn = document.querySelector(`.cat-btn[data-cat="${catKey}"]`);
-            filterCategory(catKey, targetBtn);
-            document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
         }
 
         function toggleTheme() {
@@ -481,7 +433,6 @@
 
             modalContent.innerHTML = `
                 <div class="modal-grid-layout">
-                    <!-- عمود الصور والمعارض -->
                     <div class="modal-img-column">
                         <div class="img-zoom-container">
                             <img id="main-gallery-display" src="${images[0]}" class="gallery-main-img" alt="${title}">
@@ -489,7 +440,6 @@
                         ${images.length > 1 ? `<div class="gallery-thumbs">${thumbsHtml}</div>` : ''}
                     </div>
 
-                    <!-- عمود المعلومات والتفاصيل والشراء -->
                     <div class="modal-info-column">
                         <div class="modal-title">${title}</div>
                         <div class="modal-price">${price.toLocaleString()} د.ع</div>
