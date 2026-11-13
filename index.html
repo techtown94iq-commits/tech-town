@@ -108,7 +108,7 @@
                 </div>
             </div>
 
-            <!-- سلايدر العروض والماركات (ديناميكي كلياً بناءً على ما ترفعه من admin.html) -->
+            <!-- سلايدر العروض والماركات (ديناميكي كلياً) -->
             <div class="promo-slider-container" id="promo-slider-box" style="display: none;">
                 <div id="slides-wrapper"></div>
                 <div class="slider-dots" id="dots-wrapper"></div>
@@ -138,7 +138,7 @@
     <!-- زر الواتساب العائم للتواصل المباشر -->
     <a href="https://wa.me/9647766888622" target="_blank" class="floating-whatsapp" title="تواصل معنا عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-4.2A8 8 0 1 1 8.4 18.8z"/><path d="M9.2 9c.3 2.6 2.4 4.7 5 5l1-1.2-1.8-1-.8.6c-.8-.3-1.5-1-1.8-1.8l.6-.8-1-1.8z"/></svg></a>
 
-    <!-- نافذة تفاصيل المعاينة السريعة للمنتج -->
+    <!-- نافذة تفاصيل المعاينة الفخمة المتكاملة للمنتج -->
     <div id="product-modal" class="modal-overlay">
         <div class="modal-box">
             <button class="modal-close" id="close-product-modal">&times;</button>
@@ -182,7 +182,6 @@
                 <h3>TECH TOWN</h3>
                 <p>مركز تيك تاون - حاسبات، كيمنك، موبايلات، تقنيات</p>
                 
-                <!-- وسوم وطرق الدفع والخدمات الموثوقة -->
                 <div class="features-grid">
                     <div class="feature-box">
                         <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 9.5v.01M18 14.5v.01"/></svg></span>
@@ -224,7 +223,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <script>
-        // تشغيل العداد التنازلي للعروض
         let hours = 8, minutes = 42, seconds = 15;
         setInterval(() => {
             seconds--;
@@ -237,7 +235,6 @@
             document.getElementById('timer-seconds').innerText = seconds.toString().padStart(2, '0');
         }, 1000);
 
-        // تبديل طريقة العرض (شبكة / قائمة)
         function setViewMode(mode) {
             const gridEl = document.getElementById('main-products-grid');
             const gridBtn = document.getElementById('grid-view-btn');
@@ -254,7 +251,6 @@
             }
         }
 
-        // الفلترة السريعة من الأوسمة تحت البحث
         function quickFilter(catKey) {
             const targetBtn = document.querySelector(`.cat-btn[data-cat="${catKey}"]`);
             filterCategory(catKey, targetBtn);
@@ -295,7 +291,6 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // تحميل البنرات الإعلانية المرفوعة ديناميكياً
         let currentSlide = 0;
         let slideTimer = null;
 
@@ -476,7 +471,7 @@
             const title = p.title || p.name || "بدون اسم";
             const price = p.price || 0;
             const stock = p.stock ?? 10;
-            const desc = p.specs || p.description || "لا يوجد وصف تفصيلي.";
+            const desc = p.specs || p.description || "لا يوجد وصف تفصيلي متوفر لهذا المنتج حالياً.";
             const images = p.images && p.images.length > 0 ? p.images : [p.imageUrl];
 
             let thumbsHtml = '';
@@ -485,24 +480,40 @@
             });
 
             modalContent.innerHTML = `
-                <img id="main-gallery-display" src="${images[0]}" class="gallery-main-img" alt="${title}">
-                <div class="gallery-thumbs">${thumbsHtml}</div>
-                <div class="modal-title">${title}</div>
-                <div class="modal-price">${price.toLocaleString()} د.ع</div>
-                <div class="modal-stock-badge">المتوفر بالمخزون: ${stock > 0 ? stock + ' قطعة' : 'غير متوفر حالياً'}</div>
-                
-                ${stock > 0 ? `
-                <div class="qty-selector-box">
-                    <label>تحديد الكمية المطلوبة:</label>
-                    <input type="number" id="selected-qty-input" class="qty-input" min="1" max="${stock}" value="1" onchange="validateQty(${stock})">
-                    <span style="font-size: 12px; color: #aaa;">(يمكنك إدخال حتى ${stock})</span>
-                </div>
-                ` : ''}
+                <div class="modal-grid-layout">
+                    <!-- عمود الصور والمعارض -->
+                    <div class="modal-img-column">
+                        <div class="img-zoom-container">
+                            <img id="main-gallery-display" src="${images[0]}" class="gallery-main-img" alt="${title}">
+                        </div>
+                        ${images.length > 1 ? `<div class="gallery-thumbs">${thumbsHtml}</div>` : ''}
+                    </div>
 
-                <div class="modal-desc"><strong>المواصفات والتفاصيل:</strong><br>${desc}</div>
-                <button class="modal-buy-btn" ${stock <= 0 ? 'disabled' : ''} onclick="confirmAddToCart('${title.replace(/'/g, "\\'")}', ${price}, ${stock})">
-                    ${stock > 0 ? 'إضافة إلى السلة' : 'المنتج غير متوفر حالياً'}
-                </button>
+                    <!-- عمود المعلومات والتفاصيل والشراء -->
+                    <div class="modal-info-column">
+                        <div class="modal-title">${title}</div>
+                        <div class="modal-price">${price.toLocaleString()} د.ع</div>
+                        <div class="modal-stock-badge">
+                            <span>📦</span> المتوفر بالمخزون: ${stock > 0 ? stock + ' قطعة' : 'نفدت الكمية'}
+                        </div>
+                        
+                        ${stock > 0 ? `
+                        <div class="qty-selector-box">
+                            <label>حدد الكمية المطلوبة:</label>
+                            <input type="number" id="selected-qty-input" class="qty-input" min="1" max="${stock}" value="1" onchange="validateQty(${stock})">
+                        </div>
+                        ` : ''}
+
+                        <div class="modal-desc-box">
+                            <div class="modal-desc-title">⚙️ المواصفات والتفاصيل التقنية</div>
+                            <div class="modal-desc">${desc}</div>
+                        </div>
+
+                        <button class="modal-buy-btn" ${stock <= 0 ? 'disabled' : ''} onclick="confirmAddToCart('${title.replace(/'/g, "\\'")}', ${price}, ${stock})">
+                            🛒 ${stock > 0 ? 'إضافة إلى السلة بالكمية المطلوبة' : 'المنتج غير متوفر حالياً'}
+                        </button>
+                    </div>
+                </div>
             `;
 
             productModal.style.display = 'flex';
