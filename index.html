@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tech Town - مركز تيك تاون</title>
     
+    <!-- أيقونة المتصفح (Favicon) -->
     <link rel="icon" type="image/jpeg" href="logo.jpg">
     <link rel="apple-touch-icon" href="logo.jpg">
     
@@ -12,13 +13,17 @@
     <meta property="og:description" content="حاسبات - كيمنك - موبايلات - تقنيات | تصفح أحدث العروض والمنتجات">
     <meta property="og:image" content="logo.jpg">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="premium.css">
 </head>
 <body>
 
     <!-- شريط الإعلانات الثابت العلوي -->
     <div class="announcement-bar">
-        ⚡ توصيل سريع لجميع المحافظات 🚚 | ضمان حقيقي على كافة الأجهزة والأكسسوارات الإلكترونية 🎮
+        ⚡ توصيل سريع لجميع المحافظات &nbsp;|&nbsp; ضمان حقيقي على كافة الأجهزة والأكسسوارات الإلكترونية 🎮
     </div>
 
     <!-- شريط المتحرك الإضافي لملء الفراغ بحركات فخمة -->
@@ -31,12 +36,12 @@
         </div>
     </div>
 
-    <!-- الشريط العلوي الفاخر -->
+    <!-- الشريط العلوي -->
     <header class="navbar">
         <div class="nav-container">
             <div class="brand">
                 <div class="brand-logo-container">
-                    <img src="logo.jpg" alt="Tech Town Logo">
+                    <img src="logo.jpg" alt="Tech Town Logo" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
                 <div class="brand-name">
                     <span>TECH TOWN</span>
@@ -45,13 +50,13 @@
             </div>
             
             <div class="nav-actions">
-                <button class="theme-toggle-btn" id="theme-toggle-btn" onclick="toggleTheme()">🌙 الوضع الداكن</button>
-                <button class="cart-btn" id="open-cart-btn">🛒 السلة (<span id="cart-count">0</span>)</button>
+                <button class="theme-toggle-btn" id="theme-toggle-btn" onclick="toggleTheme()">الوضع الفاتح</button>
+                <button class="cart-btn" id="open-cart-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.4 11.2a1 1 0 0 0 1 .8h8.8a1 1 0 0 0 1-.8L20 8H6"/><circle cx="9.5" cy="20" r="1.2"/><circle cx="17" cy="20" r="1.2"/></svg> السلة (<span id="cart-count">0</span>)</button>
             </div>
         </div>
     </header>
 
-    <!-- الهيرو المزخرف الغني بالحركات -->
+    <!-- الواجهة الرئيسية مع شريط البحث الفوري والأوسمة المتحركة -->
     <section class="hero">
         <div class="hero-content">
             <h1>حاسبات - كيمنك - موبايلات - تقنيات</h1>
@@ -59,39 +64,39 @@
             
             <div class="search-container">
                 <input type="text" id="store-search-input" class="search-input" placeholder="ابحث عن اسم المنتج، لابتوب، ماوس، جوستك..." oninput="handleSearch()">
-                <span class="search-icon">🔍</span>
+                <span class="search-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
             </div>
 
             <!-- أوسمة سريعة تفاعلية تملأ المساحة وتسهل التنقل -->
             <div class="quick-action-tags">
-                <span class="tag-badge" onclick="filterCategory('gaming', document.querySelector('.cat-btn'))">🎮 حواسيب كيمنج</span>
-                <span class="tag-badge" onclick="filterCategory('laptops', document.querySelector('.cat-btn'))">💻 لابتوبات احترافية</span>
-                <span class="tag-badge" onclick="filterCategory('mouses-keyboards', document.querySelector('.cat-btn'))">🖱️ كيبورد وماوس RGB</span>
-                <span class="tag-badge" onclick="filterCategory('mobile-acc', document.querySelector('.cat-btn'))">📱 اكسسوارات موبايل</span>
+                <span class="tag-badge" onclick="quickFilter('gaming')">🎮 عالم الكيمنج</span>
+                <span class="tag-badge" onclick="quickFilter('laptops')">💻 حواسب وملحقاتها</span>
+                <span class="tag-badge" onclick="quickFilter('mouses-keyboards')">🖱️ ماوسات وكيبوردات</span>
+                <span class="tag-badge" onclick="quickFilter('mobile-acc')">📱 اكسسوارات الهاتف</span>
             </div>
         </div>
     </section>
 
-    <!-- الحاويات الرئيسية: الأقسام + المنتجات -->
+    <!-- الحاويات الرئيسية: الأقسام العمودية أقصى اليمين + البنرات والمنتجات -->
     <div id="products" class="store-container">
         
         <!-- القائمة الجانبية العمودية للأقسام -->
         <aside class="categories-sidebar">
             <h3>أقسام المتجر</h3>
             <div class="categories-scroll-box">
-                <button class="cat-btn active" onclick="filterCategory('all', this)">🔥 الكل</button>
-                <button class="cat-btn" onclick="filterCategory('laptops', this)">💻 حواسب وملحقاتها</button>
-                <button class="cat-btn" onclick="filterCategory('gaming', this)">🎮 عالم الكيمنج</button>
-                <button class="cat-btn" onclick="filterCategory('mobile-acc', this)">📱 اكسسوارات الهاتف</button>
-                <button class="cat-btn" onclick="filterCategory('mouses-keyboards', this)">🖱️ ماوسات وكيبوردات</button>
-                <button class="cat-btn" onclick="filterCategory('printers', this)">🖨️ طابعات ومستلزماتها</button>
-                <button class="cat-btn" onclick="filterCategory('networks', this)">🌐 شبكات وتوصيلات</button>
-                <button class="cat-btn" onclick="filterCategory('disks', this)">💿 أقراص وتخزين</button>
-                <button class="cat-btn" onclick="filterCategory('general', this)">📦 عام / أخرى</button>
+                <button class="cat-btn active" data-cat="all" onclick="filterCategory('all', this)">الكل</button>
+                <button class="cat-btn" data-cat="laptops" onclick="filterCategory('laptops', this)">حواسب وملحقاتها</button>
+                <button class="cat-btn" data-cat="gaming" onclick="filterCategory('gaming', this)">عالم الكيمنج</button>
+                <button class="cat-btn" data-cat="mobile-acc" onclick="filterCategory('mobile-acc', this)">اكسسوارات الهاتف</button>
+                <button class="cat-btn" data-cat="mouses-keyboards" onclick="filterCategory('mouses-keyboards', this)">ماوسات وكيبوردات</button>
+                <button class="cat-btn" data-cat="printers" onclick="filterCategory('printers', this)">طابعات ومستلزماتها</button>
+                <button class="cat-btn" data-cat="networks" onclick="filterCategory('networks', this)">شبكات وتوصيلات</button>
+                <button class="cat-btn" data-cat="disks" onclick="filterCategory('disks', this)">أقراص وتخزين</button>
+                <button class="cat-btn" data-cat="general" onclick="filterCategory('general', this)">عام / أخرى</button>
             </div>
         </aside>
 
-        <!-- قسم عرض البنرات والمنتجات -->
+        <!-- قسم عرض البنرات الإعلانية والمنتجات -->
         <main>
             <!-- شريط العداد التنازلي الحماسي -->
             <div class="countdown-banner">
@@ -103,7 +108,7 @@
                 </div>
             </div>
 
-            <!-- سلايدر العروض والماركات (ديناميكي) -->
+            <!-- سلايدر العروض والماركات (ديناميكي كلياً بناءً على ما ترفعه من admin.html) -->
             <div class="promo-slider-container" id="promo-slider-box" style="display: none;">
                 <div id="slides-wrapper"></div>
                 <div class="slider-dots" id="dots-wrapper"></div>
@@ -111,7 +116,6 @@
 
             <div class="products-header-bar">
                 <h2 class="section-title">أحدث المنتجات والعروض</h2>
-                
                 <div class="header-controls">
                     <button class="view-btn active" id="grid-view-btn" onclick="setViewMode('grid')" title="عرض شبكة">⣿</button>
                     <button class="view-btn" id="list-view-btn" onclick="setViewMode('list')" title="عرض قائمة">☰</button>
@@ -131,10 +135,10 @@
 
     </div>
 
-    <!-- زر الواتساب العائم -->
-    <a href="https://wa.me/9647766888622" target="_blank" class="floating-whatsapp" title="تواصل معنا عبر واتساب">💬</a>
+    <!-- زر الواتساب العائم للتواصل المباشر -->
+    <a href="https://wa.me/9647766888622" target="_blank" class="floating-whatsapp" title="تواصل معنا عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-4.2A8 8 0 1 1 8.4 18.8z"/><path d="M9.2 9c.3 2.6 2.4 4.7 5 5l1-1.2-1.8-1-.8.6c-.8-.3-1.5-1-1.8-1.8l.6-.8-1-1.8z"/></svg></a>
 
-    <!-- نافذة المعاينة السريعة للمنتج -->
+    <!-- نافذة تفاصيل المعاينة السريعة للمنتج -->
     <div id="product-modal" class="modal-overlay">
         <div class="modal-box">
             <button class="modal-close" id="close-product-modal">&times;</button>
@@ -142,7 +146,7 @@
         </div>
     </div>
 
-    <!-- نافذة سلة التسوق -->
+    <!-- نافذة سلة التسوق مع معلومات التوصيل ورقم الطلب -->
     <div id="cart-modal" class="cart-modal" style="display: none;">
         <div class="cart-content">
             <div class="cart-header">
@@ -166,46 +170,47 @@
                     <span>المجموع الكلي:</span>
                     <span id="cart-total">0 د.ع</span>
                 </div>
-                <button class="whatsapp-checkout-btn" onclick="sendOrderWhatsApp()">إرسال الطلب عبر واتساب 📱</button>
+                <button class="whatsapp-checkout-btn" onclick="sendOrderWhatsApp()">إرسال الطلب عبر واتساب</button>
             </div>
         </div>
     </div>
 
-    <!-- تذييل الصفحة الفاخر -->
+    <!-- تذييل الصفحة مع خيارات وطرق الدفع والتوصيل -->
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-brand" style="width: 100%;">
                 <h3>TECH TOWN</h3>
                 <p>مركز تيك تاون - حاسبات، كيمنك، موبايلات، تقنيات</p>
                 
+                <!-- وسوم وطرق الدفع والخدمات الموثوقة -->
                 <div class="features-grid">
                     <div class="feature-box">
-                        <span>💵</span>
+                        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 9.5v.01M18 14.5v.01"/></svg></span>
                         <h5>الدفع عند الاستلام</h5>
                         <p>افحص طلبك وسلم المبلغ للمندوب</p>
                     </div>
                     <div class="feature-box">
-                        <span>📲</span>
+                        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M11 18.5h2"/></svg></span>
                         <h5>زين كاش (Zain Cash)</h5>
                         <p>خيارات دفع إلكتروني متوفرة</p>
                     </div>
                     <div class="feature-box">
-                        <span>🚚</span>
+                        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.5h11v9h-11zM13.5 9.5h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg></span>
                         <h5>توصيل سريع</h5>
                         <p>شحن لكافة المحافظات خلال 24-48 ساعة</p>
                     </div>
                     <div class="feature-box">
-                        <span>🛡️</span>
+                        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v5.5c0 4.4 3 8 7.5 9.5 4.5-1.5 7.5-5.1 7.5-9.5V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></svg></span>
                         <h5>ضمان حقيقي</h5>
                         <p>ضمان استبدال وفحص لكافة الأجهزة</p>
                     </div>
                 </div>
 
                 <div class="social-links" style="margin-top: 25px;">
-                    <a href="https://lnk.bio/techtownc" target="_blank" class="social-btn">🌐 روابطنا الرسمية</a>
-                    <a href="https://instagram.com/TECHTOWNC" target="_blank" class="social-btn">📸 انستغرام</a>
-                    <a href="https://wa.me/9647766888622" target="_blank" class="social-btn">💬 واتساب</a>
-                    <a href="https://maps.google.com/?q=5VRV%2B84+%D8%B3%D8%A7%D9%85%D8%B1%D8%A7%D8%A1" target="_blank" class="social-btn">📍 موقع المحل في سامراء</a>
+                    <a href="https://lnk.bio/techtownc" target="_blank" class="social-btn">روابطنا الرسمية</a>
+                    <a href="https://instagram.com/TECHTOWNC" target="_blank" class="social-btn">انستغرام</a>
+                    <a href="https://wa.me/9647766888622" target="_blank" class="social-btn">واتساب</a>
+                    <a href="https://maps.google.com/?q=5VRV%2B84+%D8%B3%D8%A7%D9%85%D8%B1%D8%A7%D8%A1" target="_blank" class="social-btn">موقع المحل في سامراء</a>
                 </div>
             </div>
         </div>
@@ -219,6 +224,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <script>
+        // تشغيل العداد التنازلي للعروض
         let hours = 8, minutes = 42, seconds = 15;
         setInterval(() => {
             seconds--;
@@ -231,6 +237,7 @@
             document.getElementById('timer-seconds').innerText = seconds.toString().padStart(2, '0');
         }, 1000);
 
+        // تبديل طريقة العرض (شبكة / قائمة)
         function setViewMode(mode) {
             const gridEl = document.getElementById('main-products-grid');
             const gridBtn = document.getElementById('grid-view-btn');
@@ -247,6 +254,13 @@
             }
         }
 
+        // الفلترة السريعة من الأوسمة تحت البحث
+        function quickFilter(catKey) {
+            const targetBtn = document.querySelector(`.cat-btn[data-cat="${catKey}"]`);
+            filterCategory(catKey, targetBtn);
+            document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+        }
+
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -258,13 +272,13 @@
         function updateThemeButtonText(theme) {
             const btn = document.getElementById('theme-toggle-btn');
             if (theme === 'dark') {
-                btn.innerHTML = '☀️ الوضع الفاتح';
+                btn.innerHTML = 'الوضع الفاتح';
             } else {
-                btn.innerHTML = '🌙 الوضع الداكن';
+                btn.innerHTML = 'الوضع الداكن';
             }
         }
 
-        const savedTheme = localStorage.getItem('theme') || 'light';
+        const savedTheme = localStorage.getItem('theme') || 'dark';
         document.documentElement.setAttribute('data-theme', savedTheme);
         updateThemeButtonText(savedTheme);
 
@@ -281,6 +295,7 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
+        // تحميل البنرات الإعلانية المرفوعة ديناميكياً
         let currentSlide = 0;
         let slideTimer = null;
 
@@ -412,16 +427,16 @@
 
                 let stockStatusBadgeHtml = '';
                 if (productStock <= 0) {
-                    stockStatusBadgeHtml = `<div class="out-of-stock-badge">نفدت الكمية ❌</div>`;
+                    stockStatusBadgeHtml = `<div class="out-of-stock-badge">نفدت الكمية</div>`;
                 } else if (productStock <= 3) {
-                    stockStatusBadgeHtml = `<div class="stock-warning-badge">باقي ${productStock} قطع ⚡</div>`;
+                    stockStatusBadgeHtml = `<div class="stock-warning-badge">باقي ${productStock} قطع</div>`;
                 }
 
                 const card = document.createElement('div');
                 card.className = 'product-card';
                 card.onclick = () => openProductModal(productId);
                 card.innerHTML = `
-                    ${productBadge ? `<div class="product-badge">${productBadge}</div>` : ''}
+                    ${productBadge ? `<div class="product-badge">${productBadge.replace(/^[^\p{L}\p{N}]+/u, '')}</div>` : ''}
                     ${stockStatusBadgeHtml}
                     <div class="product-img-box">
                         <img src="${productImage}" alt="${productTitle}" class="product-img">
@@ -433,7 +448,7 @@
                         <div class="product-bottom">
                             <span class="price">${productPrice.toLocaleString()} د.ع</span>
                             <button class="add-btn" ${productStock <= 0 ? 'disabled' : ''} onclick="event.stopPropagation(); openProductModal('${productId}')">
-                                ${productStock > 0 ? 'معاينة وشراء 🔍' : 'غير متوفر'}
+                                ${productStock > 0 ? 'التفاصيل والشراء' : 'غير متوفر'}
                             </button>
                         </div>
                     </div>
@@ -470,13 +485,11 @@
             });
 
             modalContent.innerHTML = `
-                <div class="img-zoom-container">
-                    <img id="main-gallery-display" src="${images[0]}" class="gallery-main-img" alt="${title}">
-                </div>
+                <img id="main-gallery-display" src="${images[0]}" class="gallery-main-img" alt="${title}">
                 <div class="gallery-thumbs">${thumbsHtml}</div>
                 <div class="modal-title">${title}</div>
                 <div class="modal-price">${price.toLocaleString()} د.ع</div>
-                <div class="modal-stock-badge">📦 المتوفر بالمخزون: ${stock > 0 ? stock + ' قطعة' : 'غير متوفر حالياً'}</div>
+                <div class="modal-stock-badge">المتوفر بالمخزون: ${stock > 0 ? stock + ' قطعة' : 'غير متوفر حالياً'}</div>
                 
                 ${stock > 0 ? `
                 <div class="qty-selector-box">
@@ -488,7 +501,7 @@
 
                 <div class="modal-desc"><strong>المواصفات والتفاصيل:</strong><br>${desc}</div>
                 <button class="modal-buy-btn" ${stock <= 0 ? 'disabled' : ''} onclick="confirmAddToCart('${title.replace(/'/g, "\\'")}', ${price}, ${stock})">
-                    ${stock > 0 ? 'إضافة إلى السلة بالكمية المختارة 🛒' : 'المنتج غير متوفر حالياً'}
+                    ${stock > 0 ? 'إضافة إلى السلة' : 'المنتج غير متوفر حالياً'}
                 </button>
             `;
 
