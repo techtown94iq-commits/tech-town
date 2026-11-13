@@ -21,9 +21,9 @@
 </head>
 <body>
 
-    <!-- شريط الإعلانات الثابت العلوي -->
+    <!-- شريط الإعلانات المتحرك العلوي -->
     <div class="announcement-bar">
-        ⚡ توصيل سريع لجميع المحافظات &nbsp;|&nbsp; ضمان حقيقي على كافة الأجهزة والأكسسوارات الإلكترونية 🎮
+        توصيل سريع لجميع المحافظات &nbsp;|&nbsp; ضمان حقيقي على كافة الأجهزة والأكسسوارات الإلكترونية
     </div>
 
     <!-- الشريط العلوي -->
@@ -40,7 +40,7 @@
             </div>
             
             <div class="nav-actions">
-                <button class="theme-toggle-btn" id="theme-toggle-btn" onclick="toggleTheme()">الوضع الفاتح</button>
+                <button class="theme-toggle-btn" id="theme-toggle-btn" onclick="toggleTheme()">الوضع الداكن</button>
                 <button class="cart-btn" id="open-cart-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.4 11.2a1 1 0 0 0 1 .8h8.8a1 1 0 0 0 1-.8L20 8H6"/><circle cx="9.5" cy="20" r="1.2"/><circle cx="17" cy="20" r="1.2"/></svg> السلة (<span id="cart-count">0</span>)</button>
             </div>
         </div>
@@ -66,15 +66,15 @@
         <aside class="categories-sidebar">
             <h3>أقسام المتجر</h3>
             <div class="categories-scroll-box">
-                <button class="cat-btn active" data-cat="all" onclick="filterCategory('all', this)">الكل</button>
-                <button class="cat-btn" data-cat="laptops" onclick="filterCategory('laptops', this)">حواسب وملحقاتها</button>
-                <button class="cat-btn" data-cat="gaming" onclick="filterCategory('gaming', this)">عالم الكيمنج</button>
-                <button class="cat-btn" data-cat="mobile-acc" onclick="filterCategory('mobile-acc', this)">اكسسوارات الهاتف</button>
-                <button class="cat-btn" data-cat="mouses-keyboards" onclick="filterCategory('mouses-keyboards', this)">ماوسات وكيبوردات</button>
-                <button class="cat-btn" data-cat="printers" onclick="filterCategory('printers', this)">طابعات ومستلزماتها</button>
-                <button class="cat-btn" data-cat="networks" onclick="filterCategory('networks', this)">شبكات وتوصيلات</button>
-                <button class="cat-btn" data-cat="disks" onclick="filterCategory('disks', this)">أقراص وتخزين</button>
-                <button class="cat-btn" data-cat="general" onclick="filterCategory('general', this)">عام / أخرى</button>
+                <button class="cat-btn active" onclick="filterCategory('all', this)">الكل</button>
+                <button class="cat-btn" onclick="filterCategory('laptops', this)">حواسب وملحقاتها</button>
+                <button class="cat-btn" onclick="filterCategory('gaming', this)">عالم الكيمنج</button>
+                <button class="cat-btn" onclick="filterCategory('mobile-acc', this)">اكسسوارات الهاتف</button>
+                <button class="cat-btn" onclick="filterCategory('mouses-keyboards', this)">ماوسات وكيبوردات</button>
+                <button class="cat-btn" onclick="filterCategory('printers', this)">طابعات ومستلزماتها</button>
+                <button class="cat-btn" onclick="filterCategory('networks', this)">شبكات وتوصيلات</button>
+                <button class="cat-btn" onclick="filterCategory('disks', this)">أقراص وتخزين</button>
+                <button class="cat-btn" onclick="filterCategory('general', this)">عام / أخرى</button>
             </div>
         </aside>
 
@@ -91,7 +91,6 @@
                 <div class="header-controls">
                     <button class="view-btn active" id="grid-view-btn" onclick="setViewMode('grid')" title="عرض شبكة">⣿</button>
                     <button class="view-btn" id="list-view-btn" onclick="setViewMode('list')" title="عرض قائمة">☰</button>
-
                     <select id="sort-select" class="sort-select" onchange="handleSort()">
                         <option value="newest">الترتيب: الأحدث</option>
                         <option value="price-low">السعر: من الأرخص للأغلى</option>
@@ -110,7 +109,7 @@
     <!-- زر الواتساب العائم للتواصل المباشر -->
     <a href="https://wa.me/9647766888622" target="_blank" class="floating-whatsapp" title="تواصل معنا عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-4.2A8 8 0 1 1 8.4 18.8z"/><path d="M9.2 9c.3 2.6 2.4 4.7 5 5l1-1.2-1.8-1-.8.6c-.8-.3-1.5-1-1.8-1.8l.6-.8-1-1.8z"/></svg></a>
 
-    <!-- نافذة تفاصيل المعاينة الفخمة للمنتج (صفحة كاملة منسقة) -->
+    <!-- نافذة تفاصيل المعاينة الفخمة للمنتج (متوافقة مع تصميم العمودين في الـ CSS) -->
     <div id="product-modal" class="modal-overlay">
         <div class="modal-box">
             <button class="modal-close" id="close-product-modal">&times;</button>
@@ -412,7 +411,7 @@
             currentFilter = catKey;
             const buttons = document.querySelectorAll('.cat-btn');
             buttons.forEach(b => b.classList.remove('active'));
-            if (btnElement) btnElement.classList.add('active');
+            btnElement.classList.add('active');
             renderProducts();
         }
 
@@ -435,6 +434,7 @@
                 thumbsHtml += `<img src="${img}" class="gallery-thumb ${idx === 0 ? 'active' : ''}" onclick="changeMainImage(this, '${img}')">`;
             });
 
+            // هيكل تفاصيل المنتج الفخم (عمودين متناسقين تماماً مع الـ CSS)
             modalContent.innerHTML = `
                 <div class="modal-grid-layout">
                     <div class="modal-img-column">
