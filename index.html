@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tech Town - مركز تيك تاون</title>
     
+    <!-- أيقونة المتصفح (Favicon) -->
     <link rel="icon" type="image/jpeg" href="logo.jpg">
     <link rel="apple-touch-icon" href="logo.jpg">
     
@@ -20,12 +21,12 @@
 </head>
 <body>
 
-    <!-- شريط الإعلانات العلوي -->
+    <!-- شريط الإعلانات الثابت العلوي -->
     <div class="announcement-bar">
         ⚡ توصيل سريع لجميع المحافظات &nbsp;|&nbsp; ضمان حقيقي على كافة الأجهزة والأكسسوارات الإلكترونية 🎮
     </div>
 
-    <!-- الشريط العلوي الفخم -->
+    <!-- الشريط العلوي -->
     <header class="navbar">
         <div class="nav-container">
             <div class="brand">
@@ -45,7 +46,7 @@
         </div>
     </header>
 
-    <!-- الواجهة الرئيسية مع شريط البحث -->
+    <!-- الواجهة الرئيسية مع شريط البحث الفوري -->
     <section class="hero">
         <div class="hero-content">
             <h1>حاسبات - كيمنك - موبايلات - تقنيات</h1>
@@ -58,10 +59,10 @@
         </div>
     </section>
 
-    <!-- الحاويات الرئيسية: الأقسام العمودية + المنتجات -->
+    <!-- الحاويات الرئيسية: الأقسام العمودية أقصى اليمين + البنرات والمنتجات -->
     <div id="products" class="store-container">
         
-        <!-- القائمة الجانبية للأقسام -->
+        <!-- القائمة الجانبية العمودية للأقسام -->
         <aside class="categories-sidebar">
             <h3>أقسام المتجر</h3>
             <div class="categories-scroll-box">
@@ -77,8 +78,9 @@
             </div>
         </aside>
 
-        <!-- قسم عرض المنتجات -->
+        <!-- قسم عرض البنرات الإعلانية والمنتجات -->
         <main>
+            <!-- سلايدر العروض والماركات (ديناميكي كلياً بناءً على ما ترفعه من admin.html) -->
             <div class="promo-slider-container" id="promo-slider-box" style="display: none;">
                 <div id="slides-wrapper"></div>
                 <div class="slider-dots" id="dots-wrapper"></div>
@@ -105,10 +107,10 @@
 
     </div>
 
-    <!-- زر الواتساب العائم -->
+    <!-- زر الواتساب العائم للتواصل المباشر -->
     <a href="https://wa.me/9647766888622" target="_blank" class="floating-whatsapp" title="تواصل معنا عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-4.2A8 8 0 1 1 8.4 18.8z"/><path d="M9.2 9c.3 2.6 2.4 4.7 5 5l1-1.2-1.8-1-.8.6c-.8-.3-1.5-1-1.8-1.8l.6-.8-1-1.8z"/></svg></a>
 
-    <!-- نافذة تفاصيل المنتج (صفحة كاملة وفخمة) -->
+    <!-- نافذة تفاصيل المعاينة الفخمة للمنتج (صفحة كاملة منسقة) -->
     <div id="product-modal" class="modal-overlay">
         <div class="modal-box">
             <button class="modal-close" id="close-product-modal">&times;</button>
@@ -116,7 +118,7 @@
         </div>
     </div>
 
-    <!-- نافذة سلة التسوق -->
+    <!-- نافذة سلة التسوق مع معلومات التوصيل ورقم الطلب -->
     <div id="cart-modal" class="cart-modal" style="display: none;">
         <div class="cart-content">
             <div class="cart-header">
@@ -145,13 +147,14 @@
         </div>
     </div>
 
-    <!-- التذييل -->
+    <!-- تذييل الصفحة مع خيارات وطرق الدفع والتوصيل -->
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-brand" style="width: 100%;">
                 <h3>TECH TOWN</h3>
                 <p>مركز تيك تاون - حاسبات، كيمنك، موبايلات، تقنيات</p>
                 
+                <!-- وسوم وطرق الدفع والخدمات الموثوقة -->
                 <div class="features-grid">
                     <div class="feature-box">
                         <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 9.5v.01M18 14.5v.01"/></svg></span>
@@ -243,6 +246,7 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
+        // تحميل البنرات الإعلانية المرفوعة ديناميكياً
         let currentSlide = 0;
         let slideTimer = null;
 
