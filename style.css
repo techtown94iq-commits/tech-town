@@ -988,3 +988,165 @@ body {
     color: var(--text-secondary);
     font-size: 13px;
 }
+
+
+/* =========================================================
+   Tech Town - Luxury Layer v2  (يُحمَّل بعد style.css)
+   يحافظ على: الأحجام، الألوان، الصور، الشعار
+   ========================================================= */
+:root{
+  --bg-main:#f6f3ef; --bg-card-info:#1a110a; --navbar-bg:#fff;
+  --nav-glass:rgba(255,255,255,.88); --border-color:#e6dccf; --img-box-bg:#f1ece5;
+  --input-bg:#fff; --glow:rgba(255,119,0,.16); --gold:#ffb066;
+}
+[data-theme="dark"]{
+  --bg-main:#0d0704; --bg-card-info:#160e08; --navbar-bg:#110a05;
+  --nav-glass:rgba(17,10,5,.88); --modal-bg:#140c06; --border-color:#2e1c0f;
+  --input-bg:#1b1109; --brand-orange:#ff7700; --glow:rgba(255,119,0,.22);
+}
+*{font-family:'IBM Plex Sans Arabic','Segoe UI',Tahoma,sans-serif}
+body{line-height:1.6;-webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--brand-orange);outline-offset:3px}
+
+/* شريط الإعلان */
+.announcement-bar{background:#080402;color:#ecdccb;font-size:12.5px;font-weight:500;
+  letter-spacing:.03em;padding:9px 15px;border-bottom:1px solid rgba(255,119,0,.4);box-shadow:none}
+
+/* الشريط العلوي (حجم الشعار 48px كما هو) */
+.navbar{background:var(--nav-glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border-color);box-shadow:0 10px 40px rgba(0,0,0,.12)}
+.navbar::after{content:"";position:absolute;inset:auto 0 -1px 0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--brand-orange) 50%,transparent)}
+.brand-logo-container{width:48px;height:48px;flex:0 0 48px;border-radius:12px;
+  box-shadow:0 0 0 1px rgba(255,119,0,.6),0 0 24px var(--glow)}
+.brand-name span{font-weight:700;font-size:19px;letter-spacing:.22em}
+.brand-name small{font-weight:500;letter-spacing:.05em}
+.theme-toggle-btn{background:transparent;border:1px solid var(--border-color);border-radius:999px;
+  font-weight:500;font-size:13px;padding:9px 18px}
+.theme-toggle-btn:hover{background:transparent;color:var(--brand-orange);border-color:var(--brand-orange)}
+.cart-btn{border-radius:999px;font-weight:600;font-size:13.5px;padding:10px 22px;
+  background:linear-gradient(135deg,#ff8a1f,#ff7700 55%,#e06800);box-shadow:0 10px 28px var(--glow)}
+.cart-btn:hover{background:linear-gradient(135deg,#ff8a1f,#ff7700 55%,#e06800);filter:brightness(1.08)}
+
+/* الهيرو */
+.hero{position:relative;overflow:hidden;padding:68px 20px 58px;border-bottom:1px solid var(--border-color);
+  background:
+   radial-gradient(55% 100% at 50% 0%,var(--glow),transparent 72%),
+   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cg fill='none' stroke='%23ff7700' stroke-opacity='.12' stroke-width='2'%3E%3Cpath d='M0 50h80v60h70'/%3E%3Cpath d='M200 150h-60v-45'/%3E%3Cpath d='M100 200v-30h40'/%3E%3Ccircle cx='80' cy='50' r='6'/%3E%3Ccircle cx='150' cy='110' r='6'/%3E%3Ccircle cx='140' cy='170' r='6'/%3E%3C/g%3E%3C/svg%3E"),
+   var(--navbar-bg)}
+.hero::after{content:"";position:absolute;inset:auto 0 0;height:90px;pointer-events:none;
+  background:linear-gradient(to bottom,transparent,var(--navbar-bg))}
+.hero-content{position:relative;z-index:1;animation:heroIn .9s cubic-bezier(.2,.7,.2,1) both}
+.hero-content h1{font-size:clamp(26px,4.2vw,44px);font-weight:600;line-height:1.45;margin-bottom:14px}
+.hero-content p{font-size:15.5px;max-width:560px;margin:0 auto 30px;line-height:1.9}
+@keyframes heroIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.search-container{max-width:640px}
+.search-input{height:54px;padding:0 24px 0 54px;border:1px solid var(--border-color);background:var(--input-bg);
+  font-weight:500;box-shadow:0 18px 44px rgba(0,0,0,.2);transition:border-color .25s,box-shadow .25s}
+.search-input:focus{border-color:var(--brand-orange);box-shadow:0 0 0 4px var(--glow),0 18px 44px rgba(0,0,0,.2)}
+
+/* الحاوية والقائمة الجانبية */
+.store-container{max-width:1680px;margin:36px auto;gap:28px;grid-template-columns:250px 1fr}
+@media(max-width:992px){.store-container{grid-template-columns:1fr}}
+.categories-sidebar{border:1px solid var(--border-color);border-radius:18px;padding:20px;
+  box-shadow:0 18px 50px rgba(0,0,0,.1)}
+.categories-sidebar h3{font-size:16px;font-weight:600;border-bottom:1px solid var(--border-color)}
+.cat-btn{background:transparent;border:1px solid transparent;font-weight:500;position:relative;
+  transition:background-color .2s,color .2s,border-color .2s}
+.cat-btn:hover{background:var(--glow);border-color:transparent;color:var(--brand-orange)}
+.cat-btn.active{background:linear-gradient(270deg,var(--glow),transparent);color:var(--brand-orange);
+  border-color:rgba(255,119,0,.4);font-weight:600;box-shadow:none}
+.cat-btn.active::before{content:"";position:absolute;right:-1px;top:20%;bottom:20%;width:3px;
+  border-radius:3px;background:var(--brand-orange)}
+
+/* السلايدر ورأس المنتجات */
+.promo-slider-container{border:1px solid var(--border-color);border-radius:20px;
+  box-shadow:0 30px 70px rgba(0,0,0,.3);margin-bottom:36px}
+.slider-dots{background:rgba(8,4,2,.6)}
+.products-header-bar{margin-bottom:26px}
+.section-title{font-size:21px;font-weight:600;border-right:3px solid var(--brand-orange)}
+.view-btn,.sort-select{border:1px solid var(--border-color);border-radius:999px;font-weight:500}
+.view-btn{border-radius:12px}
+.sort-select{padding:9px 18px}
+
+/* بطاقات المنتجات (4 أعمدة و190px كما هي) */
+.products-grid{gap:24px}
+.product-card{background:var(--bg-card-info);border:1px solid var(--border-color);border-radius:18px;
+  box-shadow:0 10px 30px rgba(0,0,0,.18);
+  transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease}
+.product-card::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.07) 50%,transparent 60%);
+  transform:translateX(120%);transition:transform .8s ease}
+.product-card:hover{transform:translateY(-5px);border-color:rgba(255,119,0,.75);
+  box-shadow:0 28px 56px rgba(0,0,0,.42),0 0 36px var(--glow)}
+.product-card:hover::after{transform:translateX(-120%)}
+.product-img-box{background:radial-gradient(circle at 50% 35%,#fff 0%,#efe8df 100%);padding:14px}
+.product-img{mix-blend-mode:multiply;transition:transform .45s ease}
+.product-card:hover .product-img{transform:scale(1.05)}
+.product-badge{background:linear-gradient(135deg,#1a0f07,#0d0704);color:var(--gold);
+  border:1px solid rgba(255,119,0,.6);font-weight:600;box-shadow:0 6px 16px rgba(0,0,0,.35)}
+.stock-warning-badge{background:rgba(255,119,0,.16);color:#c25800;border:1px solid rgba(255,119,0,.4);font-weight:600}
+.out-of-stock-badge{background:#4b4036;color:#ecdccb;font-weight:600}
+.product-info{padding:18px}
+.product-info h3{font-size:15px;font-weight:600;line-height:1.6}
+.product-info .specs{color:#b9a99a;line-height:1.7}
+.product-bottom{margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08)}
+.price{font-weight:700;font-size:17px;background:linear-gradient(135deg,#ff9a3d,#ff7700);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent!important}
+.add-btn{background:transparent;color:var(--brand-orange);border:1px solid var(--brand-orange);
+  border-radius:999px;font-weight:600;padding:8px 16px;transition:background-color .2s,color .2s}
+.add-btn:hover{background:var(--brand-orange);color:#fff}
+.add-btn:disabled{background:transparent;color:#7c6b5c;border-color:#4b4036}
+
+/* وضع القائمة */
+.products-grid.list-mode .product-card{flex-direction:row;align-items:stretch}
+.products-grid.list-mode .product-img-box{width:210px;flex:0 0 210px;height:auto;min-height:170px}
+.products-grid.list-mode .product-info{flex:1;display:flex;flex-direction:column;justify-content:center}
+@media(max-width:600px){.products-grid.list-mode .product-img-box{width:120px;flex-basis:120px}}
+
+/* نافذة المنتج */
+.modal-overlay{background:rgba(5,2,1,.82);backdrop-filter:blur(10px)}
+.modal-box{border:1px solid rgba(255,119,0,.45);border-radius:26px;
+  box-shadow:0 50px 110px rgba(0,0,0,.7),0 0 60px var(--glow)}
+.modal-close{background:transparent;border-width:1px}
+.img-zoom-container{background:radial-gradient(circle at 50% 35%,#fff,#efe8df);border-radius:18px}
+.gallery-main-img{mix-blend-mode:multiply}
+.modal-title{font-weight:600}
+.modal-price{font-weight:700;background:linear-gradient(135deg,#ff9a3d,#ff7700);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.modal-desc-title{font-weight:600}
+.modal-buy-btn{font-weight:700;border-radius:14px;box-shadow:0 16px 36px var(--glow)}
+
+/* السلة */
+.cart-modal{background:rgba(5,2,1,.7);backdrop-filter:blur(8px)}
+.cart-content{border-right:1px solid rgba(255,119,0,.5);box-shadow:-30px 0 80px rgba(0,0,0,.5)}
+.cart-header,.checkout-form,.cart-footer{border-color:var(--border-color)}
+.cart-item-row{border-radius:12px}
+.whatsapp-checkout-btn{border-radius:12px;font-weight:700}
+
+/* مميزات المتجر والتذييل */
+.features-grid{border-top:1px solid var(--border-color);gap:18px}
+.feature-box{background:transparent;border:1px solid var(--border-color);border-radius:16px;padding:24px 16px;
+  transition:border-color .25s,transform .25s}
+.feature-box:hover{border-color:rgba(255,119,0,.6);transform:translateY(-3px)}
+.feature-box span{display:flex;justify-content:center;margin-bottom:12px;color:var(--brand-orange)}
+.feature-box svg{width:28px;height:28px}
+.feature-box h5{font-weight:600;font-size:14.5px}
+.floating-whatsapp{box-shadow:0 12px 32px rgba(37,211,102,.4)}
+.footer{background:#080402;border-top:1px solid rgba(255,119,0,.4);padding-top:56px}
+.footer h3{color:#fff;font-weight:700;letter-spacing:.24em}
+.footer p{color:#b9a99a}
+.footer .feature-box{border-color:#2e1c0f}
+.footer .feature-box h5{color:#fff}
+.social-btn{background:transparent;border:1px solid #3a2616;color:#ecdccb;border-radius:999px;
+  font-weight:500;padding:9px 18px}
+.social-btn:hover{background:transparent;border-color:var(--brand-orange);color:var(--brand-orange)}
+.footer-bottom{border-top-color:#2e1c0f;color:#8d7c6d}
+
+@media(max-width:600px){
+  .navbar{padding:10px 14px}.brand-name span{letter-spacing:.12em;font-size:17px}
+  .theme-toggle-btn{padding:8px 12px}.hero{padding:44px 16px 40px}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-content{animation:none}.product-card,.product-card::after,.product-img{transition:none}
+}
