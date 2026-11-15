@@ -428,23 +428,25 @@ body {
     .products-grid { grid-template-columns: 1fr; }
 }
 
+/* بطاقة المنتج وإطار صندوق معلومات المنتج (الخانة المحدثة بلون فحمي دافئ متناسق مع وضوح تام للنصوص) */
 .product-card {
-    background: var(--bg-card-info);
+    background: #18120e; /* لون فحمي داكن وراقي جداً متناسق مع هوية المتجر */
     border-radius: 16px;
-    border: 2px solid var(--brand-orange);
+    border: 1.5px solid rgba(255, 119, 0, 0.35); /* إطار برتقالي خفيف وأنيق */
     overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    box-shadow: 0 6px 20px rgba(255, 119, 0, 0.12);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
     position: relative;
     cursor: pointer;
-    transition: transform 0.25s, box-shadow 0.25s;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
 }
 
 .product-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(255, 119, 0, 0.3);
+    border-color: var(--brand-orange);
+    box-shadow: 0 12px 30px rgba(255, 119, 0, 0.25);
 }
 
 .product-badge {
@@ -505,19 +507,19 @@ body {
 
 .product-info {
     padding: 15px;
-    background: var(--bg-card-info);
+    background: #18120e;
 }
 
 .product-info h3 {
     font-size: 16px;
-    color: #ffffff !important;
+    color: #ffffff !important; /* لون أبيض ناصع وواضح جداً للعنوان */
     margin-bottom: 6px;
     font-weight: 800;
 }
 
 .product-info .specs {
     font-size: 12.5px;
-    color: #cbd5e1;
+    color: #d1c4b9 !important; /* لون رمادي دافئ مريح جداً ومقروء بوضوح فوق الخلفية الفحمية */
     margin-bottom: 10px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -553,7 +555,7 @@ body {
 .add-btn:hover { background: #e66b00; }
 .add-btn:disabled { background: #64748b; cursor: not-allowed; }
 
-/* نافذة تفاصيل المعاينة الفخمة (Full-Page Luxury Modal) */
+/* نافذة تفاصيل المعاينة الفخمة */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -808,7 +810,7 @@ body {
     padding: 15px 0;
 }
 
-/* تصميم رسالة السلة الفارغة الفخمة والمتناسقة مع ستايلك */
+/* تصميم رسالة السلة الفارغة الفخمة */
 .empty-cart-box {
     text-align: center;
     padding: 40px 20px;
@@ -1020,12 +1022,12 @@ body {
    يحافظ على: الأحجام، الألوان، الصور، الشعار
    ========================================================= */
 :root{
-  --bg-main:#f6f3ef; --bg-card-info:#1a110a; --navbar-bg:#fff;
+  --bg-main:#f6f3ef; --bg-card-info:#18120e; --navbar-bg:#fff;
   --nav-glass:rgba(255,255,255,.88); --border-color:#e6dccf; --img-box-bg:#f1ece5;
   --input-bg:#fff; --glow:rgba(255,119,0,.16); --gold:#ffb066;
 }
 [data-theme="dark"]{
-  --bg-main:#0d0704; --bg-card-info:#160e08; --navbar-bg:#110a05;
+  --bg-main:#0d0704; --bg-card-info:#18120e; --navbar-bg:#110a05;
   --nav-glass:rgba(17,10,5,.88); --modal-bg:#140c06; --border-color:#2e1c0f;
   --input-bg:#1b1109; --brand-orange:#ff7700; --glow:rgba(255,119,0,.22);
 }
@@ -1037,7 +1039,7 @@ body{line-height:1.6;-webkit-font-smoothing:antialiased}
 .announcement-bar{background:#080402;color:#ecdccb;font-size:12.5px;font-weight:500;
   letter-spacing:.03em;padding:9px 15px;border-bottom:1px solid rgba(255,119,0,.4);box-shadow:none}
 
-/* الشريط العلوي (حجم الشعار 48px كما هو) */
+/* الشريط العلوي */
 .navbar{background:var(--nav-glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
   border-bottom:1px solid var(--border-color);box-shadow:0 10px 40px rgba(0,0,0,.12)}
 .navbar::after{content:"";position:absolute;inset:auto 0 -1px 0;height:1px;
@@ -1094,9 +1096,9 @@ body{line-height:1.6;-webkit-font-smoothing:antialiased}
 .view-btn{border-radius:12px}
 .sort-select{padding:9px 18px}
 
-/* بطاقات المنتجات (4 أعمدة و190px كما هي) */
+/* بطاقات المنتجات والإطار الداخلي المحسن */
 .products-grid{gap:24px}
-.product-card{background:var(--bg-card-info);border:1px solid var(--border-color);border-radius:18px;
+.product-card{background:#18120e;border:1px solid rgba(255,119,0,.35);border-radius:18px;
   box-shadow:0 10px 30px rgba(0,0,0,.18);
   transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease}
 .product-card::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
@@ -1112,9 +1114,9 @@ body{line-height:1.6;-webkit-font-smoothing:antialiased}
   border:1px solid rgba(255,119,0,.6);font-weight:600;box-shadow:0 6px 16px rgba(0,0,0,.35)}
 .stock-warning-badge{background:rgba(255,119,0,.16);color:#c25800;border:1px solid rgba(255,119,0,.4);font-weight:600}
 .out-of-stock-badge{background:#4b4036;color:#ecdccb;font-weight:600}
-.product-info{padding:18px}
-.product-info h3{font-size:15px;font-weight:600;line-height:1.6}
-.product-info .specs{color:#b9a99a;line-height:1.7}
+.product-info{padding:18px;background:#18120e}
+.product-info h3{font-size:15px;font-weight:600;line-height:1.6;color:#ffffff !important}
+.product-info .specs{color:#d1c4b9 !important;line-height:1.7}
 .product-bottom{margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08)}
 .price{font-weight:700;font-size:17px;background:linear-gradient(135deg,#ff9a3d,#ff7700);
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent!important}
