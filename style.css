@@ -428,11 +428,11 @@ body {
     .products-grid { grid-template-columns: 1fr; }
 }
 
-/* بطاقة المنتج وإطار صندوق معلومات المنتج (الخانة المحدثة بلون فحمي دافئ متناسق مع وضوح تام للنصوص) */
+/* بطاقة المنتج */
 .product-card {
-    background: #18120e; /* لون فحمي داكن وراقي جداً متناسق مع هوية المتجر */
+    background: #18120e;
     border-radius: 16px;
-    border: 1.5px solid rgba(255, 119, 0, 0.35); /* إطار برتقالي خفيف وأنيق */
+    border: 1.5px solid rgba(255, 119, 0, 0.35);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -505,21 +505,22 @@ body {
     object-fit: contain;
 }
 
+/* تدرج لوني فخم وراقي لخنة معلومات المنتج (الاسم والوصف والسعر) */
 .product-info {
-    padding: 15px;
-    background: #18120e;
+    padding: 16px;
+    background: linear-gradient(145deg, #1f1610 0%, #120b07 100%);
 }
 
 .product-info h3 {
     font-size: 16px;
-    color: #ffffff !important; /* لون أبيض ناصع وواضح جداً للعنوان */
+    color: #ffffff !important;
     margin-bottom: 6px;
     font-weight: 800;
 }
 
 .product-info .specs {
     font-size: 12.5px;
-    color: #d1c4b9 !important; /* لون رمادي دافئ مريح جداً ومقروء بوضوح فوق الخلفية الفحمية */
+    color: #d1c4b9 !important;
     margin-bottom: 10px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -1096,7 +1097,7 @@ body{line-height:1.6;-webkit-font-smoothing:antialiased}
 .view-btn{border-radius:12px}
 .sort-select{padding:9px 18px}
 
-/* بطاقات المنتجات والإطار الداخلي المحسن */
+/* بطاقات المنتجات */
 .products-grid{gap:24px}
 .product-card{background:#18120e;border:1px solid rgba(255,119,0,.35);border-radius:18px;
   box-shadow:0 10px 30px rgba(0,0,0,.18);
@@ -1114,7 +1115,9 @@ body{line-height:1.6;-webkit-font-smoothing:antialiased}
   border:1px solid rgba(255,119,0,.6);font-weight:600;box-shadow:0 6px 16px rgba(0,0,0,.35)}
 .stock-warning-badge{background:rgba(255,119,0,.16);color:#c25800;border:1px solid rgba(255,119,0,.4);font-weight:600}
 .out-of-stock-badge{background:#4b4036;color:#ecdccb;font-weight:600}
-.product-info{padding:18px;background:#18120e}
+
+/* خانة معلومات المنتج مع التدرج اللوني الفخم الجديد */
+.product-info{padding:18px;background:linear-gradient(145deg, #1f1610 0%, #120b07 100%)}
 .product-info h3{font-size:15px;font-weight:600;line-height:1.6;color:#ffffff !important}
 .product-info .specs{color:#d1c4b9 !important;line-height:1.7}
 .product-bottom{margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08)}
