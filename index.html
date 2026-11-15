@@ -62,19 +62,41 @@
     <!-- الحاويات الرئيسية: الأقسام العمودية أقصى اليمين + البنرات والمنتجات -->
     <div id="products" class="store-container">
         
-        <!-- القائمة الجانبية العمودية للأقسام -->
+        <!-- القائمة الجانبية العمودية للأقسام المحدثة بالكامل -->
         <aside class="categories-sidebar">
             <h3>أقسام المتجر</h3>
             <div class="categories-scroll-box">
                 <button class="cat-btn active" onclick="filterCategory('all', this)">الكل</button>
-                <button class="cat-btn" onclick="filterCategory('laptops', this)">حواسب وملحقاتها</button>
-                <button class="cat-btn" onclick="filterCategory('gaming', this)">عالم الكيمنج</button>
-                <button class="cat-btn" onclick="filterCategory('mobile-acc', this)">اكسسوارات الهاتف</button>
-                <button class="cat-btn" onclick="filterCategory('mouses-keyboards', this)">ماوسات وكيبوردات</button>
-                <button class="cat-btn" onclick="filterCategory('printers', this)">طابعات ومستلزماتها</button>
-                <button class="cat-btn" onclick="filterCategory('networks', this)">شبكات وتوصيلات</button>
-                <button class="cat-btn" onclick="filterCategory('disks', this)">أقراص وتخزين</button>
-              <button class="cat-btn" onclick="filterCategory('transformers', this)">محولات</button>
+                <button class="cat-btn" onclick="filterCategory('audio', this)">الصوت</button>
+                <button class="cat-btn" onclick="filterCategory('bags', this)">حقائب</button>
+                <button class="cat-btn" onclick="filterCategory('cables', this)">الكابلات</button>
+                <button class="cat-btn" onclick="filterCategory('cameras', this)">الكاميرات وأنظمة الأمان</button>
+                <button class="cat-btn" onclick="filterCategory('pc-accessories', this)">إكسسوارات وأدوات الكمبيوتر</button>
+                <button class="cat-btn" onclick="filterCategory('controllers', this)">وحدات التحكم</button>
+                <button class="cat-btn" onclick="filterCategory('games', this)">ألعاب</button>
+                <button class="cat-btn" onclick="filterCategory('gaming-acc', this)">إكسسوارات الألعاب</button>
+                <button class="cat-btn" onclick="filterCategory('gaming-desks', this)">كراسي وطاولات الألعاب</button>
+                <button class="cat-btn" onclick="filterCategory('gaming-consoles', this)">أجهزة الألعاب</button>
+                <button class="cat-btn" onclick="filterCategory('gift-cards', this)">بطاقات الهدايا</button>
+                <button class="cat-btn" onclick="filterCategory('combo-sets', this)">أطقم الفأرات ولوحات المفاتيح</button>
+                <button class="cat-btn" onclick="filterCategory('keyboards', this)">لوحات المفاتيح</button>
+                <button class="cat-btn" onclick="filterCategory('laptops', this)">لابتوبات وأجهزة كمبيوتر</button>
+                <button class="cat-btn" onclick="filterCategory('mouses', this)">الفأرات</button>
+                <button class="cat-btn" onclick="filterCategory('mobile-acc', this)">إكسسوارات الموبايل</button>
+                <button class="cat-btn" onclick="filterCategory('monitors', this)">الشاشات وأجهزة العرض</button>
+                <button class="cat-btn" onclick="filterCategory('mousepads', this)">لوحات الماوس ومفارش المكتب</button>
+                <button class="cat-btn" onclick="filterCategory('networks', this)">معدات الشبكات</button>
+                <button class="cat-btn" onclick="filterCategory('pc-components', this)">مكونات الكمبيوتر</button>
+                <button class="cat-btn" onclick="filterCategory('perfumes', this)">عطور</button>
+                <button class="cat-btn" onclick="filterCategory('posters', this)">بوسترات</button>
+                <button class="cat-btn" onclick="filterCategory('power-solutions', this)">حلول الطاقة</button>
+                <button class="cat-btn" onclick="filterCategory('printers', this)">الطباعة</button>
+                <button class="cat-btn" onclick="filterCategory('smart-devices', this)">الأجهزة الذكية</button>
+                <button class="cat-btn" onclick="filterCategory('software', this)">برامج</button>
+                <button class="cat-btn" onclick="filterCategory('storage', this)">وحدات التخزين</button>
+                <button class="cat-btn" onclick="filterCategory('tv-entertainment', this)">التلفاز والترفيه</button>
+                <button class="cat-btn" onclick="filterCategory('toys-figures', this)">ألعاب ومجسمات</button>
+                <button class="cat-btn" onclick="filterCategory('watches', this)">ساعات</button>
                 <button class="cat-btn" onclick="filterCategory('general', this)">عام / أخرى</button>
             </div>
         </aside>
@@ -110,7 +132,7 @@
     <!-- زر الواتساب العائم للتواصل المباشر -->
     <a href="https://wa.me/9647766888622" target="_blank" class="floating-whatsapp" title="تواصل معنا عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-4.2A8 8 0 1 1 8.4 18.8z"/><path d="M9.2 9c.3 2.6 2.4 4.7 5 5l1-1.2-1.8-1-.8.6c-.8-.3-1.5-1-1.8-1.8l.6-.8-1-1.8z"/></svg></a>
 
-    <!-- نافذة تفاصيل المعاينة الفخمة للمنتج (متوافقة مع تصميم العمودين في الـ CSS) -->
+    <!-- نافذة تفاصيل المعاينة الفخمة للمنتج -->
     <div id="product-modal" class="modal-overlay">
         <div class="modal-box">
             <button class="modal-close" id="close-product-modal">&times;</button>
@@ -435,7 +457,6 @@
                 thumbsHtml += `<img src="${img}" class="gallery-thumb ${idx === 0 ? 'active' : ''}" onclick="changeMainImage(this, '${img}')">`;
             });
 
-            // هيكل تفاصيل المنتج الفخم (عمودين متناسقين تماماً مع الـ CSS)
             modalContent.innerHTML = `
                 <div class="modal-grid-layout">
                     <div class="modal-img-column">
