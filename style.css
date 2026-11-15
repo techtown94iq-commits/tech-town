@@ -995,12 +995,12 @@ body {
    يحافظ على: الأحجام، الألوان، الصور، الشعار
    ========================================================= */
 :root{
-  --bg-main:#f6f3ef; --bg-card-info:#18120e; --navbar-bg:#fff;
+  --bg-main:#f6f3ef; --bg-card-info:#1a110a; --navbar-bg:#fff;
   --nav-glass:rgba(255,255,255,.88); --border-color:#e6dccf; --img-box-bg:#f1ece5;
   --input-bg:#fff; --glow:rgba(255,119,0,.16); --gold:#ffb066;
 }
 [data-theme="dark"]{
-  --bg-main:#0d0704; --bg-card-info:#18120e; --navbar-bg:#110a05;
+  --bg-main:#0d0704; --bg-card-info:#160e08; --navbar-bg:#110a05;
   --nav-glass:rgba(17,10,5,.88); --modal-bg:#140c06; --border-color:#2e1c0f;
   --input-bg:#1b1109; --brand-orange:#ff7700; --glow:rgba(255,119,0,.22);
 }
@@ -1012,7 +1012,7 @@ body{line-height:1.6;-webkit-font-smoothing:antialiased}
 .announcement-bar{background:#080402;color:#ecdccb;font-size:12.5px;font-weight:500;
   letter-spacing:.03em;padding:9px 15px;border-bottom:1px solid rgba(255,119,0,.4);box-shadow:none}
 
-/* الشريط العلوي */
+/* الشريط العلوي (حجم الشعار 48px كما هو) */
 .navbar{background:var(--nav-glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
   border-bottom:1px solid var(--border-color);box-shadow:0 10px 40px rgba(0,0,0,.12)}
 .navbar::after{content:"";position:absolute;inset:auto 0 -1px 0;height:1px;
@@ -1069,9 +1069,9 @@ body{line-height:1.6;-webkit-font-smoothing:antialiased}
 .view-btn{border-radius:12px}
 .sort-select{padding:9px 18px}
 
-/* بطاقات المنتجات */
+/* بطاقات المنتجات (4 أعمدة و190px كما هي) */
 .products-grid{gap:24px}
-.product-card{background:#18120e;border:1px solid rgba(255,119,0,.35);border-radius:18px;
+.product-card{background:var(--bg-card-info);border:1px solid var(--border-color);border-radius:18px;
   box-shadow:0 10px 30px rgba(0,0,0,.18);
   transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease}
 .product-card::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
@@ -1087,11 +1087,9 @@ body{line-height:1.6;-webkit-font-smoothing:antialiased}
   border:1px solid rgba(255,119,0,.6);font-weight:600;box-shadow:0 6px 16px rgba(0,0,0,.35)}
 .stock-warning-badge{background:rgba(255,119,0,.16);color:#c25800;border:1px solid rgba(255,119,0,.4);font-weight:600}
 .out-of-stock-badge{background:#4b4036;color:#ecdccb;font-weight:600}
-
-/* خانة معلومات المنتج مع التدرج اللوني الفخم الجديد */
-.product-info{padding:18px;background:linear-gradient(145deg, #1f1610 0%, #120b07 100%)}
-.product-info h3{font-size:15px;font-weight:600;line-height:1.6;color:#ffffff !important}
-.product-info .specs{color:#d1c4b9 !important;line-height:1.7}
+.product-info{padding:18px}
+.product-info h3{font-size:15px;font-weight:600;line-height:1.6}
+.product-info .specs{color:#b9a99a;line-height:1.7}
 .product-bottom{margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08)}
 .price{font-weight:700;font-size:17px;background:linear-gradient(135deg,#ff9a3d,#ff7700);
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent!important}
