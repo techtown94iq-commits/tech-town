@@ -62,7 +62,7 @@
     <!-- الحاويات الرئيسية: الأقسام العمودية أقصى اليمين + البنرات والمنتجات -->
     <div id="products" class="store-container">
         
-        <!-- القائمة الجانبية العمودية للأقسام المحدثة بالكامل -->
+        <!-- القائمة الجانبية العمودية للأقسام المحدثة بجميع الأقسام -->
         <aside class="categories-sidebar">
             <h3>أقسام المتجر</h3>
             <div class="categories-scroll-box">
@@ -103,7 +103,7 @@
 
         <!-- قسم عرض البنرات الإعلانية والمنتجات -->
         <main>
-            <!-- سلايدر العروض والماركات (ديناميكي كلياً بناءً على ما ترفعه من admin.html) -->
+            <!-- سلايدر العروض والماركات -->
             <div class="promo-slider-container" id="promo-slider-box" style="display: none;">
                 <div id="slides-wrapper"></div>
                 <div class="slider-dots" id="dots-wrapper"></div>
@@ -125,6 +125,9 @@
             <div class="products-grid" id="main-products-grid">
                 <p style="text-align: center; width: 100%; color: #aaa;">جاري تحميل المنتجات من المتجر...</p>
             </div>
+
+            <!-- أزرار التقسيم بين الصفحات (تظهر تلقائياً عندما يتجاوز عدد المنتجات 40 منتجاً) -->
+            <div id="pagination-wrapper" class="pagination-container"></div>
         </main>
 
     </div>
@@ -132,7 +135,7 @@
     <!-- زر الواتساب العائم للتواصل المباشر -->
     <a href="https://wa.me/9647766888622" target="_blank" class="floating-whatsapp" title="تواصل معنا عبر واتساب"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-4.2A8 8 0 1 1 8.4 18.8z"/><path d="M9.2 9c.3 2.6 2.4 4.7 5 5l1-1.2-1.8-1-.8.6c-.8-.3-1.5-1-1.8-1.8l.6-.8-1-1.8z"/></svg></a>
 
-    <!-- نافذة تفاصيل المعاينة الفخمة للمنتج -->
+    <!-- نافذة تفاصيل المعاينة السريعة للمنتج -->
     <div id="product-modal" class="modal-overlay">
         <div class="modal-box">
             <button class="modal-close" id="close-product-modal">&times;</button>
@@ -140,7 +143,7 @@
         </div>
     </div>
 
-    <!-- نافذة سلة التسوق مع معلومات التوصيل ورقم الطلب -->
+    <!-- نافذة سلة التسوق مع معلومات التوصيل الإلزامية ورقم الطلب -->
     <div id="cart-modal" class="cart-modal" style="display: none;">
         <div class="cart-content">
             <div class="cart-header">
@@ -153,7 +156,7 @@
             </div>
 
             <div class="checkout-form">
-                <h4>معلومات التوصيل</h4>
+                <h4>معلومات التوصيل (إجباري)</h4>
                 <input type="text" id="cust-name" class="checkout-input" placeholder="الاسم الكامل">
                 <input type="tel" id="cust-phone" class="checkout-input" placeholder="رقم الهاتف">
                 <input type="text" id="cust-address" class="checkout-input" placeholder="المحافظة / العنوان بالتفصيل">
@@ -335,6 +338,10 @@
         let searchQuery = '';
         let currentSort = 'newest';
 
+        // إعدادات نظام الصفحات (Pagination)
+        let currentPage = 1;
+        const itemsPerPage = 40; // 40 منتج لكل صفحة
+
         db.collection('products').orderBy('createdAt', 'desc').onSnapshot((snapshot) => {
             allProductsData = {};
             snapshot.forEach((doc) => {
@@ -345,16 +352,20 @@
 
         function handleSearch() {
             searchQuery = document.getElementById('store-search-input').value.toLowerCase().trim();
+            currentPage = 1;
             renderProducts();
         }
 
         function handleSort() {
             currentSort = document.getElementById('sort-select').value;
+            currentPage = 1;
             renderProducts();
         }
 
         function renderProducts() {
             productsGrid.innerHTML = '';
+            document.getElementById('pagination-wrapper').innerHTML = '';
+
             let productIds = Object.keys(allProductsData);
 
             productIds = productIds.filter(id => {
@@ -389,7 +400,15 @@
                 return;
             }
 
-            productIds.forEach(productId => {
+            // تقسيم المنتجات إلى صفحات (40 منتج لكل صفحة)
+            const totalPages = Math.ceil(productIds.length / itemsPerPage);
+            if (currentPage > totalPages) currentPage = totalPages;
+
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const paginatedIds = productIds.slice(startIndex, endIndex);
+
+            paginatedIds.forEach(productId => {
                 const p = allProductsData[productId];
                 const productTitle = p.title || p.name || "منتج بدون اسم";
                 const productSpecs = p.specs || p.description || "";
@@ -428,10 +447,33 @@
                 `;
                 productsGrid.appendChild(card);
             });
+
+            // عرض أزرار التنقل بين الصفحات إذا كان العدد أكبر من 40
+            if (totalPages > 1) {
+                renderPagination(totalPages);
+            }
+        }
+
+        function renderPagination(totalPages) {
+            const paginationWrapper = document.getElementById('pagination-wrapper');
+            paginationWrapper.innerHTML = '';
+
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+                btn.innerText = i;
+                btn.onclick = () => {
+                    currentPage = i;
+                    renderProducts();
+                    window.scrollTo({ top: 350, behavior: 'smooth' });
+                };
+                paginationWrapper.appendChild(btn);
+            }
         }
 
         window.filterCategory = function(catKey, btnElement) {
             currentFilter = catKey;
+            currentPage = 1;
             const buttons = document.querySelectorAll('.cat-btn');
             buttons.forEach(b => b.classList.remove('active'));
             btnElement.classList.add('active');
@@ -458,38 +500,24 @@
             });
 
             modalContent.innerHTML = `
-                <div class="modal-grid-layout">
-                    <div class="modal-img-column">
-                        <div class="img-zoom-container">
-                            <img id="main-gallery-display" src="${images[0]}" class="gallery-main-img" alt="${title}">
-                        </div>
-                        ${images.length > 1 ? `<div class="gallery-thumbs">${thumbsHtml}</div>` : ''}
-                    </div>
-
-                    <div class="modal-info-column">
-                        <div class="modal-title">${title}</div>
-                        <div class="modal-price">${price.toLocaleString()} د.ع</div>
-                        <div class="modal-stock-badge">
-                            <span>📦</span> المتوفر بالمخزون: ${stock > 0 ? stock + ' قطعة' : 'نفدت الكمية'}
-                        </div>
-                        
-                        ${stock > 0 ? `
-                        <div class="qty-selector-box">
-                            <label>حدد الكمية المطلوبة:</label>
-                            <input type="number" id="selected-qty-input" class="qty-input" min="1" max="${stock}" value="1" onchange="validateQty(${stock})">
-                        </div>
-                        ` : ''}
-
-                        <div class="modal-desc-box">
-                            <div class="modal-desc-title">⚙️ المواصفات والتفاصيل التقنية</div>
-                            <div class="modal-desc">${desc}</div>
-                        </div>
-
-                        <button class="modal-buy-btn" ${stock <= 0 ? 'disabled' : ''} onclick="confirmAddToCart('${title.replace(/'/g, "\\'")}', ${price}, ${stock})">
-                            🛒 ${stock > 0 ? 'إضافة إلى السلة بالكمية المطلوبة' : 'المنتج غير متوفر حالياً'}
-                        </button>
-                    </div>
+                <img id="main-gallery-display" src="${images[0]}" class="gallery-main-img" alt="${title}">
+                <div class="gallery-thumbs">${thumbsHtml}</div>
+                <div class="modal-title">${title}</div>
+                <div class="modal-price">${price.toLocaleString()} د.ع</div>
+                <div class="modal-stock-badge">المتوفر بالمخزون: ${stock > 0 ? stock + ' قطعة' : 'غير متوفر حالياً'}</div>
+                
+                ${stock > 0 ? `
+                <div class="qty-selector-box">
+                    <label>تحديد الكمية المطلوبة:</label>
+                    <input type="number" id="selected-qty-input" class="qty-input" min="1" max="${stock}" value="1" onchange="validateQty(${stock})">
+                    <span style="font-size: 12px; color: #aaa;">(يمكنك إدخال حتى ${stock})</span>
                 </div>
+                ` : ''}
+
+                <div class="modal-desc"><strong>المواصفات والتفاصيل:</strong><br>${desc}</div>
+                <button class="modal-buy-btn" ${stock <= 0 ? 'disabled' : ''} onclick="confirmAddToCart('${title.replace(/'/g, "\\'")}', ${price}, ${stock})">
+                    ${stock > 0 ? 'إضافة إلى السلة' : 'المنتج غير متوفر حالياً'}
+                </button>
             `;
 
             productModal.style.display = 'flex';
@@ -598,6 +626,12 @@
             const cPhone = document.getElementById('cust-phone').value.trim();
             const cAddr = document.getElementById('cust-address').value.trim();
 
+            // التحقق من أن حقول التوصيل إجبارية وليست فارغة
+            if (!cName || !cPhone || !cAddr) {
+                alert('يرجى ملء جميع معلومات التوصيل (الاسم، رقم الهاتف، العنوان) لإتمام الطلب.');
+                return;
+            }
+
             const orderId = 'TT-' + Math.floor(1000 + Math.random() * 9000);
 
             let message = `مرحباً مركز تيك تاون 🛍️ (Tech Town):\nأود إرسال طلب شراء جديد:\n\n📌 رقم الطلب: *${orderId}*\n\n`;
@@ -611,12 +645,10 @@
 
             message += `\nالمجموع الكلي: د.ع ${total.toLocaleString()}\n`;
 
-            if (cName || cPhone || cAddr) {
-                message += `\n📋 *معلومات التوصيل:*`;
-                if (cName) message += `\n👤 الاسم: ${cName}`;
-                if (cPhone) message += `\n📞 الهاتف: ${cPhone}`;
-                if (cAddr) message += `\n📍 العنوان: ${cAddr}`;
-            }
+            message += `\n📋 *معلومات التوصيل:*`;
+            message += `\n👤 الاسم: ${cName}`;
+            message += `\n📞 الهاتف: ${cPhone}`;
+            message += `\n📍 العنوان: ${cAddr}`;
 
             message += `\n\nيرجى تأكيد الطلب وتحديد موعد التوصيل.`;
 
