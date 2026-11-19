@@ -248,8 +248,8 @@
         };
 
         firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
+       const db = firebase.firestore();
+db.settings({ experimentalForceLongPolling: true });
         // نسخ خيارات الأقسام تلقائياً لنافذة التعديل
         document.getElementById('edit-p-category').innerHTML = document.getElementById('p-category').innerHTML;
 
