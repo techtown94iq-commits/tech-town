@@ -1008,7 +1008,7 @@ body {
   --nav-glass:rgba(17,10,5,.88); --modal-bg:#140c06; --border-color:#2e1c0f;
   --input-bg:#1b1109; --brand-orange:#ff7700; --glow:rgba(255,119,0,.22);
 }
-*{font-family:'IBM Plex Sans Arabic','Segoe UI',Tahoma,sans-serif}
+*{font-family:'Tajawal','Segoe UI',Tahoma,sans-serif}
 body{line-height:1.6;-webkit-font-smoothing:antialiased}
 :focus-visible{outline:2px solid var(--brand-orange);outline-offset:3px}
 
@@ -1153,4 +1153,64 @@ body{line-height:1.6;-webkit-font-smoothing:antialiased}
 }
 @media(prefers-reduced-motion:reduce){
   .hero-content{animation:none}.product-card,.product-card::after,.product-img{transition:none}
+}
+
+/* =========================================================
+   Tech Town - Typography & Pagination (v3)
+   خط فخم + تنسيق أزرار الصفحات. لا يغيّر تصميم الموقع العام.
+   ========================================================= */
+:root{
+  --font-display:'El Messiri','Tajawal','Segoe UI',Tahoma,sans-serif;
+  --font-body:'Tajawal','Segoe UI',Tahoma,sans-serif;
+}
+body{font-weight:400;letter-spacing:0;text-rendering:optimizeLegibility}
+
+/* العناوين والأسماء والأسعار بالخط الفخم */
+.hero-content h1,.section-title,.categories-sidebar h3,.product-info h3,
+.modal-title,.modal-price,.price,.brand-name span,.footer h3,.cart-header h2,
+.feature-box h5,.total-box,.page-btn{
+  font-family:var(--font-display)
+}
+.hero-content h1{font-weight:700;letter-spacing:0}
+.section-title{font-weight:700;font-size:23px}
+.product-info h3{font-weight:600;font-size:16px}
+.price,.modal-price{font-weight:700;letter-spacing:.02em}
+.brand-name span{font-weight:700}
+.footer h3{font-weight:700}
+
+/* حروف عربية متصلة: لا نباعد بينها حتى لا تتقطع */
+.announcement-bar,.brand-name small{letter-spacing:0}
+.product-info .specs,.modal-desc,.hero-content p{font-family:var(--font-body);font-weight:300}
+.cat-btn,.add-btn,.cart-btn,.theme-toggle-btn,.sort-select,.social-btn{font-family:var(--font-body)}
+
+/* ---------- أزرار الصفحات ---------- */
+.pagination-container{
+  display:flex;justify-content:center;align-items:center;flex-wrap:wrap;
+  gap:10px;margin:46px 0 8px;direction:rtl
+}
+.page-btn{
+  min-width:44px;height:44px;padding:0 14px;border-radius:14px;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:transparent;color:var(--text-secondary);
+  border:1px solid var(--border-color);
+  font-size:15px;font-weight:600;line-height:1;
+  transition:border-color .25s,color .25s,background .25s,transform .25s,box-shadow .25s
+}
+.page-btn:hover:not(:disabled):not(.active){
+  border-color:var(--brand-orange);color:var(--brand-orange);
+  background:var(--glow);transform:translateY(-2px)
+}
+.page-btn.active{
+  color:#fff;border-color:transparent;cursor:default;
+  background:linear-gradient(135deg,#ff8a1f,#ff7700 55%,#e06800);
+  box-shadow:0 10px 26px var(--glow)
+}
+.page-btn:disabled{opacity:.35;cursor:not-allowed}
+.page-arrow{padding:0;width:44px}
+.page-arrow svg{width:18px;height:18px}
+.page-dots{color:var(--text-secondary);opacity:.6;padding:0 4px;letter-spacing:.15em;user-select:none}
+@media(max-width:480px){
+  .pagination-container{gap:6px}
+  .page-btn{min-width:38px;height:38px;border-radius:12px;font-size:14px;padding:0 10px}
+  .page-arrow{width:38px}
 }
