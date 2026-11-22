@@ -1214,3 +1214,82 @@ body{font-weight:400;letter-spacing:0;text-rendering:optimizeLegibility}
   .page-btn{min-width:38px;height:38px;border-radius:12px;font-size:14px;padding:0 10px}
   .page-arrow{width:38px}
 }
+
+/* =========================================================
+   Tech Town - Mobile fixes (v4)
+   كل شي هنا داخل max-width، فالحاسبة ما تتأثر أبداً.
+   ========================================================= */
+@media (max-width:992px){
+  body{overflow-x:clip}
+  /* منع تمدد الشبكة وتخريب العرض بسبب محتوى عريض */
+  .store-container{grid-template-columns:minmax(0,1fr);padding:0 14px;margin:22px auto;gap:18px}
+  main{min-width:0}
+  /* القائمة الجانبية كانت sticky وتبقى فوق المنتجات أثناء النزول */
+  .categories-sidebar{position:static;padding:14px;border-radius:16px}
+  .categories-sidebar h3{margin-bottom:10px;padding-bottom:8px;font-size:15px}
+  /* الأقسام تصير شريط أفقي قابل للسحب بدل قائمة طويلة */
+  .categories-scroll-box{flex-direction:row;max-height:none;overflow-x:auto;overflow-y:hidden;
+    gap:8px;padding:2px 2px 8px;-webkit-overflow-scrolling:touch}
+  .cat-btn{width:auto;flex:0 0 auto;white-space:nowrap;padding:9px 16px;border-radius:999px;
+    border:1px solid var(--border-color)}
+  .cat-btn.active::before{display:none}
+  .cat-btn.active{border-color:var(--brand-orange)}
+}
+
+@media (max-width:768px){
+  /* الشريط العلوي: sticky بدل fixed حتى ما يغطي شريط الإعلان والهيرو */
+  .navbar{position:sticky;top:0;padding:10px 12px}
+  .nav-container{padding:0;gap:8px}
+  .brand{min-width:0;gap:10px}
+  .brand-logo-container{flex:0 0 48px}
+  .brand-name small{display:none}
+  .nav-actions{gap:6px;flex-shrink:0}
+
+  .announcement-bar{font-size:11.5px;padding:8px 12px;line-height:1.7}
+  .hero{padding:36px 14px 34px}
+  .hero-content p{font-size:14px;margin-bottom:22px}
+  .search-input{height:48px;font-size:14px}
+
+  .promo-slider-container{margin-bottom:22px;border-radius:16px}
+  .products-header-bar{margin-bottom:18px;gap:12px}
+  .section-title{font-size:19px}
+  .header-controls{width:100%}
+  .sort-select{flex:1;min-width:0}
+
+  .products-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .product-img-box{height:150px}
+  .product-info{padding:12px}
+  .product-info h3{font-size:14px}
+  .product-bottom{flex-wrap:wrap;gap:8px}
+  .add-btn{width:100%;padding:9px 10px;font-size:12px}
+  .price{font-size:15px}
+
+  .modal-overlay{padding:10px}
+  .modal-box{padding:18px;border-radius:20px}
+  .gallery-main-img{height:250px}
+  .modal-title{font-size:20px}
+  .modal-price{font-size:22px}
+  .qty-selector-box{flex-wrap:wrap;gap:8px}
+
+  .cart-content{padding:18px}
+  .features-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .footer{padding-top:40px}
+  .floating-whatsapp{bottom:16px;left:16px;width:52px;height:52px}
+}
+
+@media (max-width:480px){
+  .products-grid{grid-template-columns:minmax(0,1fr)}
+  .add-btn{width:auto}
+  .brand-name span{font-size:15px;letter-spacing:.08em}
+  .theme-toggle-btn{padding:7px 10px;font-size:12px}
+  .cart-btn{padding:8px 14px;font-size:13px}
+  .features-grid{grid-template-columns:minmax(0,1fr)}
+}
+
+@media (max-width:360px){
+  .brand-logo-container{width:42px;height:42px;flex-basis:42px}
+  .brand-name span{font-size:13.5px;letter-spacing:.04em}
+  .theme-toggle-btn{padding:6px 8px;font-size:11px}
+  .cart-btn{padding:7px 10px;font-size:12px}
+}
+
