@@ -15,7 +15,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@500;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -455,20 +455,54 @@ db.settings({ experimentalForceLongPolling: true });
         }
 
         function renderPagination(totalPages) {
-            const paginationWrapper = document.getElementById('pagination-wrapper');
-            paginationWrapper.innerHTML = '';
+            const wrap = document.getElementById('pagination-wrapper');
+            wrap.innerHTML = '';
 
-            for (let i = 1; i <= totalPages; i++) {
+            const goTo = (page) => {
+                currentPage = page;
+                renderProducts();
+                document.getElementById('products').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            };
+
+            const makeBtn = (html, page, extraClass = '', disabled = false) => {
                 const btn = document.createElement('button');
-                btn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
-                btn.innerText = i;
-                btn.onclick = () => {
-                    currentPage = i;
-                    renderProducts();
-                    window.scrollTo({ top: 350, behavior: 'smooth' });
-                };
-                paginationWrapper.appendChild(btn);
+                btn.className = 'page-btn ' + extraClass;
+                btn.innerHTML = html;
+                btn.disabled = disabled;
+                if (!disabled) btn.onclick = () => goTo(page);
+                return btn;
+            };
+
+            // RTL: السابق يمين (سهم لليمين) والتالي يسار (سهم لليسار)
+            const arrowPrev = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>';
+            const arrowNext = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>';
+
+            const prev = makeBtn(arrowPrev, currentPage - 1, 'page-arrow', currentPage === 1);
+            prev.setAttribute('aria-label', 'الصفحة السابقة');
+            wrap.appendChild(prev);
+
+            // أرقام مختصرة: 1 ... 4 5 6 ... 12
+            const pages = [];
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || Math.abs(i - currentPage) <= 1) pages.push(i);
+                else if (pages[pages.length - 1] !== '…') pages.push('…');
             }
+            pages.forEach(p => {
+                if (p === '…') {
+                    const dots = document.createElement('span');
+                    dots.className = 'page-dots';
+                    dots.textContent = '…';
+                    wrap.appendChild(dots);
+                } else {
+                    const btn = makeBtn(p, p, p === currentPage ? 'active' : '');
+                    if (p === currentPage) btn.setAttribute('aria-current', 'page');
+                    wrap.appendChild(btn);
+                }
+            });
+
+            const next = makeBtn(arrowNext, currentPage + 1, 'page-arrow', currentPage === totalPages);
+            next.setAttribute('aria-label', 'الصفحة التالية');
+            wrap.appendChild(next);
         }
 
         window.filterCategory = function(catKey, btnElement) {
